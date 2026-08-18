@@ -1,0 +1,914 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Capítulo 2 Carga y preparación inicial | Predicción de Quiebra Empresarial — Dataset de Taiwán</title>
+  <meta name="description" content="EDA sobre indicadores financieros de empresas taiwanesas, orientado a la construcción de un modelo predictivo de quiebra empresarial." />
+  <meta name="generator" content="bookdown 0.47 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Capítulo 2 Carga y preparación inicial | Predicción de Quiebra Empresarial — Dataset de Taiwán" />
+  <meta property="og:type" content="book" />
+  
+  <meta property="og:description" content="EDA sobre indicadores financieros de empresas taiwanesas, orientado a la construcción de un modelo predictivo de quiebra empresarial." />
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Capítulo 2 Carga y preparación inicial | Predicción de Quiebra Empresarial — Dataset de Taiwán" />
+  
+  <meta name="twitter:description" content="EDA sobre indicadores financieros de empresas taiwanesas, orientado a la construcción de un modelo predictivo de quiebra empresarial." />
+  
+
+<meta name="author" content="Laura Rivera y Nataly Cárdenas" />
+
+
+<meta name="date" content="2026-08-18" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="contexto.html"/>
+<link rel="next" href="calidad-de-los-datos-sobre-train.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+<script src="libs/kePrint-0.0.1/kePrint.js"></script>
+<link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
+<link href="libs/bsTable-3.3.7/bootstrapTable.min.css" rel="stylesheet" />
+<script src="libs/bsTable-3.3.7/bootstrapTable.js"></script>
+
+
+<style type="text/css">
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
+
+<link rel="stylesheet" href="custom.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><strong>Predicción de Bancarrota Empresarial</strong></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Predicción de Quiebra Empresarial - Dataset de Taiwán</a>
+<ul>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#an%C3%A1lisis-exploratorio-de-datos-eda"><i class="fa fa-check"></i>Análisis Exploratorio de Datos (EDA)</a></li>
+</ul></li>
+<li class="chapter" data-level="1" data-path="contexto.html"><a href="contexto.html"><i class="fa fa-check"></i><b>1</b> Contexto</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="contexto.html"><a href="contexto.html#qu%C3%A9-es-este-dataset"><i class="fa fa-check"></i><b>1.1</b> ¿Qué es este dataset?</a></li>
+<li class="chapter" data-level="1.2" data-path="contexto.html"><a href="contexto.html#qu%C3%A9-es-un-ratio-financiero"><i class="fa fa-check"></i><b>1.2</b> ¿Qué es un “ratio” financiero?</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="carga-y-preparación-inicial.html"><a href="carga-y-preparación-inicial.html"><i class="fa fa-check"></i><b>2</b> Carga y preparación inicial</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="carga-y-preparación-inicial.html"><a href="carga-y-preparación-inicial.html#librer%C3%ADas-y-configuraci%C3%B3n-visual"><i class="fa fa-check"></i><b>2.1</b> Librerías y configuración visual</a></li>
+<li class="chapter" data-level="2.2" data-path="carga-y-preparación-inicial.html"><a href="carga-y-preparación-inicial.html#carga-del-dataset"><i class="fa fa-check"></i><b>2.2</b> Carga del dataset</a></li>
+<li class="chapter" data-level="2.3" data-path="carga-y-preparación-inicial.html"><a href="carga-y-preparación-inicial.html#tipo-de-problema-target-y-features"><i class="fa fa-check"></i><b>2.3</b> Tipo de problema, target y features</a></li>
+<li class="chapter" data-level="2.4" data-path="carga-y-preparación-inicial.html"><a href="carga-y-preparación-inicial.html#divisi%C3%B3n-train-test"><i class="fa fa-check"></i><b>2.4</b> División train / test</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="calidad-de-los-datos-sobre-train.html"><a href="calidad-de-los-datos-sobre-train.html"><i class="fa fa-check"></i><b>3</b> Calidad de los datos (sobre <code>train</code>)</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="calidad-de-los-datos-sobre-train.html"><a href="calidad-de-los-datos-sobre-train.html#valores-nulos"><i class="fa fa-check"></i><b>3.1</b> Valores nulos</a></li>
+<li class="chapter" data-level="3.2" data-path="calidad-de-los-datos-sobre-train.html"><a href="calidad-de-los-datos-sobre-train.html#filas-duplicadas"><i class="fa fa-check"></i><b>3.2</b> Filas duplicadas</a></li>
+<li class="chapter" data-level="3.3" data-path="calidad-de-los-datos-sobre-train.html"><a href="calidad-de-los-datos-sobre-train.html#variables-categ%C3%B3ricas-y-cardinalidad"><i class="fa fa-check"></i><b>3.3</b> Variables categóricas y cardinalidad</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="análisis-univariado-sobre-train.html"><a href="análisis-univariado-sobre-train.html"><i class="fa fa-check"></i><b>4</b> Análisis univariado (sobre <code>train</code>)</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="análisis-univariado-sobre-train.html"><a href="análisis-univariado-sobre-train.html#estad%C3%ADsticas-descriptivas"><i class="fa fa-check"></i><b>4.1</b> Estadísticas descriptivas</a></li>
+<li class="chapter" data-level="4.2" data-path="análisis-univariado-sobre-train.html"><a href="análisis-univariado-sobre-train.html#variables-con-varianza-cercana-a-cero"><i class="fa fa-check"></i><b>4.2</b> Variables con varianza cercana a cero</a></li>
+<li class="chapter" data-level="4.3" data-path="análisis-univariado-sobre-train.html"><a href="análisis-univariado-sobre-train.html#distribuci%C3%B3n-de-variables-financieras-clave"><i class="fa fa-check"></i><b>4.3</b> Distribución de variables financieras clave</a></li>
+<li class="chapter" data-level="4.4" data-path="análisis-univariado-sobre-train.html"><a href="análisis-univariado-sobre-train.html#distribuci%C3%B3n-de-la-variable-objetivo"><i class="fa fa-check"></i><b>4.4</b> Distribución de la variable objetivo</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="análisis-de-outliers-y-sesgo-sobre-train.html"><a href="análisis-de-outliers-y-sesgo-sobre-train.html"><i class="fa fa-check"></i><b>5</b> Análisis de outliers y sesgo (sobre <code>train</code>)</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="análisis-de-outliers-y-sesgo-sobre-train.html"><a href="análisis-de-outliers-y-sesgo-sobre-train.html#top-10-variables-con-mayor-sesgo-en-valor-absoluto-train"><i class="fa fa-check"></i><b>5.1</b> Top 10 variables con mayor sesgo, en valor absoluto (train)</a></li>
+<li class="chapter" data-level="5.2" data-path="análisis-de-outliers-y-sesgo-sobre-train.html"><a href="análisis-de-outliers-y-sesgo-sobre-train.html#boxplots-de-las-variables-m%C3%A1s-sesgadas"><i class="fa fa-check"></i><b>5.2</b> Boxplots de las variables más sesgadas</a></li>
+<li class="chapter" data-level="5.3" data-path="análisis-de-outliers-y-sesgo-sobre-train.html"><a href="análisis-de-outliers-y-sesgo-sobre-train.html#top-15-variables-con-m%C3%A1s-outliers-regla-iqr"><i class="fa fa-check"></i><b>5.3</b> Top 15 variables con más outliers (regla IQR)</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="análisis-bivariado-variables-vs.-objetivo-sobre-train.html"><a href="análisis-bivariado-variables-vs.-objetivo-sobre-train.html"><i class="fa fa-check"></i><b>6</b> Análisis bivariado: variables vs. objetivo (sobre <code>train</code>)</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="análisis-bivariado-variables-vs.-objetivo-sobre-train.html"><a href="análisis-bivariado-variables-vs.-objetivo-sobre-train.html#variables-m%C3%A1s-importantes-seg%C3%BAn-random-forest"><i class="fa fa-check"></i><b>6.1</b> Variables más importantes según Random Forest</a></li>
+<li class="chapter" data-level="6.2" data-path="análisis-bivariado-variables-vs.-objetivo-sobre-train.html"><a href="análisis-bivariado-variables-vs.-objetivo-sobre-train.html#variables-m%C3%A1s-importantes-vs.-objetivo"><i class="fa fa-check"></i><b>6.2</b> Variables más importantes vs. objetivo</a></li>
+<li class="chapter" data-level="6.3" data-path="análisis-bivariado-variables-vs.-objetivo-sobre-train.html"><a href="análisis-bivariado-variables-vs.-objetivo-sobre-train.html#liability-assets-flag-vs.-objetivo"><i class="fa fa-check"></i><b>6.3</b> <code>Liability-Assets Flag</code> vs. objetivo</a></li>
+<li class="chapter" data-level="6.4" data-path="análisis-bivariado-variables-vs.-objetivo-sobre-train.html"><a href="análisis-bivariado-variables-vs.-objetivo-sobre-train.html#correlaciones-con-la-variable-objetivo"><i class="fa fa-check"></i><b>6.4</b> Correlaciones con la variable objetivo</a></li>
+<li class="chapter" data-level="6.5" data-path="análisis-bivariado-variables-vs.-objetivo-sobre-train.html"><a href="análisis-bivariado-variables-vs.-objetivo-sobre-train.html#matriz-de-correlaci%C3%B3n-de-las-variables-m%C3%A1s-importantes"><i class="fa fa-check"></i><b>6.5</b> Matriz de correlación de las variables más importantes</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="conclusiones-del-eda.html"><a href="conclusiones-del-eda.html"><i class="fa fa-check"></i><b>7</b> Conclusiones del EDA</a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="conclusiones-del-eda.html"><a href="conclusiones-del-eda.html#problemas-identificados-para-la-etapa-de-preprocesamiento"><i class="fa fa-check"></i><b>7.1</b> Problemas identificados para la etapa de preprocesamiento</a></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://github.com/lauraformore" target="_blank">Universidad del Norte</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Predicción de Quiebra Empresarial — Dataset de Taiwán</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="carga-y-preparación-inicial" class="section level1 hasAnchor" number="2">
+<h1><span class="header-section-number">Capítulo 2</span> Carga y preparación inicial<a href="carga-y-preparación-inicial.html#carga-y-preparaci%C3%B3n-inicial" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<div id="librerías-y-configuración-visual" class="section level2 hasAnchor" number="2.1">
+<h2><span class="header-section-number">2.1</span> Librerías y configuración visual<a href="carga-y-preparación-inicial.html#librer%C3%ADas-y-configuraci%C3%B3n-visual" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="carga-y-preparación-inicial.html#cb1-1" tabindex="-1"></a><span class="co"># Si te falta algún paquete, instálalo una vez con:</span></span>
+<span id="cb1-2"><a href="carga-y-preparación-inicial.html#cb1-2" tabindex="-1"></a><span class="co"># install.packages(c(&quot;tidyverse&quot;,&quot;caret&quot;,&quot;randomForest&quot;,&quot;e1071&quot;,</span></span>
+<span id="cb1-3"><a href="carga-y-preparación-inicial.html#cb1-3" tabindex="-1"></a><span class="co">#                     &quot;ggcorrplot&quot;,&quot;scales&quot;,&quot;knitr&quot;,&quot;kableExtra&quot;,&quot;patchwork&quot;))</span></span>
+<span id="cb1-4"><a href="carga-y-preparación-inicial.html#cb1-4" tabindex="-1"></a></span>
+<span id="cb1-5"><a href="carga-y-preparación-inicial.html#cb1-5" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb1-6"><a href="carga-y-preparación-inicial.html#cb1-6" tabindex="-1"></a><span class="fu">library</span>(caret)          <span class="co"># createDataPartition, nearZeroVar</span></span>
+<span id="cb1-7"><a href="carga-y-preparación-inicial.html#cb1-7" tabindex="-1"></a><span class="fu">library</span>(randomForest)   <span class="co"># Random Forest exploratorio</span></span>
+<span id="cb1-8"><a href="carga-y-preparación-inicial.html#cb1-8" tabindex="-1"></a><span class="fu">library</span>(e1071)          <span class="co"># skewness()</span></span>
+<span id="cb1-9"><a href="carga-y-preparación-inicial.html#cb1-9" tabindex="-1"></a><span class="fu">library</span>(ggcorrplot)     <span class="co"># heatmap de correlación</span></span>
+<span id="cb1-10"><a href="carga-y-preparación-inicial.html#cb1-10" tabindex="-1"></a><span class="fu">library</span>(scales)         <span class="co"># comma(), percent()</span></span>
+<span id="cb1-11"><a href="carga-y-preparación-inicial.html#cb1-11" tabindex="-1"></a><span class="fu">library</span>(knitr)          <span class="co"># kable()</span></span>
+<span id="cb1-12"><a href="carga-y-preparación-inicial.html#cb1-12" tabindex="-1"></a><span class="fu">library</span>(kableExtra)     <span class="co"># tablas con mejor formato</span></span>
+<span id="cb1-13"><a href="carga-y-preparación-inicial.html#cb1-13" tabindex="-1"></a><span class="fu">library</span>(patchwork)      <span class="co"># combinar varios ggplot en una cuadrícula</span></span>
+<span id="cb1-14"><a href="carga-y-preparación-inicial.html#cb1-14" tabindex="-1"></a></span>
+<span id="cb1-15"><a href="carga-y-preparación-inicial.html#cb1-15" tabindex="-1"></a>RANDOM_STATE <span class="ot">&lt;-</span> <span class="dv">42</span></span>
+<span id="cb1-16"><a href="carga-y-preparación-inicial.html#cb1-16" tabindex="-1"></a><span class="fu">set.seed</span>(RANDOM_STATE)</span>
+<span id="cb1-17"><a href="carga-y-preparación-inicial.html#cb1-17" tabindex="-1"></a></span>
+<span id="cb1-18"><a href="carga-y-preparación-inicial.html#cb1-18" tabindex="-1"></a><span class="co"># --- Paleta de colores del proyecto (igual a custom.css) ---</span></span>
+<span id="cb1-19"><a href="carga-y-preparación-inicial.html#cb1-19" tabindex="-1"></a>COLOR_MAIN   <span class="ot">&lt;-</span> <span class="st">&quot;#1B4F72&quot;</span>   <span class="co"># azul oscuro -&gt; gráficos de una sola serie</span></span>
+<span id="cb1-20"><a href="carga-y-preparación-inicial.html#cb1-20" tabindex="-1"></a>COLOR_ACCENT <span class="ot">&lt;-</span> <span class="st">&quot;#2980B9&quot;</span>   <span class="co"># azul acento -&gt; segundo color de apoyo</span></span>
+<span id="cb1-21"><a href="carga-y-preparación-inicial.html#cb1-21" tabindex="-1"></a>COLOR_RISK   <span class="ot">&lt;-</span> <span class="st">&quot;#E4572E&quot;</span>   <span class="co"># naranja/rojo -&gt; quiebra / riesgo</span></span>
+<span id="cb1-22"><a href="carga-y-preparación-inicial.html#cb1-22" tabindex="-1"></a></span>
+<span id="cb1-23"><a href="carga-y-preparación-inicial.html#cb1-23" tabindex="-1"></a>TARGET_COLORS <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;0&quot;</span> <span class="ot">=</span> COLOR_MAIN, <span class="st">&quot;1&quot;</span> <span class="ot">=</span> COLOR_RISK)</span>
+<span id="cb1-24"><a href="carga-y-preparación-inicial.html#cb1-24" tabindex="-1"></a>TARGET_LABELS <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;0&quot;</span> <span class="ot">=</span> <span class="st">&quot;No quiebra&quot;</span>, <span class="st">&quot;1&quot;</span> <span class="ot">=</span> <span class="st">&quot;Quiebra&quot;</span>)</span>
+<span id="cb1-25"><a href="carga-y-preparación-inicial.html#cb1-25" tabindex="-1"></a></span>
+<span id="cb1-26"><a href="carga-y-preparación-inicial.html#cb1-26" tabindex="-1"></a><span class="co"># Tema ggplot reutilizable en todo el libro</span></span>
+<span id="cb1-27"><a href="carga-y-preparación-inicial.html#cb1-27" tabindex="-1"></a>tema_eda <span class="ot">&lt;-</span> <span class="fu">theme_minimal</span>(<span class="at">base_size =</span> <span class="dv">12</span>) <span class="sc">+</span></span>
+<span id="cb1-28"><a href="carga-y-preparación-inicial.html#cb1-28" tabindex="-1"></a>  <span class="fu">theme</span>(</span>
+<span id="cb1-29"><a href="carga-y-preparación-inicial.html#cb1-29" tabindex="-1"></a>    <span class="at">plot.title    =</span> <span class="fu">element_text</span>(<span class="at">face =</span> <span class="st">&quot;bold&quot;</span>, <span class="at">size =</span> <span class="dv">13</span>, <span class="at">color =</span> COLOR_MAIN, <span class="at">hjust =</span> <span class="dv">0</span>),</span>
+<span id="cb1-30"><a href="carga-y-preparación-inicial.html#cb1-30" tabindex="-1"></a>    <span class="at">plot.subtitle =</span> <span class="fu">element_text</span>(<span class="at">color =</span> <span class="st">&quot;grey40&quot;</span>),</span>
+<span id="cb1-31"><a href="carga-y-preparación-inicial.html#cb1-31" tabindex="-1"></a>    <span class="at">panel.grid.minor =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb1-32"><a href="carga-y-preparación-inicial.html#cb1-32" tabindex="-1"></a>    <span class="at">axis.title =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">10</span>),</span>
+<span id="cb1-33"><a href="carga-y-preparación-inicial.html#cb1-33" tabindex="-1"></a>    <span class="at">legend.position =</span> <span class="st">&quot;none&quot;</span></span>
+<span id="cb1-34"><a href="carga-y-preparación-inicial.html#cb1-34" tabindex="-1"></a>  )</span>
+<span id="cb1-35"><a href="carga-y-preparación-inicial.html#cb1-35" tabindex="-1"></a></span>
+<span id="cb1-36"><a href="carga-y-preparación-inicial.html#cb1-36" tabindex="-1"></a><span class="fu">theme_set</span>(tema_eda)</span></code></pre></div>
+</div>
+<div id="carga-del-dataset" class="section level2 hasAnchor" number="2.2">
+<h2><span class="header-section-number">2.2</span> Carga del dataset<a href="carga-y-preparación-inicial.html#carga-del-dataset" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="carga-y-preparación-inicial.html#cb2-1" tabindex="-1"></a><span class="co"># Ajusta esta ruta a donde tengas el CSV dentro de tu proyecto</span></span>
+<span id="cb2-2"><a href="carga-y-preparación-inicial.html#cb2-2" tabindex="-1"></a><span class="co"># (recomendado: carpeta data/ dentro del proyecto de RStudio)</span></span>
+<span id="cb2-3"><a href="carga-y-preparación-inicial.html#cb2-3" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;data/data.csv&quot;</span>, <span class="at">check.names =</span> <span class="cn">FALSE</span>, <span class="at">stringsAsFactors =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb2-4"><a href="carga-y-preparación-inicial.html#cb2-4" tabindex="-1"></a></span>
+<span id="cb2-5"><a href="carga-y-preparación-inicial.html#cb2-5" tabindex="-1"></a><span class="co"># Limpiar nombres de columnas (eliminar espacios extra)</span></span>
+<span id="cb2-6"><a href="carga-y-preparación-inicial.html#cb2-6" tabindex="-1"></a><span class="fu">names</span>(df) <span class="ot">&lt;-</span> <span class="fu">trimws</span>(<span class="fu">names</span>(df))</span>
+<span id="cb2-7"><a href="carga-y-preparación-inicial.html#cb2-7" tabindex="-1"></a></span>
+<span id="cb2-8"><a href="carga-y-preparación-inicial.html#cb2-8" tabindex="-1"></a><span class="co"># Verificar la variable objetivo</span></span>
+<span id="cb2-9"><a href="carga-y-preparación-inicial.html#cb2-9" tabindex="-1"></a>TARGET <span class="ot">&lt;-</span> <span class="st">&quot;Bankrupt?&quot;</span></span>
+<span id="cb2-10"><a href="carga-y-preparación-inicial.html#cb2-10" tabindex="-1"></a><span class="cf">if</span> (<span class="sc">!</span>(TARGET <span class="sc">%in%</span> <span class="fu">names</span>(df))) {</span>
+<span id="cb2-11"><a href="carga-y-preparación-inicial.html#cb2-11" tabindex="-1"></a>  posibles_target <span class="ot">&lt;-</span> <span class="fu">names</span>(df)[<span class="fu">str_detect</span>(<span class="fu">str_to_lower</span>(<span class="fu">names</span>(df)), <span class="st">&quot;bankrupt&quot;</span>)]</span>
+<span id="cb2-12"><a href="carga-y-preparación-inicial.html#cb2-12" tabindex="-1"></a>  <span class="cf">if</span> (<span class="fu">length</span>(posibles_target) <span class="sc">&gt;</span> <span class="dv">0</span>) {</span>
+<span id="cb2-13"><a href="carga-y-preparación-inicial.html#cb2-13" tabindex="-1"></a>    TARGET <span class="ot">&lt;-</span> posibles_target[<span class="dv">1</span>]</span>
+<span id="cb2-14"><a href="carga-y-preparación-inicial.html#cb2-14" tabindex="-1"></a>    <span class="fu">cat</span>(<span class="st">&quot;Variable objetivo detectada automáticamente:&quot;</span>, TARGET, <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
+<span id="cb2-15"><a href="carga-y-preparación-inicial.html#cb2-15" tabindex="-1"></a>  }</span>
+<span id="cb2-16"><a href="carga-y-preparación-inicial.html#cb2-16" tabindex="-1"></a>}</span>
+<span id="cb2-17"><a href="carga-y-preparación-inicial.html#cb2-17" tabindex="-1"></a></span>
+<span id="cb2-18"><a href="carga-y-preparación-inicial.html#cb2-18" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;Dimensiones del dataset completo:&quot;</span>, <span class="fu">nrow</span>(df), <span class="st">&quot;filas x&quot;</span>, <span class="fu">ncol</span>(df), <span class="st">&quot;columnas</span><span class="sc">\n</span><span class="st">&quot;</span>)</span></code></pre></div>
+<pre><code>## Dimensiones del dataset completo: 6819 filas x 96 columnas</code></pre>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="carga-y-preparación-inicial.html#cb4-1" tabindex="-1"></a><span class="fu">head</span>(df)</span></code></pre></div>
+<pre><code>##   Bankrupt? ROA(C) before interest and depreciation before interest ROA(A) before interest and % after tax
+## 1         1                                               0.3705943                              0.4243894
+## 2         1                                               0.4642909                              0.5382141
+## 3         1                                               0.4260713                              0.4990188
+## 4         1                                               0.3998440                              0.4512647
+## 5         1                                               0.4650222                              0.5384322
+## 6         1                                               0.3886803                              0.4151766
+##   ROA(B) before interest and depreciation after tax Operating Gross Margin Realized Sales Gross Margin
+## 1                                         0.4057498              0.6014572                   0.6014572
+## 2                                         0.5167300              0.6102351                   0.6102351
+## 3                                         0.4722951              0.6014500                   0.6013635
+## 4                                         0.4577333              0.5835411                   0.5835411
+## 5                                         0.5222978              0.5987835                   0.5987835
+## 6                                         0.4191338              0.5901714                   0.5902507
+##   Operating Profit Rate Pre-tax net Interest Rate After-tax net Interest Rate Non-industry income and expenditure/revenue
+## 1             0.9989692                 0.7968871                   0.8088094                                   0.3026464
+## 2             0.9989460                 0.7973802                   0.8093007                                   0.3035564
+## 3             0.9988574                 0.7964034                   0.8083875                                   0.3020352
+## 4             0.9986997                 0.7969670                   0.8089656                                   0.3033495
+## 5             0.9989731                 0.7973661                   0.8093037                                   0.3034750
+## 6             0.9987581                 0.7969032                   0.8087706                                   0.3031158
+##   Continuous interest rate (after tax) Operating Expense Rate Research and development expense rate Cash flow rate
+## 1                            0.7809849           1.256969e-04                                     0      0.4581431
+## 2                            0.7815060           2.897851e-04                                     0      0.4618673
+## 3                            0.7802839           2.361297e-04                              25500000      0.4585206
+## 4                            0.7812410           1.078888e-04                                     0      0.4657054
+## 5                            0.7815500           7.890000e+09                                     0      0.4627463
+## 6                            0.7810691           1.571500e-04                                     0      0.4658615
+##   Interest-bearing debt interest rate Tax rate (A) Net Value Per Share (B) Net Value Per Share (A) Net Value Per Share (C)
+## 1                        0.0007250725            0               0.1479499               0.1479499               0.1479499
+## 2                        0.0006470647            0               0.1822511               0.1822511               0.1822511
+## 3                        0.0007900790            0               0.1779107               0.1779107               0.1937129
+## 4                        0.0004490449            0               0.1541865               0.1541865               0.1541865
+## 5                        0.0006860686            0               0.1675024               0.1675024               0.1675024
+## 6                        0.0007160716            0               0.1555771               0.1555771               0.1555771
+##   Persistent EPS in the Last Four Seasons Cash Flow Per Share Revenue Per Share (Yuan ¥)
+## 1                               0.1691406           0.3116644                0.017559780
+## 2                               0.2089439           0.3181368                0.021144335
+## 3                               0.1805805           0.3071019                0.005944008
+## 4                               0.1937222           0.3216736                0.014368468
+## 5                               0.2125366           0.3191625                0.029689792
+## 6                               0.1744351           0.3253873                0.018104270
+##   Operating Profit Per Share (Yuan ¥) Per Share Net profit before tax (Yuan ¥) Realized Sales Gross Profit Growth Rate
+## 1                          0.09592053                                0.1387362                              0.02210228
+## 2                          0.09372201                                0.1699179                              0.02208017
+## 3                          0.09233776                                0.1428033                              0.02276010
+## 4                          0.07776240                                0.1486028                              0.02204607
+## 5                          0.09689765                                0.1684115                              0.02209591
+## 6                          0.07808810                                0.1388115                              0.02156494
+##   Operating Profit Growth Rate After-tax Net Profit Growth Rate Regular Net Profit Growth Rate
+## 1                    0.8481950                        0.6889795                      0.6889795
+## 2                    0.8480879                        0.6896929                      0.6897017
+## 3                    0.8480940                        0.6894627                      0.6894697
+## 4                    0.8480055                        0.6891095                      0.6891095
+## 5                    0.8482582                        0.6896969                      0.6896969
+## 6                    0.8479828                        0.6891051                      0.6891775
+##   Continuous Net Profit Growth Rate Total Asset Growth Rate Net Value Growth Rate Total Asset Return Growth Rate Ratio
+## 1                         0.2175354                4.98e+09          0.0003269773                            0.2631000
+## 2                         0.2176196                6.11e+09          0.0004430401                            0.2645158
+## 3                         0.2176013                7.28e+09          0.0003964253                            0.2641840
+## 4                         0.2175682                4.88e+09          0.0003824259                            0.2633712
+## 5                         0.2176256                5.51e+09          0.0004389476                            0.2652182
+## 6                         0.2175664                6.08e+08          0.0003517819                            0.2632500
+##   Cash Reinvestment % Current Ratio  Quick Ratio Interest Expense Ratio Total debt/Total net worth Debt ratio %
+## 1           0.3637253   0.002258963 0.0012077551              0.6299513                0.021265924    0.2075763
+## 2           0.3767091   0.006016206 0.0040393668              0.6351725                0.012502394    0.1711763
+## 3           0.3689132   0.011542554 0.0053475602              0.6296314                0.021247686    0.2075158
+## 4           0.3840766   0.004194059 0.0028964911              0.6302284                0.009572402    0.1514648
+## 5           0.3796897   0.006022446 0.0037274466              0.6360550                0.005149600    0.1065091
+## 6           0.3880258   0.002740085 0.0008546614              0.6301838                0.014213152    0.1804275
+##   Net worth/Assets Long-term fund suitability ratio (A) Borrowing dependency Contingent liabilities/Net worth
+## 1        0.7924237                          0.005024455            0.3902844                      0.006478502
+## 2        0.8288237                          0.005058882            0.3767600                      0.005835039
+## 3        0.7924842                          0.005099899            0.3790929                      0.006561982
+## 4        0.8485352                          0.005046924            0.3797427                      0.005365848
+## 5        0.8934909                          0.005303319            0.3750254                      0.006623525
+## 6        0.8195725                          0.004913193            0.3814482                      0.005749123
+##   Operating profit/Paid-in capital Net profit before tax/Paid-in capital Inventory and accounts receivable/Net value
+## 1                       0.09588483                             0.1377573                                   0.3980357
+## 2                       0.09374338                             0.1689616                                   0.3977249
+## 3                       0.09231847                             0.1480356                                   0.4065805
+## 4                       0.07772729                             0.1475605                                   0.3979245
+## 5                       0.09692706                             0.1674610                                   0.4000788
+## 6                       0.07810185                             0.1378252                                   0.4004191
+##   Total Asset Turnover Accounts Receivable Turnover Average Collection Days Inventory Turnover Rate (times)
+## 1           0.08695652                  0.001813884             0.003487364                    1.820926e-04
+## 2           0.06446777                  0.001286356             0.004916808                    9.360000e+09
+## 3           0.01499250                  0.001495338             0.004226849                    6.500000e+07
+## 4           0.08995502                  0.001966056             0.003214967                    7.130000e+09
+## 5           0.17541229                  0.001448673             0.004366891                    1.633674e-04
+## 6           0.09595202                  0.001527802             0.004137189                    6.500000e+08
+##   Fixed Assets Turnover Frequency Net Worth Turnover Rate (times) Revenue per person Operating profit per person
+## 1                    1.165007e-04                      0.03290323        0.034164182                   0.3929129
+## 2                    7.190000e+08                      0.02548387        0.006888651                   0.3915900
+## 3                    2.650000e+09                      0.01338710        0.028996960                   0.3819678
+## 4                    9.150000e+09                      0.02806452        0.015463478                   0.3784966
+## 5                    2.935211e-04                      0.04016129        0.058111423                   0.3943715
+## 6                    9.300000e+09                      0.02967742        0.021300471                   0.3775695
+##   Allocation rate per person Working Capital to Total Assets Quick Assets/Total Assets Current Assets/Total Assets
+## 1                 0.03713530                       0.6727753                0.16667296                   0.1906430
+## 2                 0.01233497                       0.7511109                0.12723600                   0.1824191
+## 3                 0.14101631                       0.8295019                0.34020088                   0.6028057
+## 4                 0.02131999                       0.7257542                0.16157453                   0.2258149
+## 5                 0.02398821                       0.7518225                0.26032988                   0.3583802
+## 6                 0.03282877                       0.6867286                0.08026371                   0.2145360
+##   Cash/Total Assets Quick Assets/Current Liability Cash/Current Liability Current Liability to Assets
+## 1      0.0040944060                    0.001996771           1.473360e-04                  0.14730845
+## 2      0.0149477270                    0.004136030           1.383910e-03                  0.05696283
+## 3      0.0009909445                    0.006302481           5.340000e+09                  0.09816206
+## 4      0.0188506248                    0.002961238           1.010646e-03                  0.09871463
+## 5      0.0141609738                    0.004274771           6.804636e-04                  0.11019485
+## 6      0.0026452256                    0.000988425           1.008563e-04                  0.13900211
+##   Operating Funds to Liability Inventory/Working Capital Inventory/Current Liability Current Liabilities/Liability
+## 1                    0.3340152                 0.2769202                 0.001035990                     0.6762692
+## 2                    0.3411060                 0.2896416                 0.005209682                     0.3085886
+## 3                    0.3367315                 0.2774555                 0.013878786                     0.4460275
+## 4                    0.3487164                 0.2765803                 0.003540148                     0.6158484
+## 5                    0.3446388                 0.2879127                 0.004868570                     0.9750066
+## 6                    0.3505631                 0.2766785                 0.004879131                     0.7333519
+##   Working Capital/Equity Current Liabilities/Equity Long-term Liability to Current Assets
+## 1              0.7212746                  0.3390770                           0.025592368
+## 2              0.7319753                  0.3297401                           0.023946819
+## 3              0.7427286                  0.3347769                           0.003715116
+## 4              0.7298249                  0.3315090                           0.022165200
+## 5              0.7319996                  0.3307263                           0.000000000
+## 6              0.7252016                  0.3355344                           0.003772505
+##   Retained Earnings to Total Assets Total income/Total expense Total expense/Assets Current Asset Turnover Rate
+## 1                         0.9032248                0.002021613           0.06485571                7.010000e+08
+## 2                         0.9310652                0.002225608           0.02551586                1.065198e-04
+## 3                         0.9099034                0.002060071           0.02138743                1.791094e-03
+## 4                         0.9069022                0.001831359           0.02416107                8.140000e+09
+## 5                         0.9138502                0.002223930           0.02638525                6.680000e+09
+## 6                         0.9030413                0.001865609           0.04009362                8.010000e+09
+##   Quick Asset Turnover Rate Working capitcal Turnover Rate Cash Turnover Rate Cash Flow to Sales Fixed Assets to Assets
+## 1              6.550000e+09                      0.5938305           4.58e+08          0.6715677              0.4242058
+## 2              7.700000e+09                      0.5939155           2.49e+09          0.6715699              0.4688281
+## 3              1.022676e-03                      0.5945019           7.61e+08          0.6715713              0.2761792
+## 4              6.050000e+09                      0.5938888           2.03e+09          0.6715192              0.5591440
+## 5              5.050000e+09                      0.5939153           8.24e+08          0.6715631              0.3095549
+## 6              2.810000e+09                      0.5938458           2.95e+08          0.6715676              0.6031935
+##   Current Liability to Liability Current Liability to Equity Equity to Long-term Liability Cash Flow to Total Assets
+## 1                      0.6762692                   0.3390770                     0.1265495                 0.6375554
+## 2                      0.3085886                   0.3297401                     0.1209161                 0.6411000
+## 3                      0.4460275                   0.3347769                     0.1179223                 0.6427646
+## 4                      0.6158484                   0.3315090                     0.1207605                 0.5790393
+## 5                      0.9750066                   0.3307263                     0.1109332                 0.6223741
+## 6                      0.7333519                   0.3355344                     0.1129172                 0.6374698
+##   Cash Flow to Liability CFO to Assets Cash Flow to Equity Current Liability to Current Assets Liability-Assets Flag
+## 1              0.4586091     0.5203819           0.3129049                          0.11825048                     0
+## 2              0.4590011     0.5671013           0.3141631                          0.04777528                     0
+## 3              0.4592540     0.5384905           0.3145154                          0.02534649                     0
+## 4              0.4485179     0.6041051           0.3023823                          0.06724962                     0
+## 5              0.4544109     0.5784689           0.3115672                          0.04772537                     0
+## 6              0.4584993     0.6221901           0.3132685                          0.09952193                     0
+##   Net Income to Total Assets Total assets to GNP price No-credit Interval Gross Profit to Sales
+## 1                  0.7168453               0.009219440          0.6228790             0.6014533
+## 2                  0.7952971               0.008323302          0.6236517             0.6102365
+## 3                  0.7746697               0.040002853          0.6238410             0.6014493
+## 4                  0.7395545               0.003252475          0.6229287             0.5835376
+## 5                  0.7950159               0.003877563          0.6235207             0.5987815
+## 6                  0.7104205               0.005277875          0.6226046             0.5901723
+##   Net Income to Stockholder&#39;s Equity Liability to Equity Degree of Financial Leverage (DFL)
+## 1                          0.8278902           0.2902019                         0.02660063
+## 2                          0.8399693           0.2838460                         0.26457682
+## 3                          0.8367743           0.2901885                         0.02655472
+## 4                          0.8346971           0.2817212                         0.02669663
+## 5                          0.8399727           0.2785138                         0.02475185
+## 6                          0.8299390           0.2850871                         0.02667537
+##   Interest Coverage Ratio (Interest expense to EBIT) Net Income Flag Equity to Liability
+## 1                                          0.5640501               1          0.01646874
+## 2                                          0.5701749               1          0.02079431
+## 3                                          0.5637061               1          0.01647411
+## 4                                          0.5646634               1          0.02398233
+## 5                                          0.5756166               1          0.03549020
+## 6                                          0.5645383               1          0.01953448</code></pre>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="carga-y-preparación-inicial.html#cb6-1" tabindex="-1"></a><span class="fu">tail</span>(df)</span></code></pre></div>
+<pre><code>##      Bankrupt? ROA(C) before interest and depreciation before interest ROA(A) before interest and % after tax
+## 6814         0                                               0.4775996                              0.5311273
+## 6815         0                                               0.4936869                              0.5394679
+## 6816         0                                               0.4751621                              0.5382686
+## 6817         0                                               0.4727246                              0.5337440
+## 6818         0                                               0.5062643                              0.5599106
+## 6819         0                                               0.4930532                              0.5701047
+##      ROA(B) before interest and depreciation after tax Operating Gross Margin Realized Sales Gross Margin
+## 6814                                         0.5260988              0.5958287                   0.5958575
+## 6815                                         0.5432304              0.6044552                   0.6044624
+## 6816                                         0.5241715              0.5983078                   0.5983078
+## 6817                                         0.5206381              0.6104441                   0.6102135
+## 6818                                         0.5540446              0.6078496                   0.6078496
+## 6819                                         0.5495476              0.6274089                   0.6274089
+##      Operating Profit Rate Pre-tax net Interest Rate After-tax net Interest Rate
+## 6814             0.9989048                 0.7973755                   0.8092940
+## 6815             0.9989921                 0.7974090                   0.8093311
+## 6816             0.9989922                 0.7974144                   0.8093273
+## 6817             0.9989845                 0.7974009                   0.8093169
+## 6818             0.9990738                 0.7974999                   0.8093994
+## 6819             0.9980803                 0.8019867                   0.8137996
+##      Non-industry income and expenditure/revenue Continuous interest rate (after tax) Operating Expense Rate
+## 6814                                   0.3036343                            0.7815534           1.002568e-04
+## 6815                                   0.3035103                            0.7815878           1.510213e-04
+## 6816                                   0.3035197                            0.7815861           5.220000e+09
+## 6817                                   0.3035122                            0.7815464           2.509312e-04
+## 6818                                   0.3034982                            0.7816633           1.236154e-04
+## 6819                                   0.3134153                            0.7860790           1.431695e-03
+##      Research and development expense rate Cash flow rate Interest-bearing debt interest rate Tax rate (A)
+## 6814                          7.030000e+09      0.4639877                        3.560356e-04    0.0000000
+## 6815                          4.500000e+09      0.4637343                        1.790179e-04    0.1133718
+## 6816                          1.440000e+09      0.4619780                        2.370237e-04    0.3715963
+## 6817                          1.039086e-04      0.4721891                        0.000000e+00    0.4908392
+## 6818                          2.510000e+09      0.4761229                        2.110211e-04    0.1812937
+## 6819                          0.000000e+00      0.4277212                        5.900000e+08    0.0000000
+##      Net Value Per Share (B) Net Value Per Share (A) Net Value Per Share (C) Persistent EPS in the Last Four Seasons
+## 6814               0.1806498               0.1806498               0.1806498                               0.2132930
+## 6815               0.1750453               0.1750453               0.1750453                               0.2166021
+## 6816               0.1813240               0.1813240               0.1813240                               0.2166966
+## 6817               0.2695209               0.2695209               0.2695209                               0.2109294
+## 6818               0.2133918               0.2133918               0.2133918                               0.2283256
+## 6819               0.2207661               0.2207661               0.2207661                               0.2277583
+##      Cash Flow Per Share Revenue Per Share (Yuan ¥) Operating Profit Per Share (Yuan ¥)
+## 6814           0.3219566               0.0242600239                          0.08891784
+## 6815           0.3209663               0.0207662175                          0.09820047
+## 6816           0.3182783               0.0230500476                          0.09860761
+## 6817           0.3248568               0.0442548815                          0.10007328
+## 6818           0.3465728               0.0315350061                          0.11179871
+## 6819           0.3057933               0.0006654869                          0.09250061
+##      Per Share Net profit before tax (Yuan ¥) Realized Sales Gross Profit Growth Rate Operating Profit Growth Rate
+## 6814                                0.1695413                              0.02236178                    0.8481275
+## 6815                                0.1721021                              0.02237376                    0.8482045
+## 6816                                0.1727800                              0.02215937                    0.8482448
+## 6817                                0.1732319                              0.02206835                    0.8479776
+## 6818                                0.1855841                              0.02234993                    0.8540638
+## 6819                                0.1821195                              0.02531588                    0.8480531
+##      After-tax Net Profit Growth Rate Regular Net Profit Growth Rate Continuous Net Profit Growth Rate
+## 6814                        0.6896853                      0.6896853                         0.2176266
+## 6815                        0.6897781                      0.6897781                         0.2176353
+## 6816                        0.6897340                      0.6897340                         0.2176314
+## 6817                        0.6892021                      0.6892021                         0.2175472
+## 6818                        0.6961128                      0.6961128                         0.2180056
+## 6819                        0.6895266                      0.6895266                         0.2176049
+##      Total Asset Growth Rate Net Value Growth Rate Total Asset Return Growth Rate Ratio Cash Reinvestment % Current Ratio
+## 6814                5.98e+09          0.0004299390                            0.2647466           0.3805559   0.005979389
+## 6815                7.07e+09          0.0004501771                            0.2645173           0.3801554   0.010450513
+## 6816                5.22e+09          0.0004454607                            0.2647302           0.3773891   0.009259253
+## 6817                5.99e+09          0.0004354789                            0.2638576           0.3793916   0.038423593
+## 6818                7.25e+09          0.0005286835                            0.2644085           0.4010283   0.012782487
+## 6819                9.35e+09          0.0005186269                            0.2641855           0.3601021   0.051348358
+##      Quick Ratio Interest Expense Ratio Total debt/Total net worth Debt ratio % Net worth/Assets
+## 6814 0.004725591              0.6631916               0.0090261629   0.14708105        0.8529189
+## 6815 0.005457356              0.6314150               0.0066551765   0.12461831        0.8753817
+## 6816 0.006741220              0.6314890               0.0046234235   0.09925326        0.9007467
+## 6817 0.035111611              0.6306123               0.0013915866   0.03893944        0.9610606
+## 6818 0.007255888              0.6307307               0.0038163762   0.08697887        0.9130211
+## 6819 0.040897108              0.6306177               0.0004614304   0.01414880        0.9858512
+##      Long-term fund suitability ratio (A) Borrowing dependency Contingent liabilities/Net worth
+## 6814                          0.005324287            0.3745870                      0.006051355
+## 6815                          0.005150455            0.3738232                      0.005365848
+## 6816                          0.006771668            0.3725047                      0.008618504
+## 6817                          0.009148940            0.3696372                      0.005365848
+## 6818                          0.005528513            0.3696495                      0.007067734
+## 6819                          0.058475943            0.3700487                      0.006368212
+##      Operating profit/Paid-in capital Net profit before tax/Paid-in capital Inventory and accounts receivable/Net value
+## 6814                       0.08888237                             0.1685544                                   0.3997398
+## 6815                       0.09822170                             0.1711108                                   0.4048040
+## 6816                       0.09857182                             0.1718045                                   0.3999260
+## 6817                       0.10010259                             0.1722872                                   0.3955920
+## 6818                       0.11172179                             0.1824975                                   0.4015404
+## 6819                       0.09246503                             0.1799110                                   0.3938826
+##      Total Asset Turnover Accounts Receivable Turnover Average Collection Days Inventory Turnover Rate (times)
+## 6814          0.088455772                 0.0006594098             0.009591106                    2.159125e-04
+## 6815          0.103448276                 0.0006898441             0.009176960                    4.030000e+07
+## 6816          0.103448276                 0.0006553519             0.009651733                    9.940000e+09
+## 6817          0.106446777                 0.0015095412             0.004187570                    2.797309e-04
+## 6818          0.109445277                 0.0007162205             0.008829419                    4.550000e+09
+## 6819          0.002998501                 0.0003246325             0.019474248                    1.910000e+07
+##      Fixed Assets Turnover Frequency Net Worth Turnover Rate (times) Revenue per person Operating profit per person
+## 6814                    0.0001815595                     0.027903226        0.010842648                   0.3899166
+## 6815                    0.0001429781                     0.027903226        0.006348134                   0.3925963
+## 6816                    0.0006051982                     0.027419355        0.016083310                   0.3936252
+## 6817                    0.0010242980                     0.022419355        0.022096559                   0.3936930
+## 6818                    0.0002330013                     0.027258065        0.012749144                   0.3967346
+## 6819                    0.0002995731                     0.009193548        0.002097440                   0.3857669
+##      Allocation rate per person Working Capital to Total Assets Quick Assets/Total Assets Current Assets/Total Assets
+## 6814               0.0076177826                       0.7510397                 0.2493673                   0.3022236
+## 6815               0.0063124730                       0.8177694                 0.3128403                   0.5784548
+## 6816               0.0034012239                       0.7933868                 0.3350852                   0.4440429
+## 6817               0.0027739777                       0.8660467                 0.4767468                   0.4960533
+## 6818               0.0074886037                       0.8323403                 0.3536243                   0.5644392
+## 6819               0.0009634631                       0.8737594                 0.5271361                   0.5050101
+##      Cash/Total Assets Quick Assets/Current Liability Cash/Current Liability Current Liability to Assets
+## 6814        0.05359148                    0.004831791            0.003022065                  0.09382922
+## 6815        0.09948078                    0.005469194            0.005071548                  0.10383813
+## 6816        0.08033725                    0.006789706            0.004727181                  0.08990102
+## 6817        0.41288490                    0.035531293            0.088212480                  0.02441366
+## 6818        0.11223822                    0.007753306            0.007133218                  0.08319943
+## 6819        0.23814705                    0.051480515            0.066673545                  0.01851735
+##      Operating Funds to Liability Inventory/Working Capital Inventory/Current Liability Current Liabilities/Liability
+## 6814                    0.3454005                 0.2918420                 0.003319898                     0.6020807
+## 6815                    0.3462244                 0.2775431                 0.013211831                     0.7868884
+## 6816                    0.3421660                 0.2773681                 0.006730130                     0.8498980
+## 6817                    0.3588474                 0.2770215                 0.007809807                     0.5539642
+## 6818                    0.3802508                 0.2773530                 0.013333639                     0.8932409
+## 6819                    0.2395847                 0.2769749                 0.000000000                     1.0000000
+##      Working Capital/Equity Current Liabilities/Equity Long-term Liability to Current Assets
+## 6814              0.7319592                  0.3310980                          5.032945e-03
+## 6815              0.7367160                  0.3309138                          1.792237e-03
+## 6816              0.7345843                  0.3297531                          2.204673e-03
+## 6817              0.7374324                  0.3269206                          0.000000e+00
+## 6818              0.7367133                  0.3292936                          3.200000e+09
+## 6819              0.7372862                  0.3266903                          0.000000e+00
+##      Retained Earnings to Total Assets Total income/Total expense Total expense/Assets Current Asset Turnover Rate
+## 6814                         0.9307357                0.002208539          0.015281423                0.0001263004
+## 6815                         0.9256110                0.002265629          0.019059653                0.0002294154
+## 6816                         0.9326293                0.002288374          0.011118106                0.0001517299
+## 6817                         0.9320004                0.002238772          0.035445953                0.0001762272
+## 6818                         0.9396127                0.002394691          0.016442737                0.0002135940
+## 6819                         0.9380050                0.002790861          0.006088568                0.0078637815
+##      Quick Asset Turnover Rate Working capitcal Turnover Rate Cash Turnover Rate Cash Flow to Sales Fixed Assets to Assets
+## 6814              0.0001080433                      0.5939152       6.360000e+09          0.6715764            0.258322337
+## 6815              0.0001244230                      0.5939850       1.077940e-04          0.6715697            0.400338097
+## 6816              0.0001173396                      0.5939543       7.710000e+09          0.6715717            0.096136454
+## 6817              0.0001749713                      0.5940248       4.074263e-04          0.6715637            0.055508876
+## 6818              0.0001351937                      0.5939967       1.165392e-04          0.6716059            0.246804870
+## 6819              0.0082384713                      0.5986744       9.505992e-03          0.6720965            0.005015608
+##      Current Liability to Liability Current Liability to Equity Equity to Long-term Liability Cash Flow to Total Assets
+## 6814                      0.6020807                   0.3310980                     0.1138108                 0.6473803
+## 6815                      0.7868884                   0.3309138                     0.1126216                 0.6398063
+## 6816                      0.8498980                   0.3297531                     0.1123290                 0.6420723
+## 6817                      0.5539642                   0.3269206                     0.1109332                 0.6316777
+## 6818                      0.8932409                   0.3292936                     0.1109574                 0.6848568
+## 6819                      1.0000000                   0.3266903                     0.1109332                 0.6599174
+##      Cash Flow to Liability CFO to Assets Cash Flow to Equity Current Liability to Current Assets Liability-Assets Flag
+## 6814              0.4600455     0.5872005           0.3153904                         0.048054556                     0
+## 6815              0.4586393     0.5871782           0.3140630                         0.027950669                     0
+## 6816              0.4590575     0.5694983           0.3144458                         0.031469978                     0
+## 6817              0.4524647     0.5893414           0.3133528                         0.007542458                     0
+## 6818              0.4713133     0.6783379           0.3201175                         0.022916427                     0
+## 6819              0.4832848     0.5055313           0.3162381                         0.005579107                     0
+##      Net Income to Total Assets Total assets to GNP price No-credit Interval Gross Profit to Sales
+## 6814                  0.7940282              0.0034746485          0.6233978             0.5958271
+## 6815                  0.7999270              0.0004655105          0.6236195             0.6044546
+## 6816                  0.7997484              0.0019592375          0.6239308             0.5983061
+## 6817                  0.7977781              0.0028398848          0.6241561             0.6104406
+## 6818                  0.8118079              0.0028371958          0.6239575             0.6078459
+## 6819                  0.8159559              0.0007068724          0.6266803             0.6274082
+##      Net Income to Stockholder&#39;s Equity Liability to Equity Degree of Financial Leverage (DFL)
+## 6814                          0.8398638           0.2813248                         0.02230946
+## 6815                          0.8403590           0.2796055                         0.02706427
+## 6816                          0.8403057           0.2781321                         0.02700858
+## 6817                          0.8401383           0.2757887                         0.02679116
+## 6818                          0.8410836           0.2775472                         0.02682205
+## 6819                          0.8410185           0.2751141                         0.02679295
+##      Interest Coverage Ratio (Interest expense to EBIT) Net Income Flag Equity to Liability
+## 6814                                          0.5717520               1          0.02480278
+## 6815                                          0.5661932               1          0.02989014
+## 6816                                          0.5660182               1          0.03828369
+## 6817                                          0.5651584               1          0.09764874
+## 6818                                          0.5653015               1          0.04400945
+## 6819                                          0.5651669               1          0.23390224</code></pre>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="carga-y-preparación-inicial.html#cb8-1" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;Columnas del dataset:</span><span class="sc">\n</span><span class="st">&quot;</span>)</span></code></pre></div>
+<pre><code>## Columnas del dataset:</code></pre>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="carga-y-preparación-inicial.html#cb10-1" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">names</span>(df))</span></code></pre></div>
+<pre><code>##  [1] &quot;Bankrupt?&quot;                                               &quot;ROA(C) before interest and depreciation before interest&quot;
+##  [3] &quot;ROA(A) before interest and % after tax&quot;                  &quot;ROA(B) before interest and depreciation after tax&quot;      
+##  [5] &quot;Operating Gross Margin&quot;                                  &quot;Realized Sales Gross Margin&quot;                            
+##  [7] &quot;Operating Profit Rate&quot;                                   &quot;Pre-tax net Interest Rate&quot;                              
+##  [9] &quot;After-tax net Interest Rate&quot;                             &quot;Non-industry income and expenditure/revenue&quot;            
+## [11] &quot;Continuous interest rate (after tax)&quot;                    &quot;Operating Expense Rate&quot;                                 
+## [13] &quot;Research and development expense rate&quot;                   &quot;Cash flow rate&quot;                                         
+## [15] &quot;Interest-bearing debt interest rate&quot;                     &quot;Tax rate (A)&quot;                                           
+## [17] &quot;Net Value Per Share (B)&quot;                                 &quot;Net Value Per Share (A)&quot;                                
+## [19] &quot;Net Value Per Share (C)&quot;                                 &quot;Persistent EPS in the Last Four Seasons&quot;                
+## [21] &quot;Cash Flow Per Share&quot;                                     &quot;Revenue Per Share (Yuan ¥)&quot;                             
+## [23] &quot;Operating Profit Per Share (Yuan ¥)&quot;                     &quot;Per Share Net profit before tax (Yuan ¥)&quot;               
+## [25] &quot;Realized Sales Gross Profit Growth Rate&quot;                 &quot;Operating Profit Growth Rate&quot;                           
+## [27] &quot;After-tax Net Profit Growth Rate&quot;                        &quot;Regular Net Profit Growth Rate&quot;                         
+## [29] &quot;Continuous Net Profit Growth Rate&quot;                       &quot;Total Asset Growth Rate&quot;                                
+## [31] &quot;Net Value Growth Rate&quot;                                   &quot;Total Asset Return Growth Rate Ratio&quot;                   
+## [33] &quot;Cash Reinvestment %&quot;                                     &quot;Current Ratio&quot;                                          
+## [35] &quot;Quick Ratio&quot;                                             &quot;Interest Expense Ratio&quot;                                 
+## [37] &quot;Total debt/Total net worth&quot;                              &quot;Debt ratio %&quot;                                           
+## [39] &quot;Net worth/Assets&quot;                                        &quot;Long-term fund suitability ratio (A)&quot;                   
+## [41] &quot;Borrowing dependency&quot;                                    &quot;Contingent liabilities/Net worth&quot;                       
+## [43] &quot;Operating profit/Paid-in capital&quot;                        &quot;Net profit before tax/Paid-in capital&quot;                  
+## [45] &quot;Inventory and accounts receivable/Net value&quot;             &quot;Total Asset Turnover&quot;                                   
+## [47] &quot;Accounts Receivable Turnover&quot;                            &quot;Average Collection Days&quot;                                
+## [49] &quot;Inventory Turnover Rate (times)&quot;                         &quot;Fixed Assets Turnover Frequency&quot;                        
+## [51] &quot;Net Worth Turnover Rate (times)&quot;                         &quot;Revenue per person&quot;                                     
+## [53] &quot;Operating profit per person&quot;                             &quot;Allocation rate per person&quot;                             
+## [55] &quot;Working Capital to Total Assets&quot;                         &quot;Quick Assets/Total Assets&quot;                              
+## [57] &quot;Current Assets/Total Assets&quot;                             &quot;Cash/Total Assets&quot;                                      
+## [59] &quot;Quick Assets/Current Liability&quot;                          &quot;Cash/Current Liability&quot;                                 
+## [61] &quot;Current Liability to Assets&quot;                             &quot;Operating Funds to Liability&quot;                           
+## [63] &quot;Inventory/Working Capital&quot;                               &quot;Inventory/Current Liability&quot;                            
+## [65] &quot;Current Liabilities/Liability&quot;                           &quot;Working Capital/Equity&quot;                                 
+## [67] &quot;Current Liabilities/Equity&quot;                              &quot;Long-term Liability to Current Assets&quot;                  
+## [69] &quot;Retained Earnings to Total Assets&quot;                       &quot;Total income/Total expense&quot;                             
+## [71] &quot;Total expense/Assets&quot;                                    &quot;Current Asset Turnover Rate&quot;                            
+## [73] &quot;Quick Asset Turnover Rate&quot;                               &quot;Working capitcal Turnover Rate&quot;                         
+## [75] &quot;Cash Turnover Rate&quot;                                      &quot;Cash Flow to Sales&quot;                                     
+## [77] &quot;Fixed Assets to Assets&quot;                                  &quot;Current Liability to Liability&quot;                         
+## [79] &quot;Current Liability to Equity&quot;                             &quot;Equity to Long-term Liability&quot;                          
+## [81] &quot;Cash Flow to Total Assets&quot;                               &quot;Cash Flow to Liability&quot;                                 
+## [83] &quot;CFO to Assets&quot;                                           &quot;Cash Flow to Equity&quot;                                    
+## [85] &quot;Current Liability to Current Assets&quot;                     &quot;Liability-Assets Flag&quot;                                  
+## [87] &quot;Net Income to Total Assets&quot;                              &quot;Total assets to GNP price&quot;                              
+## [89] &quot;No-credit Interval&quot;                                      &quot;Gross Profit to Sales&quot;                                  
+## [91] &quot;Net Income to Stockholder&#39;s Equity&quot;                      &quot;Liability to Equity&quot;                                    
+## [93] &quot;Degree of Financial Leverage (DFL)&quot;                      &quot;Interest Coverage Ratio (Interest expense to EBIT)&quot;     
+## [95] &quot;Net Income Flag&quot;                                         &quot;Equity to Liability&quot;</code></pre>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="carga-y-preparación-inicial.html#cb12-1" tabindex="-1"></a><span class="fu">str</span>(df)</span></code></pre></div>
+<pre><code>## &#39;data.frame&#39;:    6819 obs. of  96 variables:
+##  $ Bankrupt?                                              : int  1 1 1 1 1 1 0 0 0 0 ...
+##  $ ROA(C) before interest and depreciation before interest: num  0.371 0.464 0.426 0.4 0.465 ...
+##  $ ROA(A) before interest and % after tax                 : num  0.424 0.538 0.499 0.451 0.538 ...
+##  $ ROA(B) before interest and depreciation after tax      : num  0.406 0.517 0.472 0.458 0.522 ...
+##  $ Operating Gross Margin                                 : num  0.601 0.61 0.601 0.584 0.599 ...
+##  $ Realized Sales Gross Margin                            : num  0.601 0.61 0.601 0.584 0.599 ...
+##  $ Operating Profit Rate                                  : num  0.999 0.999 0.999 0.999 0.999 ...
+##  $ Pre-tax net Interest Rate                              : num  0.797 0.797 0.796 0.797 0.797 ...
+##  $ After-tax net Interest Rate                            : num  0.809 0.809 0.808 0.809 0.809 ...
+##  $ Non-industry income and expenditure/revenue            : num  0.303 0.304 0.302 0.303 0.303 ...
+##  $ Continuous interest rate (after tax)                   : num  0.781 0.782 0.78 0.781 0.782 ...
+##  $ Operating Expense Rate                                 : num  1.26e-04 2.90e-04 2.36e-04 1.08e-04 7.89e+09 ...
+##  $ Research and development expense rate                  : num  0.00 0.00 2.55e+07 0.00 0.00 0.00 7.30e+08 5.09e+07 0.00 0.00 ...
+##  $ Cash flow rate                                         : num  0.458 0.462 0.459 0.466 0.463 ...
+##  $ Interest-bearing debt interest rate                    : num  0.000725 0.000647 0.00079 0.000449 0.000686 ...
+##  $ Tax rate (A)                                           : num  0 0 0 0 0 ...
+##  $ Net Value Per Share (B)                                : num  0.148 0.182 0.178 0.154 0.168 ...
+##  $ Net Value Per Share (A)                                : num  0.148 0.182 0.178 0.154 0.168 ...
+##  $ Net Value Per Share (C)                                : num  0.148 0.182 0.194 0.154 0.168 ...
+##  $ Persistent EPS in the Last Four Seasons                : num  0.169 0.209 0.181 0.194 0.213 ...
+##  $ Cash Flow Per Share                                    : num  0.312 0.318 0.307 0.322 0.319 ...
+##  $ Revenue Per Share (Yuan ¥)                             : num  0.01756 0.02114 0.00594 0.01437 0.02969 ...
+##  $ Operating Profit Per Share (Yuan ¥)                    : num  0.0959 0.0937 0.0923 0.0778 0.0969 ...
+##  $ Per Share Net profit before tax (Yuan ¥)               : num  0.139 0.17 0.143 0.149 0.168 ...
+##  $ Realized Sales Gross Profit Growth Rate                : num  0.0221 0.0221 0.0228 0.022 0.0221 ...
+##  $ Operating Profit Growth Rate                           : num  0.848 0.848 0.848 0.848 0.848 ...
+##  $ After-tax Net Profit Growth Rate                       : num  0.689 0.69 0.689 0.689 0.69 ...
+##  $ Regular Net Profit Growth Rate                         : num  0.689 0.69 0.689 0.689 0.69 ...
+##  $ Continuous Net Profit Growth Rate                      : num  0.218 0.218 0.218 0.218 0.218 ...
+##  $ Total Asset Growth Rate                                : num  4.98e+09 6.11e+09 7.28e+09 4.88e+09 5.51e+09 6.08e+08 5.72e+09 6.63e+09 6.89e+09 5.55e+09 ...
+##  $ Net Value Growth Rate                                  : num  0.000327 0.000443 0.000396 0.000382 0.000439 ...
+##  $ Total Asset Return Growth Rate Ratio                   : num  0.263 0.265 0.264 0.263 0.265 ...
+##  $ Cash Reinvestment %                                    : num  0.364 0.377 0.369 0.384 0.38 ...
+##  $ Current Ratio                                          : num  0.00226 0.00602 0.01154 0.00419 0.00602 ...
+##  $ Quick Ratio                                            : num  0.00121 0.00404 0.00535 0.0029 0.00373 ...
+##  $ Interest Expense Ratio                                 : num  0.63 0.635 0.63 0.63 0.636 ...
+##  $ Total debt/Total net worth                             : num  0.02127 0.0125 0.02125 0.00957 0.00515 ...
+##  $ Debt ratio %                                           : num  0.208 0.171 0.208 0.151 0.107 ...
+##  $ Net worth/Assets                                       : num  0.792 0.829 0.792 0.849 0.893 ...
+##  $ Long-term fund suitability ratio (A)                   : num  0.00502 0.00506 0.0051 0.00505 0.0053 ...
+##  $ Borrowing dependency                                   : num  0.39 0.377 0.379 0.38 0.375 ...
+##  $ Contingent liabilities/Net worth                       : num  0.00648 0.00584 0.00656 0.00537 0.00662 ...
+##  $ Operating profit/Paid-in capital                       : num  0.0959 0.0937 0.0923 0.0777 0.0969 ...
+##  $ Net profit before tax/Paid-in capital                  : num  0.138 0.169 0.148 0.148 0.167 ...
+##  $ Inventory and accounts receivable/Net value            : num  0.398 0.398 0.407 0.398 0.4 ...
+##  $ Total Asset Turnover                                   : num  0.087 0.0645 0.015 0.09 0.1754 ...
+##  $ Accounts Receivable Turnover                           : num  0.00181 0.00129 0.0015 0.00197 0.00145 ...
+##  $ Average Collection Days                                : num  0.00349 0.00492 0.00423 0.00321 0.00437 ...
+##  $ Inventory Turnover Rate (times)                        : num  1.82e-04 9.36e+09 6.50e+07 7.13e+09 1.63e-04 ...
+##  $ Fixed Assets Turnover Frequency                        : num  1.17e-04 7.19e+08 2.65e+09 9.15e+09 2.94e-04 ...
+##  $ Net Worth Turnover Rate (times)                        : num  0.0329 0.0255 0.0134 0.0281 0.0402 ...
+##  $ Revenue per person                                     : num  0.03416 0.00689 0.029 0.01546 0.05811 ...
+##  $ Operating profit per person                            : num  0.393 0.392 0.382 0.378 0.394 ...
+##  $ Allocation rate per person                             : num  0.0371 0.0123 0.141 0.0213 0.024 ...
+##  $ Working Capital to Total Assets                        : num  0.673 0.751 0.83 0.726 0.752 ...
+##  $ Quick Assets/Total Assets                              : num  0.167 0.127 0.34 0.162 0.26 ...
+##  $ Current Assets/Total Assets                            : num  0.191 0.182 0.603 0.226 0.358 ...
+##  $ Cash/Total Assets                                      : num  0.004094 0.014948 0.000991 0.018851 0.014161 ...
+##  $ Quick Assets/Current Liability                         : num  0.002 0.00414 0.0063 0.00296 0.00427 ...
+##  $ Cash/Current Liability                                 : num  1.47e-04 1.38e-03 5.34e+09 1.01e-03 6.80e-04 ...
+##  $ Current Liability to Assets                            : num  0.1473 0.057 0.0982 0.0987 0.1102 ...
+##  $ Operating Funds to Liability                           : num  0.334 0.341 0.337 0.349 0.345 ...
+##  $ Inventory/Working Capital                              : num  0.277 0.29 0.277 0.277 0.288 ...
+##  $ Inventory/Current Liability                            : num  0.00104 0.00521 0.01388 0.00354 0.00487 ...
+##  $ Current Liabilities/Liability                          : num  0.676 0.309 0.446 0.616 0.975 ...
+##  $ Working Capital/Equity                                 : num  0.721 0.732 0.743 0.73 0.732 ...
+##  $ Current Liabilities/Equity                             : num  0.339 0.33 0.335 0.332 0.331 ...
+##  $ Long-term Liability to Current Assets                  : num  0.02559 0.02395 0.00372 0.02217 0 ...
+##  $ Retained Earnings to Total Assets                      : num  0.903 0.931 0.91 0.907 0.914 ...
+##  $ Total income/Total expense                             : num  0.00202 0.00223 0.00206 0.00183 0.00222 ...
+##  $ Total expense/Assets                                   : num  0.0649 0.0255 0.0214 0.0242 0.0264 ...
+##  $ Current Asset Turnover Rate                            : num  7.01e+08 1.07e-04 1.79e-03 8.14e+09 6.68e+09 ...
+##  $ Quick Asset Turnover Rate                              : num  6.55e+09 7.70e+09 1.02e-03 6.05e+09 5.05e+09 ...
+##  $ Working capitcal Turnover Rate                         : num  0.594 0.594 0.595 0.594 0.594 ...
+##  $ Cash Turnover Rate                                     : num  4.58e+08 2.49e+09 7.61e+08 2.03e+09 8.24e+08 ...
+##  $ Cash Flow to Sales                                     : num  0.672 0.672 0.672 0.672 0.672 ...
+##  $ Fixed Assets to Assets                                 : num  0.424 0.469 0.276 0.559 0.31 ...
+##  $ Current Liability to Liability                         : num  0.676 0.309 0.446 0.616 0.975 ...
+##  $ Current Liability to Equity                            : num  0.339 0.33 0.335 0.332 0.331 ...
+##  $ Equity to Long-term Liability                          : num  0.127 0.121 0.118 0.121 0.111 ...
+##  $ Cash Flow to Total Assets                              : num  0.638 0.641 0.643 0.579 0.622 ...
+##  $ Cash Flow to Liability                                 : num  0.459 0.459 0.459 0.449 0.454 ...
+##  $ CFO to Assets                                          : num  0.52 0.567 0.538 0.604 0.578 ...
+##  $ Cash Flow to Equity                                    : num  0.313 0.314 0.315 0.302 0.312 ...
+##  $ Current Liability to Current Assets                    : num  0.1183 0.0478 0.0253 0.0672 0.0477 ...
+##  $ Liability-Assets Flag                                  : int  0 0 0 0 0 0 0 0 0 0 ...
+##  $ Net Income to Total Assets                             : num  0.717 0.795 0.775 0.74 0.795 ...
+##  $ Total assets to GNP price                              : num  0.00922 0.00832 0.04 0.00325 0.00388 ...
+##  $ No-credit Interval                                     : num  0.623 0.624 0.624 0.623 0.624 ...
+##  $ Gross Profit to Sales                                  : num  0.601 0.61 0.601 0.584 0.599 ...
+##  $ Net Income to Stockholder&#39;s Equity                     : num  0.828 0.84 0.837 0.835 0.84 ...
+##  $ Liability to Equity                                    : num  0.29 0.284 0.29 0.282 0.279 ...
+##  $ Degree of Financial Leverage (DFL)                     : num  0.0266 0.2646 0.0266 0.0267 0.0248 ...
+##  $ Interest Coverage Ratio (Interest expense to EBIT)     : num  0.564 0.57 0.564 0.565 0.576 ...
+##  $ Net Income Flag                                        : int  1 1 1 1 1 1 1 1 1 1 ...
+##  $ Equity to Liability                                    : num  0.0165 0.0208 0.0165 0.024 0.0355 ...</code></pre>
+<blockquote>
+<p>El dataset tiene 6.819 empresas y 96 columnas (95 ratios financieros + la variable
+objetivo). Casi todas las columnas son numéricas (<code>double</code>), salvo <code>Bankrupt?</code>,
+<code>Liability-Assets Flag</code> y <code>Net Income Flag</code>, que están guardadas como enteros pero
+en realidad son variables categóricas binarias (0/1), no cantidades.</p>
+</blockquote>
+</div>
+<div id="tipo-de-problema-target-y-features" class="section level2 hasAnchor" number="2.3">
+<h2><span class="header-section-number">2.3</span> Tipo de problema, target y features<a href="carga-y-preparación-inicial.html#tipo-de-problema-target-y-features" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="carga-y-preparación-inicial.html#cb14-1" tabindex="-1"></a>cat_vars <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;Liability-Assets Flag&quot;</span>, <span class="st">&quot;Net Income Flag&quot;</span>)</span>
+<span id="cb14-2"><a href="carga-y-preparación-inicial.html#cb14-2" tabindex="-1"></a>num_vars <span class="ot">&lt;-</span> <span class="fu">setdiff</span>(<span class="fu">names</span>(df), <span class="fu">c</span>(cat_vars, TARGET))</span>
+<span id="cb14-3"><a href="carga-y-preparación-inicial.html#cb14-3" tabindex="-1"></a></span>
+<span id="cb14-4"><a href="carga-y-preparación-inicial.html#cb14-4" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;Variable objetivo:&quot;</span>, TARGET, <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>)</span></code></pre></div>
+<pre><code>## Variable objetivo: Bankrupt?</code></pre>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="carga-y-preparación-inicial.html#cb16-1" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;Valores únicos del target:&quot;</span>, <span class="fu">paste</span>(<span class="fu">sort</span>(<span class="fu">unique</span>(df[[TARGET]])), <span class="at">collapse =</span> <span class="st">&quot;, &quot;</span>), <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>)</span></code></pre></div>
+<pre><code>## Valores únicos del target: 0, 1</code></pre>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="carga-y-preparación-inicial.html#cb18-1" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;</span><span class="sc">\n</span><span class="st">Tipo de problema: CLASIFICACIÓN BINARIA</span><span class="sc">\n</span><span class="st">&quot;</span>)</span></code></pre></div>
+<pre><code>## 
+## Tipo de problema: CLASIFICACIÓN BINARIA</code></pre>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="carga-y-preparación-inicial.html#cb20-1" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;(el target solo toma dos valores: 0 = no quebró, 1 = quebró)</span><span class="sc">\n</span><span class="st">&quot;</span>)</span></code></pre></div>
+<pre><code>## (el target solo toma dos valores: 0 = no quebró, 1 = quebró)</code></pre>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="carga-y-preparación-inicial.html#cb22-1" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;</span><span class="sc">\n</span><span class="st">Variables predictoras numéricas:&quot;</span>, <span class="fu">length</span>(num_vars), <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>)</span></code></pre></div>
+<pre><code>## 
+## Variables predictoras numéricas: 93</code></pre>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="carga-y-preparación-inicial.html#cb24-1" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;Variables predictoras categóricas (flags 0/1):&quot;</span>, <span class="fu">length</span>(cat_vars),</span>
+<span id="cb24-2"><a href="carga-y-preparación-inicial.html#cb24-2" tabindex="-1"></a>    <span class="st">&quot;-&gt;&quot;</span>, <span class="fu">paste</span>(cat_vars, <span class="at">collapse =</span> <span class="st">&quot;, &quot;</span>), <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>)</span></code></pre></div>
+<pre><code>## Variables predictoras categóricas (flags 0/1): 2 -&gt; Liability-Assets Flag, Net Income Flag</code></pre>
+</div>
+<div id="división-train-test" class="section level2 hasAnchor" number="2.4">
+<h2><span class="header-section-number">2.4</span> División train / test<a href="carga-y-preparación-inicial.html#divisi%C3%B3n-train-test" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Antes de explorar los datos a fondo, separamos un conjunto de prueba (<code>test</code>) que se
+reserva para la evaluación final del modelo. <strong>A partir de aquí, todo el EDA se hace
+usando exclusivamente <code>train</code>.</strong> El conjunto <code>test</code> no se grafica, no se describe y no
+influye en ninguna decisión de este análisis.</p>
+<p>Como el target está muy desbalanceado (pocas empresas quebradas), usamos partición
+<strong>estratificada</strong> (<code>createDataPartition()</code> de <code>caret</code>, equivalente al
+<code>stratify=y</code> de <code>sklearn</code>) para que la proporción de empresas quebradas sea la
+misma en <code>train</code> y en <code>test</code>.</p>
+<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="carga-y-preparación-inicial.html#cb26-1" tabindex="-1"></a><span class="fu">set.seed</span>(RANDOM_STATE)</span>
+<span id="cb26-2"><a href="carga-y-preparación-inicial.html#cb26-2" tabindex="-1"></a></span>
+<span id="cb26-3"><a href="carga-y-preparación-inicial.html#cb26-3" tabindex="-1"></a>idx_train <span class="ot">&lt;-</span> <span class="fu">createDataPartition</span>(df[[TARGET]], <span class="at">p =</span> <span class="fl">0.8</span>, <span class="at">list =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb26-4"><a href="carga-y-preparación-inicial.html#cb26-4" tabindex="-1"></a>train_df  <span class="ot">&lt;-</span> df[idx_train, ]</span>
+<span id="cb26-5"><a href="carga-y-preparación-inicial.html#cb26-5" tabindex="-1"></a>test_df   <span class="ot">&lt;-</span> df[<span class="sc">-</span>idx_train, ]</span>
+<span id="cb26-6"><a href="carga-y-preparación-inicial.html#cb26-6" tabindex="-1"></a></span>
+<span id="cb26-7"><a href="carga-y-preparación-inicial.html#cb26-7" tabindex="-1"></a><span class="fu">cat</span>(<span class="fu">sprintf</span>(<span class="st">&quot;Observaciones en train: %d (%.1f%%)</span><span class="sc">\n</span><span class="st">&quot;</span>,</span>
+<span id="cb26-8"><a href="carga-y-preparación-inicial.html#cb26-8" tabindex="-1"></a>            <span class="fu">nrow</span>(train_df), <span class="fu">nrow</span>(train_df) <span class="sc">/</span> <span class="fu">nrow</span>(df) <span class="sc">*</span> <span class="dv">100</span>))</span></code></pre></div>
+<pre><code>## Observaciones en train: 5456 (80.0%)</code></pre>
+<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="carga-y-preparación-inicial.html#cb28-1" tabindex="-1"></a><span class="fu">cat</span>(<span class="fu">sprintf</span>(<span class="st">&quot;Observaciones en test:  %d (%.1f%%)</span><span class="sc">\n</span><span class="st">&quot;</span>,</span>
+<span id="cb28-2"><a href="carga-y-preparación-inicial.html#cb28-2" tabindex="-1"></a>            <span class="fu">nrow</span>(test_df), <span class="fu">nrow</span>(test_df) <span class="sc">/</span> <span class="fu">nrow</span>(df) <span class="sc">*</span> <span class="dv">100</span>))</span></code></pre></div>
+<pre><code>## Observaciones en test:  1363 (20.0%)</code></pre>
+<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="carga-y-preparación-inicial.html#cb30-1" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;</span><span class="sc">\n</span><span class="st">Proporción de la clase &#39;Quiebra&#39; en cada conjunto&quot;</span>,</span>
+<span id="cb30-2"><a href="carga-y-preparación-inicial.html#cb30-2" tabindex="-1"></a>    <span class="st">&quot;(debe ser similar por la estratificación):</span><span class="sc">\n</span><span class="st">&quot;</span>)</span></code></pre></div>
+<pre><code>## 
+## Proporción de la clase &#39;Quiebra&#39; en cada conjunto (debe ser similar por la estratificación):</code></pre>
+<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb32-1"><a href="carga-y-preparación-inicial.html#cb32-1" tabindex="-1"></a><span class="fu">cat</span>(<span class="fu">sprintf</span>(<span class="st">&quot;  Train: %.2f%%</span><span class="sc">\n</span><span class="st">&quot;</span>, <span class="fu">mean</span>(train_df[[TARGET]]) <span class="sc">*</span> <span class="dv">100</span>))</span></code></pre></div>
+<pre><code>##   Train: 3.43%</code></pre>
+<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb34-1"><a href="carga-y-preparación-inicial.html#cb34-1" tabindex="-1"></a><span class="fu">cat</span>(<span class="fu">sprintf</span>(<span class="st">&quot;  Test:  %.2f%%</span><span class="sc">\n</span><span class="st">&quot;</span>, <span class="fu">mean</span>(test_df[[TARGET]]) <span class="sc">*</span> <span class="dv">100</span>))</span></code></pre></div>
+<pre><code>##   Test:  2.42%</code></pre>
+<blockquote>
+<p>De aquí en adelante trabajamos solo con las empresas de <code>train</code>. Las empresas de
+<code>test</code> quedan guardadas y no se vuelven a mirar hasta que haya un modelo entrenado.
+La estratificación aseguró que el porcentaje de empresas quebradas sea prácticamente
+igual en ambos conjuntos.</p>
+</blockquote>
+
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="contexto.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="calidad-de-los-datos-sobre-train.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+  "sharing": {
+    "github": false,
+    "facebook": false,
+    "twitter": false,
+    "linkedin": false,
+    "weibo": false,
+    "instapaper": false,
+    "vk": false,
+    "whatsapp": false,
+    "all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+  },
+  "fontsettings": {
+    "theme": "white",
+    "family": "sans",
+    "size": 2
+  },
+  "edit": {
+    "link": null,
+    "text": null
+  },
+  "history": {
+    "link": null,
+    "text": null
+  },
+  "view": {
+    "link": null,
+    "text": null
+  },
+  "download": null,
+  "search": {
+    "engine": "fuse",
+    "options": null
+  },
+  "toc": {
+    "collapse": "section"
+  }
+});
+});
+</script>
+
+</body>
+
+</html>
