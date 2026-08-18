@@ -1,0 +1,138 @@
+# Carga y preparación inicial
+
+## Librerías y configuración visual
+
+```{r setup-libs, message=FALSE, warning=FALSE}
+# Si te falta algún paquete, instálalo una vez con:
+# install.packages(c("tidyverse","caret","randomForest","e1071",
+#                     "ggcorrplot","scales","knitr","kableExtra","patchwork"))
+
+library(tidyverse)
+library(caret)          # createDataPartition, nearZeroVar
+library(randomForest)   # Random Forest exploratorio
+library(e1071)          # skewness()
+library(ggcorrplot)     # heatmap de correlación
+library(scales)         # comma(), percent()
+library(knitr)          # kable()
+library(kableExtra)     # tablas con mejor formato
+library(patchwork)      # combinar varios ggplot en una cuadrícula
+
+RANDOM_STATE <- 42
+set.seed(RANDOM_STATE)
+
+# --- Paleta de colores del proyecto (igual a custom.css) ---
+COLOR_MAIN   <- "#1B4F72"   # azul oscuro -> gráficos de una sola serie
+COLOR_ACCENT <- "#2980B9"   # azul acento -> segundo color de apoyo
+COLOR_RISK   <- "#E4572E"   # naranja/rojo -> quiebra / riesgo
+
+TARGET_COLORS <- c("0" = COLOR_MAIN, "1" = COLOR_RISK)
+TARGET_LABELS <- c("0" = "No quiebra", "1" = "Quiebra")
+
+# Tema ggplot reutilizable en todo el libro
+tema_eda <- theme_minimal(base_size = 12) +
+  theme(
+    plot.title    = element_text(face = "bold", size = 13, color = COLOR_MAIN, hjust = 0),
+    plot.subtitle = element_text(color = "grey40"),
+    panel.grid.minor = element_blank(),
+    axis.title = element_text(size = 10),
+    legend.position = "none"
+  )
+
+theme_set(tema_eda)
+```
+
+## Carga del dataset
+
+```{r cargar-datos}
+# Ajusta esta ruta a donde tengas el CSV dentro de tu proyecto
+# (recomendado: carpeta data/ dentro del proyecto de RStudio)
+df <- read.csv("data/data.csv", check.names = FALSE, stringsAsFactors = FALSE)
+
+# Limpiar nombres de columnas (eliminar espacios extra)
+names(df) <- trimws(names(df))
+
+# Verificar la variable objetivo
+TARGET <- "Bankrupt?"
+if (!(TARGET %in% names(df))) {
+  posibles_target <- names(df)[str_detect(str_to_lower(names(df)), "bankrupt")]
+  if (length(posibles_target) > 0) {
+    TARGET <- posibles_target[1]
+    cat("Variable objetivo detectada automáticamente:", TARGET, "\n")
+  }
+}
+
+cat("Dimensiones del dataset completo:", nrow(df), "filas x", ncol(df), "columnas\n")
+```
+
+```{r vista-datos}
+head(df)
+```
+
+```{r vista-datos-tail}
+tail(df)
+```
+
+```{r columnas}
+cat("Columnas del dataset:\n")
+print(names(df))
+```
+
+```{r estructura}
+str(df)
+```
+
+> El dataset tiene 6.819 empresas y 96 columnas (95 ratios financieros + la variable
+> objetivo). Casi todas las columnas son numéricas (`double`), salvo `Bankrupt?`,
+> `Liability-Assets Flag` y `Net Income Flag`, que están guardadas como enteros pero
+> en realidad son variables categóricas binarias (0/1), no cantidades.
+
+## Tipo de problema, target y features
+
+```{r tipo-problema}
+cat_vars <- c("Liability-Assets Flag", "Net Income Flag")
+num_vars <- setdiff(names(df), c(cat_vars, TARGET))
+
+cat("Variable objetivo:", TARGET, "\n")
+cat("Valores únicos del target:", paste(sort(unique(df[[TARGET]])), collapse = ", "), "\n")
+cat("\nTipo de problema: CLASIFICACIÓN BINARIA\n")
+cat("(el target solo toma dos valores: 0 = no quebró, 1 = quebró)\n")
+
+cat("\nVariables predictoras numéricas:", length(num_vars), "\n")
+cat("Variables predictoras categóricas (flags 0/1):", length(cat_vars),
+    "->", paste(cat_vars, collapse = ", "), "\n")
+```
+
+## División train / test
+
+Antes de explorar los datos a fondo, separamos un conjunto de prueba (`test`) que se
+reserva para la evaluación final del modelo. **A partir de aquí, todo el EDA se hace
+usando exclusivamente `train`.** El conjunto `test` no se grafica, no se describe y no
+influye en ninguna decisión de este análisis.
+
+Como el target está muy desbalanceado (pocas empresas quebradas), usamos partición
+**estratificada** (`createDataPartition()` de `caret`, equivalente al
+`stratify=y` de `sklearn`) para que la proporción de empresas quebradas sea la
+misma en `train` y en `test`.
+
+```{r train-test-split}
+set.seed(RANDOM_STATE)
+
+idx_train <- createDataPartition(df[[TARGET]], p = 0.8, list = FALSE)
+train_df  <- df[idx_train, ]
+test_df   <- df[-idx_train, ]
+
+cat(sprintf("Observaciones en train: %d (%.1f%%)\n",
+            nrow(train_df), nrow(train_df) / nrow(df) * 100))
+cat(sprintf("Observaciones en test:  %d (%.1f%%)\n",
+            nrow(test_df), nrow(test_df) / nrow(df) * 100))
+
+cat("\nProporción de la clase 'Quiebra' en cada conjunto",
+    "(debe ser similar por la estratificación):\n")
+cat(sprintf("  Train: %.2f%%\n", mean(train_df[[TARGET]]) * 100))
+cat(sprintf("  Test:  %.2f%%\n", mean(test_df[[TARGET]]) * 100))
+```
+
+> De aquí en adelante trabajamos solo con las empresas de `train`. Las empresas de
+> `test` quedan guardadas y no se vuelven a mirar hasta que haya un modelo entrenado.
+> La estratificación aseguró que el porcentaje de empresas quebradas sea prácticamente
+> igual en ambos conjuntos.

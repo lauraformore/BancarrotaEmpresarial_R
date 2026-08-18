@@ -1,0 +1,56 @@
+# Conclusiones del EDA
+
+1. **Estructura del dataset:** `train` tiene alrededor de 5.455 empresas y 95
+   variables predictoras (93 numéricas + 2 flags binarios), más el target
+   `Bankrupt?`.
+
+2. **Calidad de los datos:** no hay valores nulos ni filas duplicadas en `train`, lo
+   cual facilita el modelado. `Net Income Flag` es (casi) constante y no aporta
+   información — candidata a eliminarse.
+
+3. **Desbalance del target:** el problema es de clasificación binaria con un
+   desbalance fuerte (aproximadamente 20-30 empresas sanas por cada empresa
+   quebrada). Esto obliga a usar métricas distintas al accuracy y a considerar
+   técnicas de balanceo en el modelado, no en el EDA.
+
+4. **Sesgo y outliers:** varias variables financieras tienen sesgo alto y un
+   porcentaje considerable de outliers según IQR. No parecen errores de captura, sino
+   comportamientos extremos reales de algunas empresas, por lo que su tratamiento
+   (transformación, winsorizing, o dejarlos igual) debe decidirse con cuidado más
+   adelante.
+
+5. **Variables relevantes:** según Random Forest y correlación con el target, las
+   variables de **rentabilidad** (ROA, utilidad neta sobre patrimonio) y de
+   **endeudamiento** son las que más distinguen a las empresas que quiebran de las
+   que no.
+
+6. **Multicolinealidad:** existen varias versiones muy parecidas del mismo indicador
+   (por ejemplo, distintas formas de calcular ROA), altamente correlacionadas entre
+   sí. No se eliminó ninguna en esta etapa, pero es algo a tener en cuenta si se usa
+   un modelo lineal.
+
+7. **`Liability-Assets Flag`:** tiene muy pocos casos con valor 1, pero ese grupo
+   pequeño concentra una proporción de quiebra más alta. Vale la pena conservarla
+   para el modelo pese a su baja cardinalidad.
+
+## Problemas identificados para la etapa de preprocesamiento
+
+- **`Net Income Flag`** es (casi) constante en todo el dataset: evaluar si eliminarla
+  antes de entrenar el modelo.
+- **Escalas muy distintas entre variables:** será necesario estandarizar/normalizar
+  dentro del pipeline (ajustando el escalador solo con `train` y aplicándolo después
+  a `test` — por ejemplo con `caret::preProcess()`).
+- **Variables con sesgo alto y muchos outliers:** decidir si se transforman (por
+  ejemplo, con logaritmo), se recortan (winsorizing) o se dejan igual, y documentar la
+  razón.
+- **Multicolinealidad entre variantes de ROA y otros indicadores:** considerar
+  selección de variables (`caret::findCorrelation()`) o técnicas de regularización si
+  se usa un modelo lineal.
+- **Desbalance de clases (~3% quebradas):** aplicar técnicas de balanceo (por
+  ejemplo, `class weights` en `randomForest`, o sobre/submuestreo con paquetes como
+  `ROSE` o `smotefamily`) solo sobre `train`, y elegir métricas de evaluación
+  adecuadas para clases desbalanceadas (recall, F1, AUC-PR) en lugar de accuracy.
+- **`Liability-Assets Flag` con muy pocos casos positivos:** vigilar que la partición
+  train/test (ya estratificada por el target) no deje casos demasiado escasos de este
+  flag en algún fold si más adelante se usa validación cruzada
+  (`caret::createFolds()`).

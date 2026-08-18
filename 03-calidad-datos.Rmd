@@ -1,0 +1,41 @@
+# Calidad de los datos (sobre `train`)
+
+## Valores nulos
+
+```{r nulos}
+nulos <- colSums(is.na(train_df))
+nulos <- nulos[nulos > 0]
+
+if (length(nulos) == 0) {
+  cat("No se encontraron valores nulos en train.\n")
+} else {
+  cat("Se encontraron", length(nulos), "columnas con valores nulos:\n")
+  print(nulos)
+}
+```
+
+Ninguna empresa de `train` tiene información faltante en sus estados financieros.
+
+## Filas duplicadas
+
+```{r duplicados}
+duplicados <- sum(duplicated(train_df))
+cat("Filas duplicadas en train:", duplicados, "\n")
+```
+
+No hay filas repetidas en `train`, así que no es necesario eliminar duplicados.
+
+## Variables categóricas y cardinalidad
+
+```{r categoricas}
+for (c in cat_vars) {
+  print(table(train_df[[c]]))
+  cat("Cardinalidad:", length(unique(train_df[[c]])), "valores únicos\n\n")
+}
+```
+
+> `Net Income Flag` vale 1 para prácticamente el 100% de las empresas en `train`, es
+> decir, no importa si una empresa quebró o no, casi siempre tiene el mismo valor (1).
+> Por lo tanto, es una variable (casi) constante y sería una candidata clara para
+> eliminar antes del modelado. `Liability-Assets Flag` sí varía, aunque muy poco. Vale
+> la pena revisarla más adelante junto al target, en la sección de análisis bivariado.

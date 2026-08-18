@@ -1,0 +1,13 @@
+bookdown::gitbook:
+  css: custom.css
+  config:
+    toc:
+      collapse: section
+      before: |
+        <li><strong>Predicción de Bancarrota Empresarial</strong></li>
+      after: |
+        <li><a href="https://github.com/lauraformore" target="_blank">Universidad del Norte</a></li>
+    download: no
+    sharing:
+      facebook: no
+      twitter: no

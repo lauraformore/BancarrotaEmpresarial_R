@@ -1,0 +1,20 @@
+# Contexto
+
+Antes de entrar en el análisis, esta sección explica el dataset y los conceptos
+financieros necesarios para entender el resto del libro.
+
+## ¿Qué es este dataset?
+
+Los datos provienen del **Taiwan Economic Journal** (1999–2009) y contienen indicadores
+financieros anuales de empresas que cotizan en la Bolsa de Taiwán. Una empresa se marca
+como **"quebrada" (Bankrupt = 1)** cuando entró en proceso de bancarrota según la
+normativa de esa bolsa; el resto (Bankrupt = 0) siguió operando con normalidad.
+
+El objetivo es predecir, a partir de razones financieras (ratios), si una empresa
+está en riesgo de quebrar.
+
+## ¿Qué es un "ratio" financiero?
+
+Es una relación entre dos cifras del estado financiero de una empresa (por ejemplo,
+utilidad entre activos) que permite comparar empresas de tamaños distintos en una
+misma escala. El dataset tiene 95 ratios de este tipo, todos ya calculados.

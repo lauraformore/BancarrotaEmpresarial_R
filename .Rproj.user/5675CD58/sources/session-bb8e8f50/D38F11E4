@@ -1,0 +1,26 @@
+{
+    "id": "D38F11E4",
+    "path": "~/Company_Bankruptcy_Prediction/R/Predicción de Bancarrota Empresarial/02-carga-preparacion.Rmd",
+    "project_path": "02-carga-preparacion.Rmd",
+    "type": "r_markdown",
+    "hash": "3383867359",
+    "contents": "",
+    "dirty": false,
+    "created": 1787029807674.0,
+    "source_on_save": false,
+    "relative_order": 6,
+    "properties": {
+        "source_window_id": "",
+        "Source": "Source",
+        "cursorPosition": "48,29",
+        "scrollLine": "44"
+    },
+    "folds": "",
+    "lastKnownWriteTime": 1787030298,
+    "encoding": "UTF-8",
+    "collab_server": "",
+    "source_window": "",
+    "last_content_update": 1787030298058,
+    "read_only": false,
+    "read_only_alternatives": []
+}

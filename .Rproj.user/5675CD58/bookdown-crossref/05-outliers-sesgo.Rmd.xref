@@ -1,0 +1,5 @@
+h1:análisis-de-outliers-y-sesgo-sobre-train Análisis de outliers y sesgo (sobre )
+h2:top-10-variables-con-mayor-sesgo-en-valor-absoluto-train Top 10 variables con mayor sesgo, en valor absoluto (train)
+h2:boxplots-de-las-variables-más-sesgadas Boxplots de las variables más sesgadas
+h2:top-15-variables-con-más-outliers-regla-iqr Top 15 variables con más outliers (regla IQR)
+
