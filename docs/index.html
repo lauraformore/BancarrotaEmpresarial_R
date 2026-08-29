@@ -5,19 +5,19 @@
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Análisis Exploratorio de Datos (EDA)</title>
-  <meta name="description" content="EDA sobre indicadores financieros de empresas taiwanesas, orientado a la construcción de un modelo predictivo de quiebra empresarial." />
+  <meta name="description" content="Análisis Exploratorio de Datos (EDA)" />
   <meta name="generator" content="bookdown 0.47 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Análisis Exploratorio de Datos (EDA)" />
   <meta property="og:type" content="book" />
   
-  <meta property="og:description" content="EDA sobre indicadores financieros de empresas taiwanesas, orientado a la construcción de un modelo predictivo de quiebra empresarial." />
+  
   
 
   <meta name="twitter:card" content="summary" />
   <meta name="twitter:title" content="Análisis Exploratorio de Datos (EDA)" />
   
-  <meta name="twitter:description" content="EDA sobre indicadores financieros de empresas taiwanesas, orientado a la construcción de un modelo predictivo de quiebra empresarial." />
+  
   
 
 <meta name="author" content="Laura Rivera · Natalý Cárdenas — Universidad del Norte" />
@@ -144,56 +144,52 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li><strong>Predicción de Bancarrota Empresarial</strong></li>
 
 <li class="divider"></li>
-<li class="chapter" data-level="" data-path=""><a href="#predicci%C3%B3n-de-quiebra-empresarial---dataset-de-taiw%C3%A1n"><i class="fa fa-check"></i>Predicción de Quiebra Empresarial - Dataset de Taiwán</a>
+<li class="chapter" data-level="1" data-path=""><a href="#contexto"><i class="fa fa-check"></i><b>1</b> Contexto</a>
 <ul>
-<li class="chapter" data-level="" data-path=""><a href="#an%C3%A1lisis-exploratorio-de-datos-eda"><i class="fa fa-check"></i>Análisis Exploratorio de Datos (EDA)</a></li>
-<li class="chapter" data-level="0.1" data-path=""><a href="#contexto"><i class="fa fa-check"></i><b>0.1</b> Contexto</a>
-<ul>
-<li class="chapter" data-level="0.1.1" data-path=""><a href="#qu%C3%A9-es-este-dataset"><i class="fa fa-check"></i><b>0.1.1</b> ¿Qué es este dataset?</a></li>
-<li class="chapter" data-level="0.1.2" data-path=""><a href="#qu%C3%A9-es-un-ratio-financiero"><i class="fa fa-check"></i><b>0.1.2</b> ¿Qué es un “ratio” financiero?</a></li>
+<li class="chapter" data-level="1.1" data-path=""><a href="#qu%C3%A9-es-este-dataset"><i class="fa fa-check"></i><b>1.1</b> ¿Qué es este dataset?</a></li>
+<li class="chapter" data-level="1.2" data-path=""><a href="#qu%C3%A9-es-un-ratio-financiero"><i class="fa fa-check"></i><b>1.2</b> ¿Qué es un “ratio” financiero?</a></li>
 </ul></li>
-<li class="chapter" data-level="0.2" data-path=""><a href="#carga-y-preparaci%C3%B3n-inicial"><i class="fa fa-check"></i><b>0.2</b> Carga y preparación inicial</a>
+<li class="chapter" data-level="2" data-path=""><a href="#carga-y-preparaci%C3%B3n-inicial"><i class="fa fa-check"></i><b>2</b> Carga y preparación inicial</a>
 <ul>
-<li class="chapter" data-level="0.2.1" data-path=""><a href="#librer%C3%ADas-y-configuraci%C3%B3n-visual"><i class="fa fa-check"></i><b>0.2.1</b> Librerías y configuración visual</a></li>
-<li class="chapter" data-level="0.2.2" data-path=""><a href="#carga-del-dataset"><i class="fa fa-check"></i><b>0.2.2</b> Carga del dataset</a></li>
-<li class="chapter" data-level="0.2.3" data-path=""><a href="#tipo-de-problema-target-y-features"><i class="fa fa-check"></i><b>0.2.3</b> Tipo de problema, target y features</a></li>
-<li class="chapter" data-level="0.2.4" data-path=""><a href="#divisi%C3%B3n-train-test"><i class="fa fa-check"></i><b>0.2.4</b> División train / test</a></li>
-<li class="chapter" data-level="0.2.5" data-path=""><a href="#persistencia-del-split-para-las-etapas-posteriores"><i class="fa fa-check"></i><b>0.2.5</b> Persistencia del split para las etapas posteriores</a></li>
+<li class="chapter" data-level="2.1" data-path=""><a href="#librer%C3%ADas-y-configuraci%C3%B3n-visual"><i class="fa fa-check"></i><b>2.1</b> Librerías y configuración visual</a></li>
+<li class="chapter" data-level="2.2" data-path=""><a href="#carga-del-dataset"><i class="fa fa-check"></i><b>2.2</b> Carga del dataset</a></li>
+<li class="chapter" data-level="2.3" data-path=""><a href="#tipo-de-problema-target-y-features"><i class="fa fa-check"></i><b>2.3</b> Tipo de problema, target y features</a></li>
+<li class="chapter" data-level="2.4" data-path=""><a href="#divisi%C3%B3n-train-test"><i class="fa fa-check"></i><b>2.4</b> División train / test</a></li>
+<li class="chapter" data-level="2.5" data-path=""><a href="#persistencia-del-split-para-las-etapas-posteriores"><i class="fa fa-check"></i><b>2.5</b> Persistencia del split para las etapas posteriores</a></li>
 </ul></li>
-<li class="chapter" data-level="0.3" data-path=""><a href="#calidad-de-los-datos-sobre-train"><i class="fa fa-check"></i><b>0.3</b> Calidad de los datos (sobre <code>train</code>)</a>
+<li class="chapter" data-level="3" data-path=""><a href="#calidad-de-los-datos-sobre-train"><i class="fa fa-check"></i><b>3</b> Calidad de los datos (sobre <code>train</code>)</a>
 <ul>
-<li class="chapter" data-level="0.3.1" data-path=""><a href="#valores-nulos"><i class="fa fa-check"></i><b>0.3.1</b> Valores nulos</a></li>
-<li class="chapter" data-level="0.3.2" data-path=""><a href="#filas-duplicadas"><i class="fa fa-check"></i><b>0.3.2</b> Filas duplicadas</a></li>
-<li class="chapter" data-level="0.3.3" data-path=""><a href="#variables-categ%C3%B3ricas-y-cardinalidad"><i class="fa fa-check"></i><b>0.3.3</b> Variables categóricas y cardinalidad</a></li>
+<li class="chapter" data-level="3.1" data-path=""><a href="#valores-nulos"><i class="fa fa-check"></i><b>3.1</b> Valores nulos</a></li>
+<li class="chapter" data-level="3.2" data-path=""><a href="#filas-duplicadas"><i class="fa fa-check"></i><b>3.2</b> Filas duplicadas</a></li>
+<li class="chapter" data-level="3.3" data-path=""><a href="#variables-categ%C3%B3ricas-y-cardinalidad"><i class="fa fa-check"></i><b>3.3</b> Variables categóricas y cardinalidad</a></li>
 </ul></li>
-<li class="chapter" data-level="0.4" data-path=""><a href="#an%C3%A1lisis-univariado-sobre-train"><i class="fa fa-check"></i><b>0.4</b> Análisis univariado (sobre <code>train</code>)</a>
+<li class="chapter" data-level="4" data-path=""><a href="#an%C3%A1lisis-univariado-sobre-train"><i class="fa fa-check"></i><b>4</b> Análisis univariado (sobre <code>train</code>)</a>
 <ul>
-<li class="chapter" data-level="0.4.1" data-path=""><a href="#estad%C3%ADsticas-descriptivas"><i class="fa fa-check"></i><b>0.4.1</b> Estadísticas descriptivas</a></li>
-<li class="chapter" data-level="0.4.2" data-path=""><a href="#variables-con-varianza-cercana-a-cero"><i class="fa fa-check"></i><b>0.4.2</b> Variables con varianza cercana a cero</a></li>
-<li class="chapter" data-level="0.4.3" data-path=""><a href="#gr%C3%A1ficas"><i class="fa fa-check"></i><b>0.4.3</b> Gráficas</a></li>
-<li class="chapter" data-level="0.4.4" data-path=""><a href="#distribuci%C3%B3n-de-la-variable-objetivo"><i class="fa fa-check"></i><b>0.4.4</b> Distribución de la variable objetivo</a></li>
+<li class="chapter" data-level="4.1" data-path=""><a href="#estad%C3%ADsticas-descriptivas"><i class="fa fa-check"></i><b>4.1</b> Estadísticas descriptivas</a></li>
+<li class="chapter" data-level="4.2" data-path=""><a href="#variables-con-varianza-cercana-a-cero"><i class="fa fa-check"></i><b>4.2</b> Variables con varianza cercana a cero</a></li>
+<li class="chapter" data-level="4.3" data-path=""><a href="#gr%C3%A1ficas"><i class="fa fa-check"></i><b>4.3</b> Gráficas</a></li>
+<li class="chapter" data-level="4.4" data-path=""><a href="#distribuci%C3%B3n-de-la-variable-objetivo"><i class="fa fa-check"></i><b>4.4</b> Distribución de la variable objetivo</a></li>
 </ul></li>
-<li class="chapter" data-level="0.5" data-path=""><a href="#an%C3%A1lisis-de-outliers-y-sesgo-sobre-train"><i class="fa fa-check"></i><b>0.5</b> Análisis de outliers y sesgo (sobre <code>train</code>)</a>
+<li class="chapter" data-level="5" data-path=""><a href="#an%C3%A1lisis-de-outliers-y-sesgo-sobre-train"><i class="fa fa-check"></i><b>5</b> Análisis de outliers y sesgo (sobre <code>train</code>)</a>
 <ul>
-<li class="chapter" data-level="0.5.1" data-path=""><a href="#top-10-variables-con-mayor-sesgo-en-valor-absoluto-train"><i class="fa fa-check"></i><b>0.5.1</b> Top 10 variables con mayor sesgo, en valor absoluto (train)</a></li>
-<li class="chapter" data-level="0.5.2" data-path=""><a href="#boxplots-de-las-variables-m%C3%A1s-sesgadas"><i class="fa fa-check"></i><b>0.5.2</b> Boxplots de las variables más sesgadas</a></li>
-<li class="chapter" data-level="0.5.3" data-path=""><a href="#top-15-variables-con-m%C3%A1s-outliers-regla-iqr"><i class="fa fa-check"></i><b>0.5.3</b> Top 15 variables con más outliers (regla IQR)</a></li>
+<li class="chapter" data-level="5.1" data-path=""><a href="#top-10-variables-con-mayor-sesgo-en-valor-absoluto-train"><i class="fa fa-check"></i><b>5.1</b> Top 10 variables con mayor sesgo, en valor absoluto (train)</a></li>
+<li class="chapter" data-level="5.2" data-path=""><a href="#boxplots-de-las-variables-m%C3%A1s-sesgadas"><i class="fa fa-check"></i><b>5.2</b> Boxplots de las variables más sesgadas</a></li>
+<li class="chapter" data-level="5.3" data-path=""><a href="#top-15-variables-con-m%C3%A1s-outliers-regla-iqr"><i class="fa fa-check"></i><b>5.3</b> Top 15 variables con más outliers (regla IQR)</a></li>
 </ul></li>
-<li class="chapter" data-level="0.6" data-path=""><a href="#an%C3%A1lisis-bivariado-variables-vs.-objetivo-sobre-train"><i class="fa fa-check"></i><b>0.6</b> Análisis bivariado: variables vs. objetivo (sobre <code>train</code>)</a>
+<li class="chapter" data-level="6" data-path=""><a href="#an%C3%A1lisis-bivariado-variables-vs.-objetivo-sobre-train"><i class="fa fa-check"></i><b>6</b> Análisis bivariado: variables vs. objetivo (sobre <code>train</code>)</a>
 <ul>
-<li class="chapter" data-level="0.6.1" data-path=""><a href="#variables-m%C3%A1s-importantes-seg%C3%BAn-random-forest"><i class="fa fa-check"></i><b>0.6.1</b> Variables más importantes según Random Forest</a></li>
-<li class="chapter" data-level="0.6.2" data-path=""><a href="#variables-m%C3%A1s-importantes-vs.-objetivo"><i class="fa fa-check"></i><b>0.6.2</b> Variables más importantes vs. objetivo</a></li>
-<li class="chapter" data-level="0.6.3" data-path=""><a href="#comparaci%C3%B3n-bivariada-de-las-93-variables-num%C3%A9ricas"><i class="fa fa-check"></i><b>0.6.3</b> Comparación bivariada de las 93 variables numéricas</a></li>
-<li class="chapter" data-level="0.6.4" data-path=""><a href="#inferencia-estad%C3%ADstica-variables-num%C3%A9ricas-vs.-objetivo"><i class="fa fa-check"></i><b>0.6.4</b> Inferencia estadística: variables numéricas vs. objetivo</a></li>
-<li class="chapter" data-level="0.6.5" data-path=""><a href="#liability-assets-flag-vs.-objetivo"><i class="fa fa-check"></i><b>0.6.5</b> <code>Liability-Assets Flag</code> vs. objetivo</a></li>
-<li class="chapter" data-level="0.6.6" data-path=""><a href="#inferencia-estad%C3%ADstica-variables-categ%C3%B3ricas-vs.-objetivo"><i class="fa fa-check"></i><b>0.6.6</b> Inferencia estadística: variables categóricas vs. objetivo</a></li>
-<li class="chapter" data-level="0.6.7" data-path=""><a href="#correlaciones-con-la-variable-objetivo"><i class="fa fa-check"></i><b>0.6.7</b> Correlaciones con la variable objetivo</a></li>
-<li class="chapter" data-level="0.6.8" data-path=""><a href="#matriz-de-correlaci%C3%B3n-de-las-variables-m%C3%A1s-importantes"><i class="fa fa-check"></i><b>0.6.8</b> Matriz de correlación de las variables más importantes</a></li>
+<li class="chapter" data-level="6.1" data-path=""><a href="#variables-m%C3%A1s-importantes-seg%C3%BAn-random-forest"><i class="fa fa-check"></i><b>6.1</b> Variables más importantes según Random Forest</a></li>
+<li class="chapter" data-level="6.2" data-path=""><a href="#variables-m%C3%A1s-importantes-vs.-objetivo"><i class="fa fa-check"></i><b>6.2</b> Variables más importantes vs. objetivo</a></li>
+<li class="chapter" data-level="6.3" data-path=""><a href="#comparaci%C3%B3n-bivariada-de-las-93-variables-num%C3%A9ricas"><i class="fa fa-check"></i><b>6.3</b> Comparación bivariada de las 93 variables numéricas</a></li>
+<li class="chapter" data-level="6.4" data-path=""><a href="#inferencia-estad%C3%ADstica-variables-num%C3%A9ricas-vs.-objetivo"><i class="fa fa-check"></i><b>6.4</b> Inferencia estadística: variables numéricas vs. objetivo</a></li>
+<li class="chapter" data-level="6.5" data-path=""><a href="#liability-assets-flag-vs.-objetivo"><i class="fa fa-check"></i><b>6.5</b> <code>Liability-Assets Flag</code> vs. objetivo</a></li>
+<li class="chapter" data-level="6.6" data-path=""><a href="#inferencia-estad%C3%ADstica-variables-categ%C3%B3ricas-vs.-objetivo"><i class="fa fa-check"></i><b>6.6</b> Inferencia estadística: variables categóricas vs. objetivo</a></li>
+<li class="chapter" data-level="6.7" data-path=""><a href="#correlaciones-con-la-variable-objetivo"><i class="fa fa-check"></i><b>6.7</b> Correlaciones con la variable objetivo</a></li>
+<li class="chapter" data-level="6.8" data-path=""><a href="#matriz-de-correlaci%C3%B3n-de-las-variables-m%C3%A1s-importantes"><i class="fa fa-check"></i><b>6.8</b> Matriz de correlación de las variables más importantes</a></li>
 </ul></li>
-<li class="chapter" data-level="0.7" data-path=""><a href="#conclusiones-del-eda"><i class="fa fa-check"></i><b>0.7</b> Conclusiones del EDA</a>
+<li class="chapter" data-level="7" data-path=""><a href="#conclusiones-del-eda"><i class="fa fa-check"></i><b>7</b> Conclusiones del EDA</a>
 <ul>
-<li class="chapter" data-level="0.7.1" data-path=""><a href="#problemas-identificados-para-la-etapa-de-preprocesamiento"><i class="fa fa-check"></i><b>0.7.1</b> Problemas identificados para la etapa de preprocesamiento</a></li>
-</ul></li>
+<li class="chapter" data-level="7.1" data-path=""><a href="#problemas-identificados-para-la-etapa-de-preprocesamiento"><i class="fa fa-check"></i><b>7.1</b> Problemas identificados para la etapa de preprocesamiento</a></li>
 </ul></li>
 <li class="divider"></li>
 <li><a href="https://github.com/lauraformore" target="_blank">Universidad del Norte</a></li>
@@ -219,27 +215,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h1 class="title">Análisis Exploratorio de Datos (EDA)</h1>
 <h2 class="subtitle"><em>Predicción de Bancarrota Empresarial — Taiwan Economic Journal (1999–2009)</em></h2>
 <p class="author"><em>Laura Rivera · Natalý Cárdenas — Universidad del Norte</em></p>
-<p class="date"><em>28 de agosto de 2026</em></p>
+<p class="date"><em>29 de agosto de 2026</em></p>
 </div>
-<div id="predicción-de-quiebra-empresarial---dataset-de-taiwán" class="section level1 unnumbered hasAnchor">
-<h1>Predicción de Quiebra Empresarial - Dataset de Taiwán<a href="#predicci%C3%B3n-de-quiebra-empresarial---dataset-de-taiw%C3%A1n" class="anchor-section" aria-label="Anchor link to header"></a></h1>
-<p><strong>Curso:</strong> Visualización de Datos y Machine Learning</p>
-<p><strong>Autoras:</strong> Laura Rivera y Nataly Cárdenas</p>
-<p><strong>Universidad del Norte</strong></p>
-<div id="análisis-exploratorio-de-datos-eda" class="section level3 unnumbered hasAnchor">
-<h3>Análisis Exploratorio de Datos (EDA)<a href="#an%C3%A1lisis-exploratorio-de-datos-eda" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<p><strong>Objetivo:</strong> Realizar un análisis exploratorio de datos (EDA) sobre el conjunto de
-información financiera de empresas taiwanesas con el propósito de comprender su
-estructura, calidad, distribución y relaciones entre variables, y así preparar una
-base sólida para el desarrollo de un modelo predictivo de quiebra empresarial.</p>
-<blockquote>
-<p><strong>Nota metodológica sobre esta versión:</strong> primero se separan los datos en <code>train</code>
-y <code>test</code>, y <strong>todo el análisis exploratorio se hace únicamente sobre <code>train</code></strong>. El
-conjunto <code>test</code> se reserva y no se toca hasta la evaluación final del modelo, para
-evitar <em>data leakage</em> (que información del conjunto de prueba influya en decisiones
-tomadas antes de entrenar el modelo).</p>
-</blockquote>
-
 <blockquote>
 <p><strong>Objetivo.</strong> Realizar un análisis exploratorio de datos (EDA) sobre la información
 financiera de empresas taiwanesas, con el propósito de comprender su estructura,
@@ -249,13 +226,12 @@ para el desarrollo de un modelo predictivo de quiebra empresarial.</p>
 se hace únicamente sobre <code>train</code></strong>, para no filtrar información del conjunto de
 prueba hacia las decisiones tomadas en esta etapa.</p>
 </blockquote>
-</div>
-<div id="contexto" class="section level2 hasAnchor" number="0.1">
-<h2><span class="header-section-number">0.1</span> Contexto<a href="#contexto" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="contexto" class="section level2 hasAnchor" number="1">
+<h2><span class="header-section-number">1</span> Contexto<a href="#contexto" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>Antes de entrar en el análisis, esta sección explica el dataset y los conceptos
 financieros necesarios para entender el resto del libro.</p>
-<div id="qué-es-este-dataset" class="section level3 hasAnchor" number="0.1.1">
-<h3><span class="header-section-number">0.1.1</span> ¿Qué es este dataset?<a href="#qu%C3%A9-es-este-dataset" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div id="qué-es-este-dataset" class="section level3 hasAnchor" number="1.1">
+<h3><span class="header-section-number">1.1</span> ¿Qué es este dataset?<a href="#qu%C3%A9-es-este-dataset" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>Los datos provienen del <strong>Taiwan Economic Journal</strong> (1999–2009) y contienen indicadores
 financieros anuales de empresas que cotizan en la Bolsa de Taiwán. Una empresa se marca
 como <strong>“quebrada” (Bankrupt = 1)</strong> cuando entró en proceso de bancarrota según la
@@ -263,17 +239,17 @@ normativa de esa bolsa; el resto (Bankrupt = 0) siguió operando con normalidad.
 <p>El objetivo es predecir, a partir de razones financieras (ratios), si una empresa
 está en riesgo de quebrar.</p>
 </div>
-<div id="qué-es-un-ratio-financiero" class="section level3 hasAnchor" number="0.1.2">
-<h3><span class="header-section-number">0.1.2</span> ¿Qué es un “ratio” financiero?<a href="#qu%C3%A9-es-un-ratio-financiero" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div id="qué-es-un-ratio-financiero" class="section level3 hasAnchor" number="1.2">
+<h3><span class="header-section-number">1.2</span> ¿Qué es un “ratio” financiero?<a href="#qu%C3%A9-es-un-ratio-financiero" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>Es una relación entre dos cifras del estado financiero de una empresa (por ejemplo,
 utilidad entre activos) que permite comparar empresas de tamaños distintos en una
 misma escala. El dataset tiene 95 ratios de este tipo, todos ya calculados.</p>
 </div>
 </div>
-<div id="carga-y-preparación-inicial" class="section level2 hasAnchor" number="0.2">
-<h2><span class="header-section-number">0.2</span> Carga y preparación inicial<a href="#carga-y-preparaci%C3%B3n-inicial" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<div id="librerías-y-configuración-visual" class="section level3 hasAnchor" number="0.2.1">
-<h3><span class="header-section-number">0.2.1</span> Librerías y configuración visual<a href="#librer%C3%ADas-y-configuraci%C3%B3n-visual" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div id="carga-y-preparación-inicial" class="section level2 hasAnchor" number="2">
+<h2><span class="header-section-number">2</span> Carga y preparación inicial<a href="#carga-y-preparaci%C3%B3n-inicial" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="librerías-y-configuración-visual" class="section level3 hasAnchor" number="2.1">
+<h3><span class="header-section-number">2.1</span> Librerías y configuración visual<a href="#librer%C3%ADas-y-configuraci%C3%B3n-visual" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="co"># Si te falta algún paquete, instálalo una vez con:</span></span>
 <span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a><span class="co"># install.packages(c(&quot;tidyverse&quot;,&quot;caret&quot;,&quot;randomForest&quot;,&quot;e1071&quot;,</span></span>
 <span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a><span class="co">#                     &quot;ggcorrplot&quot;,&quot;scales&quot;,&quot;knitr&quot;,&quot;kableExtra&quot;,&quot;patchwork&quot;,&quot;car&quot;,</span></span>
@@ -313,8 +289,8 @@ misma escala. El dataset tiene 95 ratios de este tipo, todos ya calculados.</p>
 <span id="cb1-37"><a href="#cb1-37" tabindex="-1"></a></span>
 <span id="cb1-38"><a href="#cb1-38" tabindex="-1"></a><span class="fu">theme_set</span>(tema_eda)</span></code></pre></div>
 </div>
-<div id="carga-del-dataset" class="section level3 hasAnchor" number="0.2.2">
-<h3><span class="header-section-number">0.2.2</span> Carga del dataset<a href="#carga-del-dataset" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div id="carga-del-dataset" class="section level3 hasAnchor" number="2.2">
+<h3><span class="header-section-number">2.2</span> Carga del dataset<a href="#carga-del-dataset" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="co"># Ajusta esta ruta a donde tengas el CSV dentro de tu proyecto</span></span>
 <span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a><span class="co"># (recomendado: carpeta data/ dentro del proyecto de RStudio)</span></span>
 <span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;data/data.csv&quot;</span>, <span class="at">check.names =</span> <span class="cn">FALSE</span>, <span class="at">stringsAsFactors =</span> <span class="cn">FALSE</span>)</span>
@@ -849,8 +825,8 @@ objetivo). Casi todas las columnas son numéricas (<code>double</code>), salvo <
 en realidad son variables categóricas binarias (0/1), no cantidades.</p>
 </blockquote>
 </div>
-<div id="tipo-de-problema-target-y-features" class="section level3 hasAnchor" number="0.2.3">
-<h3><span class="header-section-number">0.2.3</span> Tipo de problema, target y features<a href="#tipo-de-problema-target-y-features" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div id="tipo-de-problema-target-y-features" class="section level3 hasAnchor" number="2.3">
+<h3><span class="header-section-number">2.3</span> Tipo de problema, target y features<a href="#tipo-de-problema-target-y-features" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" tabindex="-1"></a>cat_vars <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;Liability-Assets Flag&quot;</span>, <span class="st">&quot;Net Income Flag&quot;</span>)</span>
 <span id="cb14-2"><a href="#cb14-2" tabindex="-1"></a>num_vars <span class="ot">&lt;-</span> <span class="fu">setdiff</span>(<span class="fu">names</span>(df), <span class="fu">c</span>(cat_vars, TARGET))</span>
 <span id="cb14-3"><a href="#cb14-3" tabindex="-1"></a></span>
@@ -870,8 +846,8 @@ en realidad son variables categóricas binarias (0/1), no cantidades.</p>
 <span id="cb24-2"><a href="#cb24-2" tabindex="-1"></a>    <span class="st">&quot;-&gt;&quot;</span>, <span class="fu">paste</span>(cat_vars, <span class="at">collapse =</span> <span class="st">&quot;, &quot;</span>), <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>)</span></code></pre></div>
 <pre><code>## Variables predictoras categóricas (flags 0/1): 2 -&gt; Liability-Assets Flag, Net Income Flag</code></pre>
 </div>
-<div id="división-train-test" class="section level3 hasAnchor" number="0.2.4">
-<h3><span class="header-section-number">0.2.4</span> División train / test<a href="#divisi%C3%B3n-train-test" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div id="división-train-test" class="section level3 hasAnchor" number="2.4">
+<h3><span class="header-section-number">2.4</span> División train / test<a href="#divisi%C3%B3n-train-test" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>Antes de explorar los datos a fondo, separamos un conjunto de prueba (<code>test</code>) que se
 reserva para la evaluación final del modelo. <strong>A partir de aquí, todo el EDA se hace
 usando exclusivamente <code>train</code>.</strong> El conjunto <code>test</code> no se grafica, no se describe y no
@@ -907,8 +883,8 @@ La estratificación aseguró que el porcentaje de empresas quebradas sea prácti
 igual en ambos conjuntos.</p>
 </blockquote>
 </div>
-<div id="persistencia-del-split-para-las-etapas-posteriores" class="section level3 hasAnchor" number="0.2.5">
-<h3><span class="header-section-number">0.2.5</span> Persistencia del split para las etapas posteriores<a href="#persistencia-del-split-para-las-etapas-posteriores" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div id="persistencia-del-split-para-las-etapas-posteriores" class="section level3 hasAnchor" number="2.5">
+<h3><span class="header-section-number">2.5</span> Persistencia del split para las etapas posteriores<a href="#persistencia-del-split-para-las-etapas-posteriores" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>Guardamos <code>train_df</code> y <code>test_df</code> en disco para que la etapa de modelado use exactamente
 la misma partición que se usó en este EDA, sin necesidad de recalcularla.</p>
 <div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" tabindex="-1"></a><span class="fu">dir.create</span>(<span class="st">&quot;data/processed&quot;</span>, <span class="at">showWarnings =</span> <span class="cn">FALSE</span>, <span class="at">recursive =</span> <span class="cn">TRUE</span>)</span>
@@ -919,10 +895,10 @@ la misma partición que se usó en este EDA, sin necesidad de recalcularla.</p>
 <span id="cb36-6"><a href="#cb36-6" tabindex="-1"></a>)</span></code></pre></div>
 </div>
 </div>
-<div id="calidad-de-los-datos-sobre-train" class="section level2 hasAnchor" number="0.3">
-<h2><span class="header-section-number">0.3</span> Calidad de los datos (sobre <code>train</code>)<a href="#calidad-de-los-datos-sobre-train" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<div id="valores-nulos" class="section level3 hasAnchor" number="0.3.1">
-<h3><span class="header-section-number">0.3.1</span> Valores nulos<a href="#valores-nulos" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div id="calidad-de-los-datos-sobre-train" class="section level2 hasAnchor" number="3">
+<h2><span class="header-section-number">3</span> Calidad de los datos (sobre <code>train</code>)<a href="#calidad-de-los-datos-sobre-train" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="valores-nulos" class="section level3 hasAnchor" number="3.1">
+<h3><span class="header-section-number">3.1</span> Valores nulos<a href="#valores-nulos" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" tabindex="-1"></a>nulos <span class="ot">&lt;-</span> <span class="fu">colSums</span>(<span class="fu">is.na</span>(train_df))</span>
 <span id="cb37-2"><a href="#cb37-2" tabindex="-1"></a>nulos <span class="ot">&lt;-</span> nulos[nulos <span class="sc">&gt;</span> <span class="dv">0</span>]</span>
 <span id="cb37-3"><a href="#cb37-3" tabindex="-1"></a></span>
@@ -935,15 +911,15 @@ la misma partición que se usó en este EDA, sin necesidad de recalcularla.</p>
 <pre><code>## No se encontraron valores nulos en train.</code></pre>
 <p>Ninguna empresa de <code>train</code> tiene información faltante en sus estados financieros.</p>
 </div>
-<div id="filas-duplicadas" class="section level3 hasAnchor" number="0.3.2">
-<h3><span class="header-section-number">0.3.2</span> Filas duplicadas<a href="#filas-duplicadas" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div id="filas-duplicadas" class="section level3 hasAnchor" number="3.2">
+<h3><span class="header-section-number">3.2</span> Filas duplicadas<a href="#filas-duplicadas" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" tabindex="-1"></a>duplicados <span class="ot">&lt;-</span> <span class="fu">sum</span>(<span class="fu">duplicated</span>(train_df))</span>
 <span id="cb39-2"><a href="#cb39-2" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;Filas duplicadas en train:&quot;</span>, duplicados, <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>)</span></code></pre></div>
 <pre><code>## Filas duplicadas en train: 0</code></pre>
 <p>No hay filas repetidas en <code>train</code>, así que no es necesario eliminar duplicados.</p>
 </div>
-<div id="variables-categóricas-y-cardinalidad" class="section level3 hasAnchor" number="0.3.3">
-<h3><span class="header-section-number">0.3.3</span> Variables categóricas y cardinalidad<a href="#variables-categ%C3%B3ricas-y-cardinalidad" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div id="variables-categóricas-y-cardinalidad" class="section level3 hasAnchor" number="3.3">
+<h3><span class="header-section-number">3.3</span> Variables categóricas y cardinalidad<a href="#variables-categ%C3%B3ricas-y-cardinalidad" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <div class="sourceCode" id="cb41"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" tabindex="-1"></a><span class="cf">for</span> (c <span class="cf">in</span> cat_vars) {</span>
 <span id="cb41-2"><a href="#cb41-2" tabindex="-1"></a>  <span class="fu">print</span>(<span class="fu">table</span>(train_df[[c]]))</span>
 <span id="cb41-3"><a href="#cb41-3" tabindex="-1"></a>  <span class="fu">cat</span>(<span class="st">&quot;Cardinalidad:&quot;</span>, <span class="fu">length</span>(<span class="fu">unique</span>(train_df[[c]])), <span class="st">&quot;valores únicos</span><span class="sc">\n\n</span><span class="st">&quot;</span>)</span>
@@ -966,10 +942,10 @@ la pena revisarla más adelante junto al target, en la sección de análisis biv
 </blockquote>
 </div>
 </div>
-<div id="análisis-univariado-sobre-train" class="section level2 hasAnchor" number="0.4">
-<h2><span class="header-section-number">0.4</span> Análisis univariado (sobre <code>train</code>)<a href="#an%C3%A1lisis-univariado-sobre-train" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<div id="estadísticas-descriptivas" class="section level3 hasAnchor" number="0.4.1">
-<h3><span class="header-section-number">0.4.1</span> Estadísticas descriptivas<a href="#estad%C3%ADsticas-descriptivas" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div id="análisis-univariado-sobre-train" class="section level2 hasAnchor" number="4">
+<h2><span class="header-section-number">4</span> Análisis univariado (sobre <code>train</code>)<a href="#an%C3%A1lisis-univariado-sobre-train" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="estadísticas-descriptivas" class="section level3 hasAnchor" number="4.1">
+<h3><span class="header-section-number">4.1</span> Estadísticas descriptivas<a href="#estad%C3%ADsticas-descriptivas" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <div class="sourceCode" id="cb43"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" tabindex="-1"></a><span class="co"># Réplica de generar_estadisticas_univariadas() del notebook: N, media, DS,</span></span>
 <span id="cb43-2"><a href="#cb43-2" tabindex="-1"></a><span class="co"># curtosis, mediana, mínimo, máximo, Q1, Q3 e IQR para las 93 variables</span></span>
 <span id="cb43-3"><a href="#cb43-3" tabindex="-1"></a><span class="co"># numéricas completas (no solo una muestra), dentro de un contenedor con</span></span>
@@ -4311,8 +4287,8 @@ valores en miles). Esto ya nos dice que, para cualquier modelo sensible a la esc
 (como regresión logística, SVM o PCA), va a hacer falta estandarizar las variables en
 el pipeline de preprocesamiento.</p>
 </div>
-<div id="variables-con-varianza-cercana-a-cero" class="section level3 hasAnchor" number="0.4.2">
-<h3><span class="header-section-number">0.4.2</span> Variables con varianza cercana a cero<a href="#variables-con-varianza-cercana-a-cero" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div id="variables-con-varianza-cercana-a-cero" class="section level3 hasAnchor" number="4.2">
+<h3><span class="header-section-number">4.2</span> Variables con varianza cercana a cero<a href="#variables-con-varianza-cercana-a-cero" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" tabindex="-1"></a>varianzas  <span class="ot">&lt;-</span> <span class="fu">sapply</span>(train_df[num_vars], var, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
 <span id="cb44-2"><a href="#cb44-2" tabindex="-1"></a>vars_bajas <span class="ot">&lt;-</span> varianzas[varianzas <span class="sc">&lt;</span> <span class="fl">1e-6</span>]</span>
 <span id="cb44-3"><a href="#cb44-3" tabindex="-1"></a></span>
@@ -4329,8 +4305,8 @@ el pipeline de preprocesamiento.</p>
 prácticamente constante en <code>train</code>. Todas tienen variabilidad real y suficiente entre
 empresas.</p>
 </div>
-<div id="gráficas" class="section level3 hasAnchor" number="0.4.3">
-<h3><span class="header-section-number">0.4.3</span> Gráficas<a href="#gr%C3%A1ficas" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div id="gráficas" class="section level3 hasAnchor" number="4.3">
+<h3><span class="header-section-number">4.3</span> Gráficas<a href="#gr%C3%A1ficas" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>Cada una de las 93 variables numéricas se resume en una figura con dos paneles
 (histograma + densidad, y boxplot), acompañada de una interpretación generada
 automáticamente a partir de su sesgo, media, mediana y curtosis — igual que en el
@@ -5446,8 +5422,8 @@ mientras que otras se acercan más a una forma simétrica. Estos casos deben rev
 en etapas posteriores antes de decidir si requieren algún tratamiento (transformación,
 winsorizing, o dejarlos igual).</p>
 </div>
-<div id="distribución-de-la-variable-objetivo" class="section level3 hasAnchor" number="0.4.4">
-<h3><span class="header-section-number">0.4.4</span> Distribución de la variable objetivo<a href="#distribuci%C3%B3n-de-la-variable-objetivo" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div id="distribución-de-la-variable-objetivo" class="section level3 hasAnchor" number="4.4">
+<h3><span class="header-section-number">4.4</span> Distribución de la variable objetivo<a href="#distribuci%C3%B3n-de-la-variable-objetivo" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <div class="sourceCode" id="cb49"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" tabindex="-1"></a>conteo     <span class="ot">&lt;-</span> <span class="fu">table</span>(train_df[[TARGET]])</span>
 <span id="cb49-2"><a href="#cb49-2" tabindex="-1"></a>porcentaje <span class="ot">&lt;-</span> <span class="fu">prop.table</span>(conteo) <span class="sc">*</span> <span class="dv">100</span></span>
 <span id="cb49-3"><a href="#cb49-3" tabindex="-1"></a></span>
@@ -5488,7 +5464,7 @@ winsorizing, o dejarlos igual).</p>
 <span id="cb57-27"><a href="#cb57-27" tabindex="-1"></a>        <span class="at">legend.position =</span> <span class="st">&quot;right&quot;</span>)</span>
 <span id="cb57-28"><a href="#cb57-28" tabindex="-1"></a></span>
 <span id="cb57-29"><a href="#cb57-29" tabindex="-1"></a>p_barras <span class="sc">+</span> p_dona</span></code></pre></div>
-<p><img src="Prediccion_Bancarrota_Empresarial_files/figure-html/target-dist-1.png" alt="" width="100%" style="display: block; margin: auto;" /></p>
+<p><img src="index_files/figure-html/target-dist-1.png" alt="" width="100%" style="display: block; margin: auto;" /></p>
 <blockquote>
 <p><strong>En palabras cortas:</strong> La variable objetivo presenta un fuerte desbalance de
 clases, ya que las empresas en quiebra representan solo el 3,23 % del conjunto de
@@ -5497,14 +5473,14 @@ la evaluación del modelo.</p>
 </blockquote>
 </div>
 </div>
-<div id="análisis-de-outliers-y-sesgo-sobre-train" class="section level2 hasAnchor" number="0.5">
-<h2><span class="header-section-number">0.5</span> Análisis de outliers y sesgo (sobre <code>train</code>)<a href="#an%C3%A1lisis-de-outliers-y-sesgo-sobre-train" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="análisis-de-outliers-y-sesgo-sobre-train" class="section level2 hasAnchor" number="5">
+<h2><span class="header-section-number">5</span> Análisis de outliers y sesgo (sobre <code>train</code>)<a href="#an%C3%A1lisis-de-outliers-y-sesgo-sobre-train" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>Antes de pasar al análisis bivariado, es importante identificar qué variables tienen
 distribuciones muy sesgadas y/o outliers extremos, ya que esto afecta tanto la
 interpretación visual como la elección de modelos y transformaciones en la fase de
 Machine Learning.</p>
-<div id="top-10-variables-con-mayor-sesgo-en-valor-absoluto-train" class="section level3 hasAnchor" number="0.5.1">
-<h3><span class="header-section-number">0.5.1</span> Top 10 variables con mayor sesgo, en valor absoluto (train)<a href="#top-10-variables-con-mayor-sesgo-en-valor-absoluto-train" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div id="top-10-variables-con-mayor-sesgo-en-valor-absoluto-train" class="section level3 hasAnchor" number="5.1">
+<h3><span class="header-section-number">5.1</span> Top 10 variables con mayor sesgo, en valor absoluto (train)<a href="#top-10-variables-con-mayor-sesgo-en-valor-absoluto-train" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <div class="sourceCode" id="cb58"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb58-1"><a href="#cb58-1" tabindex="-1"></a><span class="co"># type = 2 replica la fórmula de sesgo &quot;clásica&quot; (similar a pandas .skew())</span></span>
 <span id="cb58-2"><a href="#cb58-2" tabindex="-1"></a>skew_vals <span class="ot">&lt;-</span> <span class="fu">sapply</span>(train_df[num_vars], <span class="cf">function</span>(x) e1071<span class="sc">::</span><span class="fu">skewness</span>(x, <span class="at">na.rm =</span> <span class="cn">TRUE</span>, <span class="at">type =</span> <span class="dv">2</span>))</span>
 <span id="cb58-3"><a href="#cb58-3" tabindex="-1"></a>skew_orden <span class="ot">&lt;-</span> <span class="fu">names</span>(<span class="fu">sort</span>(<span class="fu">abs</span>(skew_vals), <span class="at">decreasing =</span> <span class="cn">TRUE</span>))</span>
@@ -5536,8 +5512,8 @@ variables deberán revisarse durante el preprocesamiento para determinar si requ
 alguna transformación, especialmente si se utilizan modelos sensibles a la escala o a
 la distribución de los datos.</p>
 </div>
-<div id="boxplots-de-las-variables-más-sesgadas" class="section level3 hasAnchor" number="0.5.2">
-<h3><span class="header-section-number">0.5.2</span> Boxplots de las variables más sesgadas<a href="#boxplots-de-las-variables-m%C3%A1s-sesgadas" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div id="boxplots-de-las-variables-más-sesgadas" class="section level3 hasAnchor" number="5.2">
+<h3><span class="header-section-number">5.2</span> Boxplots de las variables más sesgadas<a href="#boxplots-de-las-variables-m%C3%A1s-sesgadas" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <div class="sourceCode" id="cb61"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb61-1"><a href="#cb61-1" tabindex="-1"></a>plot_box_skew <span class="ot">&lt;-</span> <span class="cf">function</span>(var) {</span>
 <span id="cb61-2"><a href="#cb61-2" tabindex="-1"></a>  <span class="fu">ggplot</span>(train_df, <span class="fu">aes</span>(<span class="at">x =</span> <span class="st">&quot;&quot;</span>, <span class="at">y =</span> .data[[var]])) <span class="sc">+</span></span>
 <span id="cb61-3"><a href="#cb61-3" tabindex="-1"></a>    <span class="fu">geom_boxplot</span>(<span class="at">fill =</span> COLOR_MAIN, <span class="at">color =</span> COLOR_MAIN, <span class="at">width =</span> <span class="fl">0.35</span>,</span>
@@ -5550,7 +5526,7 @@ la distribución de los datos.</p>
 <span id="cb61-10"><a href="#cb61-10" tabindex="-1"></a><span class="fu">wrap_plots</span>(<span class="fu">lapply</span>(top_skew_vars, plot_box_skew), <span class="at">ncol =</span> <span class="dv">3</span>) <span class="sc">+</span></span>
 <span id="cb61-11"><a href="#cb61-11" tabindex="-1"></a>  <span class="fu">plot_annotation</span>(<span class="at">title =</span> <span class="st">&quot;Variables con mayor sesgo (train)&quot;</span>,</span>
 <span id="cb61-12"><a href="#cb61-12" tabindex="-1"></a>                   <span class="at">theme =</span> <span class="fu">theme</span>(<span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">face =</span> <span class="st">&quot;bold&quot;</span>, <span class="at">size =</span> <span class="dv">15</span>)))</span></code></pre></div>
-<p><img src="Prediccion_Bancarrota_Empresarial_files/figure-html/box-sesgo-1.png" alt="" width="100%" style="display: block; margin: auto;" /></p>
+<p><img src="index_files/figure-html/box-sesgo-1.png" alt="" width="100%" style="display: block; margin: auto;" /></p>
 <ul>
 <li><strong>Fixed Assets to Assets:</strong> La mayoría de los valores se concentra cerca de cero,
 pero aparece un valor extremadamente alto. Esto explica el fuerte sesgo positivo y
@@ -5578,8 +5554,8 @@ estos valores extremos explican gran parte del sesgo observado. Por ahora no se
 deberían eliminar automáticamente, ya que primero es necesario determinar si
 representan errores o situaciones reales de las empresas.</p>
 </div>
-<div id="top-15-variables-con-más-outliers-regla-iqr" class="section level3 hasAnchor" number="0.5.3">
-<h3><span class="header-section-number">0.5.3</span> Top 15 variables con más outliers (regla IQR)<a href="#top-15-variables-con-m%C3%A1s-outliers-regla-iqr" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div id="top-15-variables-con-más-outliers-regla-iqr" class="section level3 hasAnchor" number="5.3">
+<h3><span class="header-section-number">5.3</span> Top 15 variables con más outliers (regla IQR)<a href="#top-15-variables-con-m%C3%A1s-outliers-regla-iqr" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <div class="sourceCode" id="cb62"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb62-1"><a href="#cb62-1" tabindex="-1"></a>pct_outliers_iqr <span class="ot">&lt;-</span> <span class="cf">function</span>(x) {</span>
 <span id="cb62-2"><a href="#cb62-2" tabindex="-1"></a>  q   <span class="ot">&lt;-</span> <span class="fu">quantile</span>(x, <span class="fu">c</span>(<span class="fl">0.25</span>, <span class="fl">0.75</span>), <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
 <span id="cb62-3"><a href="#cb62-3" tabindex="-1"></a>  iqr <span class="ot">&lt;-</span> q[<span class="dv">2</span>] <span class="sc">-</span> q[<span class="dv">1</span>]</span>
@@ -5618,7 +5594,7 @@ representan errores o situaciones reales de las empresas.</p>
 <span id="cb64-9"><a href="#cb64-9" tabindex="-1"></a>       <span class="at">x =</span> <span class="cn">NULL</span>, <span class="at">y =</span> <span class="st">&quot;% de empresas marcadas como outlier&quot;</span>) <span class="sc">+</span></span>
 <span id="cb64-10"><a href="#cb64-10" tabindex="-1"></a>  <span class="fu">expand_limits</span>(<span class="at">y =</span> <span class="fu">max</span>(df_out<span class="sc">$</span>pct) <span class="sc">*</span> <span class="fl">1.15</span>) <span class="sc">+</span></span>
 <span id="cb64-11"><a href="#cb64-11" tabindex="-1"></a>  tema_eda</span></code></pre></div>
-<p><img src="Prediccion_Bancarrota_Empresarial_files/figure-html/outliers-iqr-1.png" alt="" width="100%" style="display: block; margin: auto;" /></p>
+<p><img src="index_files/figure-html/outliers-iqr-1.png" alt="" width="100%" style="display: block; margin: auto;" /></p>
 <p>Las variables con mayor proporción de valores atípicos suelen ser <strong>Degree of
 Financial Leverage (DFL)</strong>, <strong>Fixed Assets Turnover Frequency</strong> e <strong>Interest Coverage
 Ratio</strong>, con alrededor del 20 % de empresas marcadas como outliers. También destacan
@@ -5632,10 +5608,10 @@ resultados deberán considerarse posteriormente al definir el preprocesamiento d
 datos.</p>
 </div>
 </div>
-<div id="análisis-bivariado-variables-vs.-objetivo-sobre-train" class="section level2 hasAnchor" number="0.6">
-<h2><span class="header-section-number">0.6</span> Análisis bivariado: variables vs. objetivo (sobre <code>train</code>)<a href="#an%C3%A1lisis-bivariado-variables-vs.-objetivo-sobre-train" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<div id="variables-más-importantes-según-random-forest" class="section level3 hasAnchor" number="0.6.1">
-<h3><span class="header-section-number">0.6.1</span> Variables más importantes según Random Forest<a href="#variables-m%C3%A1s-importantes-seg%C3%BAn-random-forest" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div id="análisis-bivariado-variables-vs.-objetivo-sobre-train" class="section level2 hasAnchor" number="6">
+<h2><span class="header-section-number">6</span> Análisis bivariado: variables vs. objetivo (sobre <code>train</code>)<a href="#an%C3%A1lisis-bivariado-variables-vs.-objetivo-sobre-train" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="variables-más-importantes-según-random-forest" class="section level3 hasAnchor" number="6.1">
+<h3><span class="header-section-number">6.1</span> Variables más importantes según Random Forest<a href="#variables-m%C3%A1s-importantes-seg%C3%BAn-random-forest" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>Usamos un Random Forest <strong>entrenado únicamente con <code>train</code></strong> para tener una primera
 idea de qué variables separan mejor a las empresas que quiebran de las que no. Esto es
 solo exploratorio: nos ayuda a elegir qué variables mirar con más detalle en los
@@ -5711,7 +5687,7 @@ variables por defecto, facilitando la interpretación para fines exploratorios.<
 <span id="cb73-19"><a href="#cb73-19" tabindex="-1"></a>  <span class="fu">expand_limits</span>(<span class="at">y =</span> <span class="fu">max</span>(df_imp<span class="sc">$</span>importancia) <span class="sc">*</span> <span class="fl">1.2</span>) <span class="sc">+</span></span>
 <span id="cb73-20"><a href="#cb73-20" tabindex="-1"></a>  tema_eda <span class="sc">+</span></span>
 <span id="cb73-21"><a href="#cb73-21" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">&quot;bottom&quot;</span>)</span></code></pre></div>
-<p><img src="Prediccion_Bancarrota_Empresarial_files/figure-html/rf-importancia-1.png" alt="" width="100%" style="display: block; margin: auto;" /></p>
+<p><img src="index_files/figure-html/rf-importancia-1.png" alt="" width="100%" style="display: block; margin: auto;" /></p>
 <blockquote>
 <p><strong>¿Qué hizo Random Forest aquí?</strong> Es un modelo que, al entrenarse, mide qué tanto le
 “ayudó” cada variable para diferenciar empresas que quiebran de las que no. Cuanto
@@ -5731,8 +5707,8 @@ miden algo muy parecido (como las distintas versiones de ROA), el modelo divide 
 “crédito” entre ellas, lo que puede subestimar su relevancia individual.</li>
 </ul>
 </div>
-<div id="variables-más-importantes-vs.-objetivo" class="section level3 hasAnchor" number="0.6.2">
-<h3><span class="header-section-number">0.6.2</span> Variables más importantes vs. objetivo<a href="#variables-m%C3%A1s-importantes-vs.-objetivo" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div id="variables-más-importantes-vs.-objetivo" class="section level3 hasAnchor" number="6.2">
+<h3><span class="header-section-number">6.2</span> Variables más importantes vs. objetivo<a href="#variables-m%C3%A1s-importantes-vs.-objetivo" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <div class="sourceCode" id="cb74"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb74-1"><a href="#cb74-1" tabindex="-1"></a>plot_box_target <span class="ot">&lt;-</span> <span class="cf">function</span>(var) {</span>
 <span id="cb74-2"><a href="#cb74-2" tabindex="-1"></a>  q1  <span class="ot">&lt;-</span> <span class="fu">quantile</span>(train_df[[var]], <span class="fl">0.01</span>, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
 <span id="cb74-3"><a href="#cb74-3" tabindex="-1"></a>  q99 <span class="ot">&lt;-</span> <span class="fu">quantile</span>(train_df[[var]], <span class="fl">0.99</span>, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
@@ -5752,7 +5728,7 @@ miden algo muy parecido (como las distintas versiones de ROA), el modelo divide 
 <span id="cb74-17"><a href="#cb74-17" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">&quot;Variables más importantes vs. objetivo</span><span class="sc">\n</span><span class="st">(train, sin el 1% de valores más extremos)&quot;</span>,</span>
 <span id="cb74-18"><a href="#cb74-18" tabindex="-1"></a>    <span class="at">theme =</span> <span class="fu">theme</span>(<span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">face =</span> <span class="st">&quot;bold&quot;</span>, <span class="at">size =</span> <span class="dv">15</span>))</span>
 <span id="cb74-19"><a href="#cb74-19" tabindex="-1"></a>  )</span></code></pre></div>
-<p><img src="Prediccion_Bancarrota_Empresarial_files/figure-html/box-top6-1.png" alt="" width="100%" style="display: block; margin: auto;" /></p>
+<p><img src="index_files/figure-html/box-top6-1.png" alt="" width="100%" style="display: block; margin: auto;" /></p>
 <p>Estos boxplots comparan la distribución de cada variable entre empresas que
 quebraron y que no, y muestran patrones distintos según el tipo de variable:</p>
 <ul>
@@ -5779,8 +5755,8 @@ interacción con las demás que por separarse solas en un boxplot.</p>
 el orden exacto de las 6 variables top varíe un poco respecto a esta descripción —
 ajusta los nombres si es necesario.</em></p>
 </div>
-<div id="comparación-bivariada-de-las-93-variables-numéricas" class="section level3 hasAnchor" number="0.6.3">
-<h3><span class="header-section-number">0.6.3</span> Comparación bivariada de las 93 variables numéricas<a href="#comparaci%C3%B3n-bivariada-de-las-93-variables-num%C3%A9ricas" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div id="comparación-bivariada-de-las-93-variables-numéricas" class="section level3 hasAnchor" number="6.3">
+<h3><span class="header-section-number">6.3</span> Comparación bivariada de las 93 variables numéricas<a href="#comparaci%C3%B3n-bivariada-de-las-93-variables-num%C3%A9ricas" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>Antes de entrar en pruebas formales, se resumen las 93 variables numéricas en una
 sola tabla (en vez de mirarlas una por una), ordenada por la fuerza de su relación
 con el objetivo. Aquí ya se usa <strong>correlación de Spearman</strong> en vez de Pearson; la
@@ -7707,8 +7683,8 @@ posicionadas (mayor <code>|r|</code>) combinan medias/medianas claramente distin
 empresas sanas y quebradas, mientras que las últimas filas tienen valores casi
 idénticos entre ambos grupos — es decir, aportan poco de forma univariada.</p>
 </div>
-<div id="inferencia-estadística-variables-numéricas-vs.-objetivo" class="section level3 hasAnchor" number="0.6.4">
-<h3><span class="header-section-number">0.6.4</span> Inferencia estadística: variables numéricas vs. objetivo<a href="#inferencia-estad%C3%ADstica-variables-num%C3%A9ricas-vs.-objetivo" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div id="inferencia-estadística-variables-numéricas-vs.-objetivo" class="section level3 hasAnchor" number="6.4">
+<h3><span class="header-section-number">6.4</span> Inferencia estadística: variables numéricas vs. objetivo<a href="#inferencia-estad%C3%ADstica-variables-num%C3%A9ricas-vs.-objetivo" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>El análisis descriptivo y los boxplots anteriores sugieren diferencias entre empresas
 solventes y quebradas, pero no permiten determinar si esas diferencias son compatibles
 con la variabilidad muestral. La inferencia estadística contrasta, para cada ratio:</p>
@@ -10817,8 +10793,8 @@ las variables tengan utilidad práctica o predictiva</strong>; la magnitud del e
 (<span class="math inline">\(r_{rb}\)</span>) y el contexto financiero siguen siendo necesarios para juzgar relevancia.
 Este resultado describe asociación, no causalidad.</p>
 </div>
-<div id="liability-assets-flag-vs.-objetivo" class="section level3 hasAnchor" number="0.6.5">
-<h3><span class="header-section-number">0.6.5</span> <code>Liability-Assets Flag</code> vs. objetivo<a href="#liability-assets-flag-vs.-objetivo" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div id="liability-assets-flag-vs.-objetivo" class="section level3 hasAnchor" number="6.5">
+<h3><span class="header-section-number">6.5</span> <code>Liability-Assets Flag</code> vs. objetivo<a href="#liability-assets-flag-vs.-objetivo" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>Análisis bivariado de la única variable categórica con la variable objetivo.</p>
 <p><strong><code>Liability-Assets Flag</code>:</strong> es la única variable categórica del dataset. Es binaria e
 indica si los pasivos de la empresa superan a sus activos (<code>1</code>) o no (<code>0</code>).</p>
@@ -10850,7 +10826,7 @@ indica si los pasivos de la empresa superan a sus activos (<code>1</code>) o no 
 <span id="cb85-16"><a href="#cb85-16" tabindex="-1"></a>       <span class="at">x =</span> <span class="cn">NULL</span>, <span class="at">y =</span> <span class="st">&quot;% de empresas del grupo que quebró&quot;</span>) <span class="sc">+</span></span>
 <span id="cb85-17"><a href="#cb85-17" tabindex="-1"></a>  <span class="fu">ylim</span>(<span class="dv">0</span>, <span class="fu">max</span>(df_flag<span class="sc">$</span>pct_quiebra) <span class="sc">*</span> <span class="fl">1.3</span>) <span class="sc">+</span></span>
 <span id="cb85-18"><a href="#cb85-18" tabindex="-1"></a>  tema_eda</span></code></pre></div>
-<p><img src="Prediccion_Bancarrota_Empresarial_files/figure-html/flag-vs-target-1.png" alt="" width="100%" style="display: block; margin: auto;" /></p>
+<p><img src="index_files/figure-html/flag-vs-target-1.png" alt="" width="100%" style="display: block; margin: auto;" /></p>
 <p><em>Alternativa fiel al gráfico de “waffle” (cuadrícula 10x10) del notebook original: si
 quieres reproducirlo exactamente, instala el paquete <code>waffle</code>
 (<code>install.packages("waffle")</code>) y usa <code>waffle::waffle()</code> sobre <code>tabla_pct</code>.</em></p>
@@ -10868,8 +10844,8 @@ tratarla con precaución en el modelado: puede aportar información valiosa para
 pequeño grupo de riesgo, pero su bajo número de casos limita qué tan bien puede
 generalizar.</p>
 </div>
-<div id="inferencia-estadística-variables-categóricas-vs.-objetivo" class="section level3 hasAnchor" number="0.6.6">
-<h3><span class="header-section-number">0.6.6</span> Inferencia estadística: variables categóricas vs. objetivo<a href="#inferencia-estad%C3%ADstica-variables-categ%C3%B3ricas-vs.-objetivo" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div id="inferencia-estadística-variables-categóricas-vs.-objetivo" class="section level3 hasAnchor" number="6.6">
+<h3><span class="header-section-number">6.6</span> Inferencia estadística: variables categóricas vs. objetivo<a href="#inferencia-estad%C3%ADstica-variables-categ%C3%B3ricas-vs.-objetivo" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>Para cada flag, H₀ plantea independencia respecto de <code>Bankrupt?</code>; H₁ plantea
 asociación. La prueba Chi-cuadrado requiere frecuencias esperadas suficientemente
 grandes (regla habitual: ninguna esperada menor que 1 y no más del 20 % menores que
@@ -11014,8 +10990,8 @@ hay comparación posible entre categorías y <strong>no es estadísticamente con
 no corresponde asignarle un <em>p-value</em>. La prueba de Fisher/Chi-cuadrado identifica
 asociación, no causalidad, y asume observaciones independientes entre empresas.</p>
 </div>
-<div id="correlaciones-con-la-variable-objetivo" class="section level3 hasAnchor" number="0.6.7">
-<h3><span class="header-section-number">0.6.7</span> Correlaciones con la variable objetivo<a href="#correlaciones-con-la-variable-objetivo" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div id="correlaciones-con-la-variable-objetivo" class="section level3 hasAnchor" number="6.7">
+<h3><span class="header-section-number">6.7</span> Correlaciones con la variable objetivo<a href="#correlaciones-con-la-variable-objetivo" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <blockquote>
 <p><strong>Spearman en vez de Pearson:</strong> con 93 variables no es viable comprobar
 rigurosamente el supuesto de normalidad de cada una (implicaría 93 pruebas
@@ -11079,7 +11055,7 @@ cada ratio financiero y la probabilidad de quiebra.</p>
 <span id="cb101-15"><a href="#cb101-15" tabindex="-1"></a>       <span class="at">x =</span> <span class="cn">NULL</span>, <span class="at">y =</span> <span class="st">&quot;Coeficiente de correlación&quot;</span>) <span class="sc">+</span></span>
 <span id="cb101-16"><a href="#cb101-16" tabindex="-1"></a>  tema_eda <span class="sc">+</span></span>
 <span id="cb101-17"><a href="#cb101-17" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">&quot;bottom&quot;</span>)</span></code></pre></div>
-<p><img src="Prediccion_Bancarrota_Empresarial_files/figure-html/correlaciones-1.png" alt="" width="100%" style="display: block; margin: auto;" /></p>
+<p><img src="index_files/figure-html/correlaciones-1.png" alt="" width="100%" style="display: block; margin: auto;" /></p>
 <p><strong>En palabras simples:</strong> el gráfico confirma, con números, lo que ya insinuaba el
 Random Forest: <strong>rentabilidad y endeudamiento son los dos bloques que más se
 relacionan con la quiebra</strong>, pero en direcciones opuestas.</p>
@@ -11103,8 +11079,8 @@ fuerte (las distintas versiones de ROA) son las mismas que ya se identifican com
 altamente correlacionadas entre sí en la siguiente sección de multicolinealidad — otra
 razón para tenerlas presentes al momento de seleccionar variables para el modelo.</p>
 </div>
-<div id="matriz-de-correlación-de-las-variables-más-importantes" class="section level3 hasAnchor" number="0.6.8">
-<h3><span class="header-section-number">0.6.8</span> Matriz de correlación de las variables más importantes<a href="#matriz-de-correlaci%C3%B3n-de-las-variables-m%C3%A1s-importantes" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div id="matriz-de-correlación-de-las-variables-más-importantes" class="section level3 hasAnchor" number="6.8">
+<h3><span class="header-section-number">6.8</span> Matriz de correlación de las variables más importantes<a href="#matriz-de-correlaci%C3%B3n-de-las-variables-m%C3%A1s-importantes" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <div class="sourceCode" id="cb102"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb102-1"><a href="#cb102-1" tabindex="-1"></a>corr_features <span class="ot">&lt;-</span> <span class="fu">c</span>(top_15_features, TARGET)</span>
 <span id="cb102-2"><a href="#cb102-2" tabindex="-1"></a>corr_matrix   <span class="ot">&lt;-</span> <span class="fu">cor</span>(train_df[corr_features], <span class="at">method =</span> <span class="st">&quot;spearman&quot;</span>, <span class="at">use =</span> <span class="st">&quot;pairwise.complete.obs&quot;</span>)</span>
 <span id="cb102-3"><a href="#cb102-3" tabindex="-1"></a></span>
@@ -11119,7 +11095,7 @@ razón para tenerlas presentes al momento de seleccionar variables para el model
 <span id="cb102-12"><a href="#cb102-12" tabindex="-1"></a>    <span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">45</span>, <span class="at">hjust =</span> <span class="dv">1</span>, <span class="at">size =</span> <span class="dv">8</span>),</span>
 <span id="cb102-13"><a href="#cb102-13" tabindex="-1"></a>    <span class="at">axis.text.y =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">8</span>)</span>
 <span id="cb102-14"><a href="#cb102-14" tabindex="-1"></a>  )</span></code></pre></div>
-<p><img src="Prediccion_Bancarrota_Empresarial_files/figure-html/heatmap-corr-1.png" alt="" width="100%" style="display: block; margin: auto;" /></p>
+<p><img src="index_files/figure-html/heatmap-corr-1.png" alt="" width="100%" style="display: block; margin: auto;" /></p>
 <p>Esta matriz reúne en un solo lugar las 15 variables más relevantes según Random
 Forest, junto con <code>Bankrupt?</code>, para ver cómo se relacionan entre sí (no solo con la
 quiebra).</p>
@@ -11133,8 +11109,8 @@ correlaciones muy altas entre sí (cercanas a 0.9-1.0). Esto confirma la
 <strong>multicolinealidad</strong>: son distintas formas de medir prácticamente lo mismo
 (rentabilidad), calculadas con pequeñas variaciones metodológicas.</li>
 </ul>
-<div id="pares-con-multicolinealidad-crítica-rho-0.80" class="section level4 hasAnchor" number="0.6.8.1">
-<h4><span class="header-section-number">0.6.8.1</span> Pares con multicolinealidad crítica (<code>|rho| &gt;= 0.80</code>)<a href="#pares-con-multicolinealidad-cr%C3%ADtica-rho-0.80" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<div id="pares-con-multicolinealidad-crítica-rho-0.80" class="section level4 hasAnchor" number="6.8.1">
+<h4><span class="header-section-number">6.8.1</span> Pares con multicolinealidad crítica (<code>|rho| &gt;= 0.80</code>)<a href="#pares-con-multicolinealidad-cr%C3%ADtica-rho-0.80" class="anchor-section" aria-label="Anchor link to header"></a></h4>
 <div class="sourceCode" id="cb103"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb103-1"><a href="#cb103-1" tabindex="-1"></a>corr_solo_features <span class="ot">&lt;-</span> corr_matrix[top_15_features, top_15_features]</span>
 <span id="cb103-2"><a href="#cb103-2" tabindex="-1"></a>idx_pares <span class="ot">&lt;-</span> <span class="fu">which</span>(<span class="fu">abs</span>(corr_solo_features) <span class="sc">&gt;=</span> <span class="fl">0.80</span> <span class="sc">&amp;</span> <span class="fu">upper.tri</span>(corr_solo_features),</span>
 <span id="cb103-3"><a href="#cb103-3" tabindex="-1"></a>                    <span class="at">arr.ind =</span> <span class="cn">TRUE</span>)</span>
@@ -11173,8 +11149,8 @@ más contexto sobre qué modelo se va a usar.</p>
 </div>
 </div>
 </div>
-<div id="conclusiones-del-eda" class="section level2 hasAnchor" number="0.7">
-<h2><span class="header-section-number">0.7</span> Conclusiones del EDA<a href="#conclusiones-del-eda" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="conclusiones-del-eda" class="section level2 hasAnchor" number="7">
+<h2><span class="header-section-number">7</span> Conclusiones del EDA<a href="#conclusiones-del-eda" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <ol style="list-style-type: decimal">
 <li><p><strong>Estructura del dataset:</strong> <code>train</code> tiene alrededor de 5.455 empresas y 95
 variables predictoras (93 numéricas + 2 flags binarios), más el target
@@ -11212,8 +11188,8 @@ pequeño concentra una proporción de quiebra más alta y una asociación
 estadísticamente significativa (Fisher exacto). Vale la pena conservarla para el
 modelo pese a su baja cardinalidad.</p></li>
 </ol>
-<div id="problemas-identificados-para-la-etapa-de-preprocesamiento" class="section level3 hasAnchor" number="0.7.1">
-<h3><span class="header-section-number">0.7.1</span> Problemas identificados para la etapa de preprocesamiento<a href="#problemas-identificados-para-la-etapa-de-preprocesamiento" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div id="problemas-identificados-para-la-etapa-de-preprocesamiento" class="section level3 hasAnchor" number="7.1">
+<h3><span class="header-section-number">7.1</span> Problemas identificados para la etapa de preprocesamiento<a href="#problemas-identificados-para-la-etapa-de-preprocesamiento" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <ul>
 <li><strong><code>Net Income Flag</code></strong> es (casi) constante en todo el dataset: evaluar si eliminarla
 antes de entrenar el modelo.</li>
@@ -11236,7 +11212,6 @@ flag en algún fold si más adelante se usa validación cruzada
 (<code>caret::createFolds()</code>).</li>
 </ul>
 
-</div>
 </div>
 </div>
             </section>
