@@ -34,12 +34,12 @@ knitr::opts_chunk$set(
 > prueba hacia las decisiones tomadas en esta etapa.
 
 
-# Contexto
+## Contexto
 
 Antes de entrar en el análisis, esta sección explica el dataset y los conceptos
 financieros necesarios para entender el resto del libro.
 
-## ¿Qué es este dataset?
+### ¿Qué es este dataset?
 
 Los datos provienen del **Taiwan Economic Journal** (1999–2009) y contienen indicadores
 financieros anuales de empresas que cotizan en la Bolsa de Taiwán. Una empresa se marca
@@ -49,30 +49,32 @@ normativa de esa bolsa; el resto (Bankrupt = 0) siguió operando con normalidad.
 El objetivo es predecir, a partir de razones financieras (ratios), si una empresa
 está en riesgo de quebrar.
 
-## ¿Qué es un "ratio" financiero?
+### ¿Qué es un "ratio" financiero?
 
 Es una relación entre dos cifras del estado financiero de una empresa (por ejemplo,
 utilidad entre activos) que permite comparar empresas de tamaños distintos en una
 misma escala. El dataset tiene 95 ratios de este tipo, todos ya calculados.
 
-# Carga y preparación inicial
+## Carga y preparación inicial
 
-## Librerías y configuración visual
+### Librerías y configuración visual
 
 ```{r setup-libs, message=FALSE, warning=FALSE}
 # Si te falta algún paquete, instálalo una vez con:
 # install.packages(c("tidyverse","caret","randomForest","e1071",
-#                     "ggcorrplot","scales","knitr","kableExtra","patchwork","car"))
+#                     "ggcorrplot","scales","knitr","kableExtra","patchwork","car",
+#                     "base64enc"))
 
 library(tidyverse)
 library(caret)          # createDataPartition, nearZeroVar
 library(randomForest)   # Random Forest exploratorio
-library(e1071)          # skewness()
+library(e1071)          # skewness(), kurtosis()
 library(ggcorrplot)     # heatmap de correlación
 library(scales)         # comma(), percent()
 library(knitr)          # kable()
-library(kableExtra)     # tablas con mejor formato
+library(kableExtra)     # tablas con mejor formato (scroll_box, etc.)
 library(patchwork)      # combinar varios ggplot en una cuadrícula
+library(base64enc)      # embeber las 93 gráficas del análisis univariado
 
 RANDOM_STATE <- 42
 set.seed(RANDOM_STATE)
@@ -98,7 +100,7 @@ tema_eda <- theme_minimal(base_size = 12) +
 theme_set(tema_eda)
 ```
 
-## Carga del dataset
+### Carga del dataset
 
 ```{r cargar-datos}
 # Ajusta esta ruta a donde tengas el CSV dentro de tu proyecto
@@ -143,7 +145,7 @@ str(df)
 > `Liability-Assets Flag` y `Net Income Flag`, que están guardadas como enteros pero
 > en realidad son variables categóricas binarias (0/1), no cantidades.
 
-## Tipo de problema, target y features
+### Tipo de problema, target y features
 
 ```{r tipo-problema}
 cat_vars <- c("Liability-Assets Flag", "Net Income Flag")
@@ -159,7 +161,7 @@ cat("Variables predictoras categóricas (flags 0/1):", length(cat_vars),
     "->", paste(cat_vars, collapse = ", "), "\n")
 ```
 
-## División train / test
+### División train / test
 
 Antes de explorar los datos a fondo, separamos un conjunto de prueba (`test`) que se
 reserva para la evaluación final del modelo. **A partir de aquí, todo el EDA se hace
@@ -194,7 +196,7 @@ cat(sprintf("  Test:  %.2f%%\n", mean(test_df[[TARGET]]) * 100))
 > La estratificación aseguró que el porcentaje de empresas quebradas sea prácticamente
 > igual en ambos conjuntos.
 
-## Persistencia del split para las etapas posteriores
+### Persistencia del split para las etapas posteriores
 
 Guardamos `train_df` y `test_df` en disco para que la etapa de modelado use exactamente
 la misma partición que se usó en este EDA, sin necesidad de recalcularla.
@@ -208,9 +210,9 @@ saveRDS(
 )
 ```
 
-# Calidad de los datos (sobre `train`)
+## Calidad de los datos (sobre `train`)
 
-## Valores nulos
+### Valores nulos
 
 ```{r nulos}
 nulos <- colSums(is.na(train_df))
@@ -226,7 +228,7 @@ if (length(nulos) == 0) {
 
 Ninguna empresa de `train` tiene información faltante en sus estados financieros.
 
-## Filas duplicadas
+### Filas duplicadas
 
 ```{r duplicados}
 duplicados <- sum(duplicated(train_df))
@@ -235,7 +237,7 @@ cat("Filas duplicadas en train:", duplicados, "\n")
 
 No hay filas repetidas en `train`, así que no es necesario eliminar duplicados.
 
-## Variables categóricas y cardinalidad
+### Variables categóricas y cardinalidad
 
 ```{r categoricas}
 for (c in cat_vars) {
@@ -250,28 +252,46 @@ for (c in cat_vars) {
 > eliminar antes del modelado. `Liability-Assets Flag` sí varía, aunque muy poco. Vale
 > la pena revisarla más adelante junto al target, en la sección de análisis bivariado.
 
-# Análisis univariado (sobre `train`)
+## Análisis univariado (sobre `train`)
 
-## Estadísticas descriptivas
+### Estadísticas descriptivas
 
 ```{r describe}
-resumen <- train_df %>%
-  select(all_of(num_vars)) %>%
-  summarise(across(
-    everything(),
-    list(mean = ~mean(.x, na.rm = TRUE), median = ~median(.x, na.rm = TRUE),
-         sd = ~sd(.x, na.rm = TRUE), min = ~min(.x, na.rm = TRUE),
-         max = ~max(.x, na.rm = TRUE), q25 = ~quantile(.x, 0.25, na.rm = TRUE),
-         q75 = ~quantile(.x, 0.75, na.rm = TRUE)),
-    .names = "{.col}__{.fn}"
-  )) %>%
-  pivot_longer(everything(), names_to = c("variable", ".value"),
-               names_sep = "__")
+# Réplica de generar_estadisticas_univariadas() del notebook: N, media, DS,
+# curtosis, mediana, mínimo, máximo, Q1, Q3 e IQR para las 93 variables
+# numéricas completas (no solo una muestra), dentro de un contenedor con
+# scroll para mantenerlas todas disponibles sin romper el flujo del libro.
+generar_estadisticas_univariadas <- function(df, variables) {
+  map_dfr(variables, function(var) {
+    serie <- df[[var]]
+    serie <- serie[!is.na(serie)]
+    q <- quantile(serie, c(0.25, 0.75))
+    tibble(
+      Variable = var,
+      N        = length(serie),
+      Media    = mean(serie),
+      DS       = sd(serie),
+      Curtosis = e1071::kurtosis(serie, type = 2),
+      Mediana  = median(serie),
+      Minimo   = min(serie),
+      Maximo   = max(serie),
+      Q1       = q[[1]],
+      Q3       = q[[2]],
+      IQR      = q[[2]] - q[[1]]
+    )
+  })
+}
 
-resumen %>%
-  slice(1:5) %>%
-  kable(digits = 3, caption = "Estadísticas descriptivas (primeras 5 variables)") %>%
-  kable_styling(bootstrap_options = c("striped", "hover"), full_width = FALSE)
+df_stats_num <- generar_estadisticas_univariadas(train_df, num_vars)
+
+df_stats_num %>%
+  kable(digits = c(0, 0, 2, 2, 2, 2, 2, 2, 2, 2, 2),
+        col.names = c("Variable", "N", "Media", "DS", "Curtosis", "Mediana",
+                       "Mínimo", "Máximo", "Q1", "Q3", "IQR"),
+        caption = "Estadísticas descriptivas de las 93 variables numéricas (train)") %>%
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed"),
+                full_width = FALSE, font_size = 12) %>%
+  scroll_box(height = "420px")
 ```
 
 Las escalas son muy distintas entre variables (algunas van de 0 a 1, otras tienen
@@ -279,7 +299,7 @@ valores en miles). Esto ya nos dice que, para cualquier modelo sensible a la esc
 (como regresión logística, SVM o PCA), va a hacer falta estandarizar las variables en
 el pipeline de preprocesamiento.
 
-## Variables con varianza cercana a cero
+### Variables con varianza cercana a cero
 
 ```{r varianza-baja}
 varianzas  <- sapply(train_df[num_vars], var, na.rm = TRUE)
@@ -297,93 +317,103 @@ Con este resultado confirmamos que, entre las variables numéricas, ninguna es
 prácticamente constante en `train`. Todas tienen variabilidad real y suficiente entre
 empresas.
 
-## Distribución de variables financieras clave
+### Gráficas
 
-A continuación se eligen 6 variables que cubren 5 ángulos distintos de la salud
-financiera de una empresa, sin repetirse:
+Cada una de las 93 variables numéricas se resume en una figura con dos paneles
+(histograma + densidad, y boxplot), acompañada de una interpretación generada
+automáticamente a partir de su sesgo, media, mediana y curtosis — igual que en el
+notebook. Los 93 bloques se acumulan dentro de un único contenedor con scroll interno,
+en vez de mostrarse uno detrás de otro.
 
-**Rentabilidad**
+```{r galeria-univariado, fig.show='hide', results='asis'}
+dir_imgs_univ <- file.path(tempdir(), "univariado_imgs")
+dir.create(dir_imgs_univ, showWarnings = FALSE)
 
-1. **ROA(C) before interest and depreciation before interest:** Retorno sobre Activos
-   (Return on Assets), calculado *antes* de restar intereses y depreciación. Mide
-   cuánta ganancia genera la empresa por cada peso invertido en sus activos.
-2. **ROA(A) before interest and % after tax:** Otra versión del Retorno sobre Activos,
-   calculada *después* de impuestos.
+generar_bloque_univariado <- function(var) {
+  serie <- train_df[[var]]
+  serie <- serie[!is.na(serie)]
+  media_v   <- mean(serie)
+  mediana_v <- median(serie)
+  skew_v    <- e1071::skewness(serie, type = 2)
+  kurt_v    <- e1071::kurtosis(serie, type = 2)
 
-**Valor real para el dueño**
-
-3. **Net Value Per Share (B):** Valor contable por acción; qué tanto "vale en libros"
-   cada acción de la empresa.
-
-**Liquidez**
-
-4. **Current Ratio:** Activos corrientes entre pasivos corrientes; qué tan fácil es
-   para la empresa pagar sus deudas de corto plazo.
-
-**Endeudamiento**
-
-5. **Debt ratio %:** Qué porcentaje de los activos de la empresa está financiado con
-   deuda.
-
-**Eficiencia operativa**
-
-6. **Total Asset Turnover:** Qué tan eficientemente la empresa usa sus activos para
-   generar ventas.
-
-```{r hist-clave, fig.width=12, fig.height=7}
-variables_key <- c(
-  "ROA(C) before interest and depreciation before interest",
-  "ROA(A) before interest and % after tax",
-  "Net Value Per Share (B)",
-  "Current Ratio",
-  "Debt ratio %",
-  "Total Asset Turnover"
-)
-variables_key <- variables_key[variables_key %in% names(train_df)]
-
-plot_hist <- function(var) {
-  media <- mean(train_df[[var]], na.rm = TRUE)
-  ggplot(train_df, aes(x = .data[[var]])) +
-    geom_histogram(bins = 30, fill = COLOR_MAIN, color = "white", alpha = 0.85) +
-    geom_vline(xintercept = media, color = COLOR_ACCENT, linetype = "dashed",
+  p_dens <- ggplot(train_df, aes(x = .data[[var]])) +
+    geom_histogram(aes(y = after_stat(density)), bins = 30,
+                    fill = COLOR_MAIN, color = "white", alpha = 0.85) +
+    geom_density(color = COLOR_RISK, linewidth = 1.0) +
+    geom_vline(xintercept = media_v, color = COLOR_RISK, linetype = "dashed",
+               linewidth = 0.7) +
+    geom_vline(xintercept = mediana_v, color = COLOR_ACCENT, linetype = "dotted",
                linewidth = 0.9) +
-    labs(title = str_wrap(var, 32), x = NULL,
-         y = "Frecuencia", subtitle = sprintf("Media: %.2f", media)) +
-    tema_eda
+    labs(title = "Distribución (histograma + densidad)", x = var, y = "Densidad") +
+    tema_eda +
+    theme(plot.title = element_text(size = 10))
+
+  p_box <- ggplot(train_df, aes(x = "", y = .data[[var]])) +
+    geom_boxplot(fill = COLOR_MAIN, color = COLOR_MAIN, width = 0.35,
+                 outlier.color = COLOR_RISK, outlier.alpha = 0.5, outlier.size = 1.5) +
+    labs(title = "Boxplot", x = NULL, y = var) +
+    tema_eda +
+    theme(plot.title = element_text(size = 10))
+
+  archivo <- file.path(dir_imgs_univ, paste0(make.names(var), ".png"))
+  ggsave(archivo, p_dens + p_box, width = 7.5, height = 2.8, dpi = 72)
+  imagen_b64 <- base64enc::base64encode(archivo)
+
+  asimetria_desc <- if (abs(skew_v) < 0.5) {
+    "una distribución relativamente simétrica"
+  } else if (skew_v >= 0.5) {
+    "un marcado sesgo a la derecha (asimetría positiva)"
+  } else {
+    "un marcado sesgo a la izquierda (asimetría negativa)"
+  }
+
+  texto_interpretacion <- sprintf(
+    "El histograma de <b>%s</b> muestra %s, con una media de <b>%.4f</b> y una mediana de <b>%.4f</b>. La curtosis observada de <b>%.2f</b> indica la concentraci\u00f3n de observaciones alrededor de la zona central, con posibles valores at\u00edpicos en las colas. Esta morfolog\u00eda sugiere una alta homogeneidad en el grueso de las empresas analizadas, con comportamientos extremos puntuales a monitorear en el preprocesamiento.",
+    var, asimetria_desc, media_v, mediana_v, kurt_v
+  )
+
+  # IMPORTANTE: el HTML se arma en UNA sola línea por etiqueta y sin sangría.
+  # Pandoc interpreta las líneas indentadas con 4+ espacios (tras una línea en
+  # blanco) como un bloque de código literal en vez de HTML crudo -- por eso
+  # el bloque anterior salía como texto plano en vez de renderizarse.
+  paste0(
+    '<div style="background-color:#FFFFFF;border:1px solid #D8D3C7;border-radius:8px;padding:16px 18px;margin-bottom:18px;font-family:\'Source Sans 3\',sans-serif;">',
+    '<h4 style="color:#1F2D3D;margin:0 0 10px 0;font-size:14px;font-weight:700;">', var, '</h4>',
+    '<div style="text-align:center;margin-bottom:12px;">',
+    '<img src="data:image/png;base64,', imagen_b64, '" style="max-width:100%;height:auto;border-radius:4px;">',
+    '</div>',
+    '<p style="margin:0;color:#5B5F66;font-size:13px;line-height:1.6;border-left:4px solid #7A2E2E;background-color:#F7F6F3;padding:10px 14px;border-radius:4px;">',
+    texto_interpretacion,
+    '</p>',
+    '</div>'
+  )
 }
 
-wrap_plots(lapply(variables_key, plot_hist), ncol = 3) +
-  plot_annotation(title = "Distribución de variables financieras clave (train)",
-                   theme = theme(plot.title = element_text(face = "bold", size = 15)))
+# Se libera memoria cada 15 variables para evitar que el render se quede
+# sin RAM al acumular 93 gráficas + sus imágenes en memoria.
+bloques_univariado <- character(length(num_vars))
+for (i in seq_along(num_vars)) {
+  bloques_univariado[i] <- generar_bloque_univariado(num_vars[i])
+  if (i %% 15 == 0) invisible(gc(full = TRUE))
+}
+
+cat(
+  paste0(
+    '<div style="max-height:640px;overflow-y:auto;border:1px solid #D8D3C7;border-radius:8px;padding:14px;background-color:#F7F6F3;">',
+    paste(bloques_univariado, collapse = ""),
+    '</div>'
+  )
+)
 ```
 
-- **ROA(C) before interest and depreciation:** La mayoría de los valores se concentra
-  alrededor de 0.5. La distribución presenta una ligera asimetría hacia la derecha y
-  algunos valores alejados del centro.
-- **ROA(A) before interest and % after tax:** La distribución también se concentra
-  cerca de 0.55 y presenta una ligera asimetría hacia la derecha. Se observan algunos
-  valores extremos en ambos lados, aunque la mayor parte de los datos se encuentra en
-  un rango reducido.
-- **Net Value Per Share (B):** Los valores se concentran principalmente alrededor de
-  0.18–0.20. La distribución está sesgada hacia la derecha, con una cola que se
-  extiende hasta valores cercanos a 0.5.
-- **Current Ratio:** Presenta una fuerte asimetría hacia la derecha. La mayoría de las
-  empresas tiene valores cercanos a 0, mientras que unas pocas presentan valores mucho
-  más altos. Esto indica la presencia de valores extremos que podrían influir en
-  algunos análisis estadísticos.
-- **Debt ratio %:** La mayor parte de los valores se concentra aproximadamente entre
-  0.05 y 0.20. La distribución presenta asimetría positiva, con una cola hacia valores
-  más altos.
-- **Total Asset Turnover:** Los valores se concentran principalmente entre 0.05 y 0.20
-  y la distribución está sesgada hacia la derecha. Hay algunas empresas con valores
-  considerablemente mayores que la mayoría.
+En general, las 93 variables muestran distribuciones muy diversas: varias se
+concentran en un rango angosto con colas largas (sesgo marcado y curtosis alta),
+mientras que otras se acercan más a una forma simétrica. Estos casos deben revisarse
+en etapas posteriores antes de decidir si requieren algún tratamiento (transformación,
+winsorizing, o dejarlos igual).
 
-En general, las variables presentan distribuciones diferentes. Los indicadores Current
-Ratio, Debt Ratio y Total Asset Turnover muestran una asimetría positiva más marcada y
-posibles valores extremos. Estos casos deben revisarse en etapas posteriores antes de
-decidir si requieren algún tratamiento.
-
-## Distribución de la variable objetivo
+### Distribución de la variable objetivo
 
 ```{r target-dist, fig.width=11, fig.height=5}
 conteo     <- table(train_df[[TARGET]])
@@ -430,14 +460,14 @@ p_barras + p_dona
 > entrenamiento. Este desbalance deberá tenerse en cuenta durante el entrenamiento y
 > la evaluación del modelo.
 
-# Análisis de outliers y sesgo (sobre `train`)
+## Análisis de outliers y sesgo (sobre `train`)
 
 Antes de pasar al análisis bivariado, es importante identificar qué variables tienen
 distribuciones muy sesgadas y/o outliers extremos, ya que esto afecta tanto la
 interpretación visual como la elección de modelos y transformaciones en la fase de
 Machine Learning.
 
-## Top 10 variables con mayor sesgo, en valor absoluto (train)
+### Top 10 variables con mayor sesgo, en valor absoluto (train)
 
 ```{r skewness}
 # type = 2 replica la fórmula de sesgo "clásica" (similar a pandas .skew())
@@ -468,7 +498,7 @@ variables deberán revisarse durante el preprocesamiento para determinar si requ
 alguna transformación, especialmente si se utilizan modelos sensibles a la escala o a
 la distribución de los datos.
 
-## Boxplots de las variables más sesgadas
+### Boxplots de las variables más sesgadas
 
 ```{r box-sesgo, fig.width=12, fig.height=7}
 plot_box_skew <- function(var) {
@@ -511,7 +541,7 @@ estos valores extremos explican gran parte del sesgo observado. Por ahora no se
 deberían eliminar automáticamente, ya que primero es necesario determinar si
 representan errores o situaciones reales de las empresas.
 
-## Top 15 variables con más outliers (regla IQR)
+### Top 15 variables con más outliers (regla IQR)
 
 ```{r outliers-iqr, fig.width=10, fig.height=7}
 pct_outliers_iqr <- function(x) {
@@ -552,9 +582,9 @@ pueden representar situaciones financieras reales de algunas empresas. Estos
 resultados deberán considerarse posteriormente al definir el preprocesamiento de los
 datos.
 
-# Análisis bivariado: variables vs. objetivo (sobre `train`)
+## Análisis bivariado: variables vs. objetivo (sobre `train`)
 
-## Variables más importantes según Random Forest
+### Variables más importantes según Random Forest
 
 Usamos un Random Forest **entrenado únicamente con `train`** para tener una primera
 idea de qué variables separan mejor a las empresas que quiebran de las que no. Esto es
@@ -634,7 +664,7 @@ ranking definitivo de importancia. Dos sesgos conocidos a tener en cuenta:
   miden algo muy parecido (como las distintas versiones de ROA), el modelo divide el
   "crédito" entre ellas, lo que puede subestimar su relevancia individual.
 
-## Variables más importantes vs. objetivo
+### Variables más importantes vs. objetivo
 
 ```{r box-top6, fig.width=12, fig.height=8}
 plot_box_target <- function(var) {
@@ -687,7 +717,7 @@ interacción con las demás que por separarse solas en un boxplot.
 el orden exacto de las 6 variables top varíe un poco respecto a esta descripción —
 ajusta los nombres si es necesario.*
 
-## Comparación bivariada de las 93 variables numéricas
+### Comparación bivariada de las 93 variables numéricas
 
 Antes de entrar en pruebas formales, se resumen las 93 variables numéricas en una
 sola tabla (en vez de mirarlas una por una), ordenada por la fuerza de su relación
@@ -728,7 +758,7 @@ posicionadas (mayor `|r|`) combinan medias/medianas claramente distintas entre
 empresas sanas y quebradas, mientras que las últimas filas tienen valores casi
 idénticos entre ambos grupos — es decir, aportan poco de forma univariada.
 
-## Inferencia estadística: variables numéricas vs. objetivo
+### Inferencia estadística: variables numéricas vs. objetivo
 
 El análisis descriptivo y los boxplots anteriores sugieren diferencias entre empresas
 solventes y quebradas, pero no permiten determinar si esas diferencias son compatibles
@@ -825,7 +855,7 @@ las variables tengan utilidad práctica o predictiva**; la magnitud del efecto
 ($r_{rb}$) y el contexto financiero siguen siendo necesarios para juzgar relevancia.
 Este resultado describe asociación, no causalidad.
 
-## `Liability-Assets Flag` vs. objetivo
+### `Liability-Assets Flag` vs. objetivo
 
 Análisis bivariado de la única variable categórica con la variable objetivo.
 
@@ -880,7 +910,7 @@ tratarla con precaución en el modelado: puede aportar información valiosa para
 pequeño grupo de riesgo, pero su bajo número de casos limita qué tan bien puede
 generalizar.
 
-## Inferencia estadística: variables categóricas vs. objetivo
+### Inferencia estadística: variables categóricas vs. objetivo
 
 Para cada flag, H₀ plantea independencia respecto de `Bankrupt?`; H₁ plantea
 asociación. La prueba Chi-cuadrado requiere frecuencias esperadas suficientemente
@@ -946,7 +976,7 @@ hay comparación posible entre categorías y **no es estadísticamente contrasta
 no corresponde asignarle un *p-value*. La prueba de Fisher/Chi-cuadrado identifica
 asociación, no causalidad, y asume observaciones independientes entre empresas.
 
-## Correlaciones con la variable objetivo
+### Correlaciones con la variable objetivo
 
 > **Spearman en vez de Pearson:** con 93 variables no es viable comprobar
 > rigurosamente el supuesto de normalidad de cada una (implicaría 93 pruebas
@@ -1013,7 +1043,7 @@ fuerte (las distintas versiones de ROA) son las mismas que ya se identifican com
 altamente correlacionadas entre sí en la siguiente sección de multicolinealidad — otra
 razón para tenerlas presentes al momento de seleccionar variables para el modelo.
 
-## Matriz de correlación de las variables más importantes
+### Matriz de correlación de las variables más importantes
 
 ```{r heatmap-corr, fig.width=13, fig.height=11}
 corr_features <- c(top_15_features, TARGET)
@@ -1045,7 +1075,7 @@ quiebra).
   **multicolinealidad**: son distintas formas de medir prácticamente lo mismo
   (rentabilidad), calculadas con pequeñas variaciones metodológicas.
 
-### Pares con multicolinealidad crítica (`|rho| >= 0.80`)
+#### Pares con multicolinealidad crítica (`|rho| >= 0.80`)
 
 ```{r pares-multicolinealidad}
 corr_solo_features <- corr_matrix[top_15_features, top_15_features]
@@ -1084,7 +1114,7 @@ aporta información nueva y puede inflar artificialmente la importancia de esa
 no se elimina ninguna — esa decisión se deja para la etapa de preprocesamiento, con
 más contexto sobre qué modelo se va a usar.
 
-# Conclusiones del EDA
+## Conclusiones del EDA
 
 1. **Estructura del dataset:** `train` tiene alrededor de 5.455 empresas y 95
    variables predictoras (93 numéricas + 2 flags binarios), más el target
@@ -1129,7 +1159,7 @@ más contexto sobre qué modelo se va a usar.
    estadísticamente significativa (Fisher exacto). Vale la pena conservarla para el
    modelo pese a su baja cardinalidad.
 
-## Problemas identificados para la etapa de preprocesamiento
+### Problemas identificados para la etapa de preprocesamiento
 
 - **`Net Income Flag`** es (casi) constante en todo el dataset: evaluar si eliminarla
   antes de entrenar el modelo.

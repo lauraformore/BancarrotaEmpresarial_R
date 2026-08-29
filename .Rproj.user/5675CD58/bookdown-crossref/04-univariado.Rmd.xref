@@ -1,7 +1,38 @@
+h1:contexto Contexto
+h2:qué-es-este-dataset ¿Qué es este dataset?
+h2:qué-es-un-ratio-financiero ¿Qué es un  financiero?
+h1:carga-y-preparación-inicial Carga y preparación inicial
+h2:librerías-y-configuración-visual Librerías y configuración visual
+h2:carga-del-dataset Carga del dataset
+h2:tipo-de-problema-target-y-features Tipo de problema, target y features
+h2:división-train-test División train / test
+h2:persistencia-del-split-para-las-etapas-posteriores Persistencia del split para las etapas posteriores
+h1:calidad-de-los-datos-sobre-train Calidad de los datos (sobre )
+h2:valores-nulos Valores nulos
+h2:filas-duplicadas Filas duplicadas
+h2:variables-categóricas-y-cardinalidad Variables categóricas y cardinalidad
 h1:análisis-univariado-sobre-train Análisis univariado (sobre )
 h2:estadísticas-descriptivas Estadísticas descriptivas
-tab:describe Estadísticas descriptivas (primeras 5 variables)
+tab:describe Estadísticas descriptivas de las 93 variables numéricas (train)
 h2:variables-con-varianza-cercana-a-cero Variables con varianza cercana a cero
-h2:distribución-de-variables-financieras-clave Distribución de variables financieras clave
+h2:gráficas Gráficas
 h2:distribución-de-la-variable-objetivo Distribución de la variable objetivo
+h1:análisis-de-outliers-y-sesgo-sobre-train Análisis de outliers y sesgo (sobre )
+h2:top-10-variables-con-mayor-sesgo-en-valor-absoluto-train Top 10 variables con mayor sesgo, en valor absoluto (train)
+h2:boxplots-de-las-variables-más-sesgadas Boxplots de las variables más sesgadas
+h2:top-15-variables-con-más-outliers-regla-iqr Top 15 variables con más outliers (regla IQR)
+h1:análisis-bivariado-variables-vs.-objetivo-sobre-train Análisis bivariado: variables vs. objetivo (sobre )
+h2:variables-más-importantes-según-random-forest Variables más importantes según Random Forest
+h2:variables-más-importantes-vs.-objetivo Variables más importantes vs. objetivo
+h2:comparación-bivariada-de-las-93-variables-numéricas Comparación bivariada de las 93 variables numéricas
+tab:tabla-bivariada-todas Comparación bivariada de las 93 variables numéricas vs. Bankrupt? (ordenadas por relevancia)
+h2:inferencia-estadística-variables-numéricas-vs.-objetivo Inferencia estadística: variables numéricas vs. objetivo
+h2:liability-assets-flag-vs.-objetivo  vs. objetivo
+h2:inferencia-estadística-variables-categóricas-vs.-objetivo Inferencia estadística: variables categóricas vs. objetivo
+h2:correlaciones-con-la-variable-objetivo Correlaciones con la variable objetivo
+h2:matriz-de-correlación-de-las-variables-más-importantes Matriz de correlación de las variables más importantes
+h3:pares-con-multicolinealidad-crítica-rho-0.80 Pares con multicolinealidad crítica ()
+tab:pares-multicolinealidad Pares de variables (top 15) con |rho| >= 0.80
+h1:conclusiones-del-eda Conclusiones del EDA
+h2:problemas-identificados-para-la-etapa-de-preprocesamiento Problemas identificados para la etapa de preprocesamiento
 
