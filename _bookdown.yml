@@ -6,7 +6,7 @@ language:
 rmd_files: [
   "index.Rmd",
   "01-contexto.Rmd",
-  "02-EDA.Rmd",
+  "02-carga-preparacion.Rmd",
   "03-calidad-datos.Rmd",
   "04-univariado.Rmd",
   "05-outliers-sesgo.Rmd",
