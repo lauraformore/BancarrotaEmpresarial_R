@@ -1,0 +1,206 @@
+/* ============================================================
+   Predicción de Bancarrota Empresarial — Tema Académico
+   Bookdown / gitbook
+   ============================================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,wght@0,400;0,600;0,700;1,400&family=Source+Sans+3:wght@400;600;700&family=Source+Code+Pro:wght@400;500&display=swap');
+
+:root {
+  /* Paleta académica: tinta y burdeos, desaturados frente al azul/naranja original */
+  --brand-primary: #1F2D3D;   /* tinta casi negra, para texto y encabezados */
+  --brand-accent:  #2E4C6D;   /* azul apagado, para líneas y detalles */
+  --brand-risk:    #7A2E2E;   /* burdeos, reemplaza el naranja/rojo vivo */
+
+  --bg-surface:        #FFFFFF;
+  --bg-surface-muted:  #F7F6F3;   /* hueso muy suave, tipo papel */
+  --color-text-main:   #26282B;
+  --color-text-muted:  #5B5F66;
+  --color-border:      #D8D3C7;
+
+  --font-body: 'Source Serif 4', Georgia, 'Times New Roman', serif;
+  --font-heading: 'Source Sans 3', 'Source Serif 4', serif;
+  --font-mono: 'Source Code Pro', Consolas, monospace;
+}
+
+/* ---------- Base y tipografía ---------- */
+body {
+  font-family: var(--font-body);
+  font-size: 17px;
+  line-height: 1.7;
+  background-color: var(--bg-surface);
+  color: var(--color-text-main);
+}
+
+h1, h2, h3, h4 {
+  font-family: var(--font-heading);
+  font-weight: 700;
+  color: var(--brand-primary) !important;
+  letter-spacing: 0;
+}
+
+h1 {
+  font-size: 2rem;
+  border-bottom: 1px solid var(--brand-primary);
+  padding-bottom: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+/* Subtítulo/autoría bajo el título, sin color llamativo */
+h1 + p em, h1 + p strong em {
+  display: block;
+  color: var(--color-text-muted);
+  font-size: 1rem;
+  font-style: italic;
+  font-weight: 400;
+  margin-top: 0.4rem;
+}
+
+h2 {
+  font-size: 1.4rem;
+  margin-top: 2.2rem;
+  padding-bottom: 0.3rem;
+  border-bottom: 1px solid var(--color-border);
+}
+
+h3 {
+  font-size: 1.15rem;
+  color: var(--brand-accent) !important;
+}
+
+h4 {
+  font-size: 1rem;
+  font-style: italic;
+  color: var(--color-text-muted) !important;
+  font-weight: 600;
+}
+
+p { color: var(--color-text-main); text-align: justify; }
+
+code, pre, .highlight { font-family: var(--font-mono) !important; }
+
+/* ---------- Citas / notas metodológicas (blockquote de Markdown) ---------
+   Reemplaza las "tarjetas" con sombra e ícono por una nota clásica de
+   informe académico: filete izquierdo delgado, sin fondo de color, cursiva. */
+blockquote {
+  background: transparent !important;
+  border: none !important;
+  border-left: 3px solid var(--brand-accent) !important;
+  border-radius: 0 !important;
+  margin: 1.4rem 0 !important;
+  padding: 0.3rem 0 0.3rem 1.1rem !important;
+  box-shadow: none !important;
+  color: var(--color-text-muted) !important;
+  font-style: italic;
+}
+
+blockquote p { margin: 0.3rem 0; }
+
+/* Admonitions (si el theme_creator/kableExtra las usa en algún momento) se
+   nivelan a la misma estética sobria de la cita, sin íconos ni sombras. */
+.admonition, aside.admonition, div[class*="admonition"] {
+  background: transparent !important;
+  border: none !important;
+  border-left: 3px solid var(--brand-risk) !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  margin: 1.4rem 0 !important;
+  padding: 0.4rem 0 0.4rem 1.1rem !important;
+}
+.admonition .admonition-title {
+  font-weight: 700 !important;
+  font-family: var(--font-heading) !important;
+  color: var(--brand-risk) !important;
+  text-transform: uppercase;
+  font-size: 0.85rem !important;
+  letter-spacing: 0.03em;
+}
+
+/* ---------- Tablas: estilo "informe impreso", no tarjeta de dashboard ---------- */
+table, table.dataframe {
+  border-collapse: collapse !important;
+  width: auto;
+  max-width: 100%;
+  margin: 1.6rem auto;
+  font-size: 0.92rem;
+  font-family: var(--font-body);
+  box-shadow: none !important;
+  border-radius: 0 !important;
+  background: var(--bg-surface);
+}
+
+table thead th {
+  background: var(--bg-surface) !important;
+  color: var(--brand-primary) !important;
+  font-weight: 700;
+  text-align: left !important;
+  border-top: 2px solid var(--brand-primary) !important;
+  border-bottom: 1px solid var(--brand-primary) !important;
+  padding: 8px 14px !important;
+}
+
+table td {
+  border-bottom: 1px solid var(--color-border) !important;
+  padding: 6px 14px !important;
+  font-variant-numeric: tabular-nums;
+  color: var(--color-text-main);
+}
+
+table tr:last-child td { border-bottom: 2px solid var(--brand-primary) !important; }
+
+/* Sin cebra de color: una tabla académica se lee por alineación, no por
+   bandas de color. Si prefieres cebra sutil, descomenta lo siguiente:
+table tr:nth-child(even) td { background: var(--bg-surface-muted); } */
+
+/* ---------- Código y salidas ---------- */
+.cell_input, div.highlight, div.highlight pre {
+  background-color: #F5F4F1 !important;
+  border: 1px solid var(--color-border) !important;
+  border-radius: 3px !important;
+  box-shadow: none !important;
+}
+
+.output_text, .stream, div.output_area pre {
+  background-color: var(--bg-surface-muted) !important;
+  color: var(--color-text-main) !important;
+  border: 1px solid var(--color-border) !important;
+  border-radius: 3px !important;
+  font-family: var(--font-mono) !important;
+  font-size: 0.85rem !important;
+  padding: 0.9rem 1.1rem !important;
+}
+
+/* Código en línea */
+.book-body code:not(pre code), main code:not(pre code) {
+  background: var(--bg-surface-muted);
+  color: var(--brand-primary);
+  padding: 0.15em 0.35em;
+  border-radius: 3px;
+  font-size: 0.88em;
+}
+
+/* ---------- Enlaces e imágenes ---------- */
+a { color: var(--brand-accent); text-decoration: underline; text-underline-offset: 2px; }
+a:hover { color: var(--brand-risk); }
+
+img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 0;
+  box-shadow: none;
+  border: 1px solid var(--color-border);
+}
+
+/* Pie de figura, si el libro usa fig.cap de knitr */
+p.caption, .caption {
+  font-size: 0.85rem;
+  font-style: italic;
+  color: var(--color-text-muted);
+  text-align: center;
+}
+
+::selection { background: var(--brand-accent); color: #FFFFFF; }
+
+/* ---------- Sidebar/TOC de gitbook: se deja limpio, sin color de marca fuerte ---------- */
+.book-summary { background: var(--bg-surface-muted) !important; border-right: 1px solid var(--color-border); }
+.book-summary li.chapter a { color: var(--color-text-main) !important; font-family: var(--font-heading); }
+.book-summary li.chapter.active > a { color: var(--brand-primary) !important; font-weight: 700; }
