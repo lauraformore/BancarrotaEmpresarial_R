@@ -32,12 +32,3 @@ base sólida para el desarrollo de un modelo predictivo de quiebra empresarial.
 > conjunto `test` se reserva y no se toca hasta la evaluación final del modelo, para
 > evitar *data leakage* (que información del conjunto de prueba influya en decisiones
 > tomadas antes de entrenar el modelo).
-
-> **Nota sobre esta versión en R:** este libro es la traducción a R (bookdown) del
-> notebook original en Python. La lógica, las decisiones metodológicas y las
-> interpretaciones son las mismas; sin embargo, como el generador de números
-> aleatorios de R no es idéntico al de `sklearn`, la partición `train`/`test` y,
-> por lo tanto, algunas cifras exactas (conteos, correlaciones, importancias) pueden
-> variar ligeramente respecto a la versión en Python. El **patrón y las conclusiones
-> generales se mantienen**. Vuelve a leer los números impresos por cada chunk después
-> de knittear y ajusta el texto si alguno cambia de forma relevante.
