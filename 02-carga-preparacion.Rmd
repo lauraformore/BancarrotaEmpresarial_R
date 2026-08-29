@@ -5,7 +5,7 @@
 ```{r setup-libs, message=FALSE, warning=FALSE}
 # Si te falta algún paquete, instálalo una vez con:
 # install.packages(c("tidyverse","caret","randomForest","e1071",
-#                     "ggcorrplot","scales","knitr","kableExtra","patchwork"))
+#                     "ggcorrplot","scales","knitr","kableExtra","patchwork","car"))
 
 library(tidyverse)
 library(caret)          # createDataPartition, nearZeroVar
@@ -136,3 +136,17 @@ cat(sprintf("  Test:  %.2f%%\n", mean(test_df[[TARGET]]) * 100))
 > `test` quedan guardadas y no se vuelven a mirar hasta que haya un modelo entrenado.
 > La estratificación aseguró que el porcentaje de empresas quebradas sea prácticamente
 > igual en ambos conjuntos.
+
+## Persistencia del split para las etapas posteriores
+
+Guardamos `train_df` y `test_df` en disco para que la etapa de modelado use exactamente
+la misma partición que se usó en este EDA, sin necesidad de recalcularla.
+
+```{r guardar-split}
+dir.create("data/processed", showWarnings = FALSE, recursive = TRUE)
+saveRDS(
+  list(train = train_df, test = test_df, target = TARGET,
+       num_vars = num_vars, cat_vars = cat_vars),
+  file = "data/processed/train_test_split.rds"
+)
+```

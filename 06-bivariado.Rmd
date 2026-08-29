@@ -133,6 +133,144 @@ interacción con las demás que por separarse solas en un boxplot.
 el orden exacto de las 6 variables top varíe un poco respecto a esta descripción —
 ajusta los nombres si es necesario.*
 
+## Comparación bivariada de las 93 variables numéricas
+
+Antes de entrar en pruebas formales, se resumen las 93 variables numéricas en una
+sola tabla (en vez de mirarlas una por una), ordenada por la fuerza de su relación
+con el objetivo. Aquí ya se usa **correlación de Spearman** en vez de Pearson; la
+justificación completa está en la sección de correlaciones más adelante, pero en
+resumen: con 93 variables no es viable verificar normalidad una por una, y ya se
+documentó sesgo y outliers fuertes que distorsionan a Pearson.
+
+```{r tabla-bivariada-todas}
+corr_spearman_objetivo <- sapply(train_df[num_vars], function(x) {
+  cor(x, train_df[[TARGET]], method = "spearman", use = "pairwise.complete.obs")
+})
+
+tabla_bivariada <- tibble(
+  Variable = num_vars,
+  `Correlación Spearman (r)` = corr_spearman_objetivo[num_vars],
+  `Media (No quiebra)` = sapply(num_vars, function(v)
+    mean(train_df[[v]][train_df[[TARGET]] == 0], na.rm = TRUE)),
+  `Media (Quiebra)` = sapply(num_vars, function(v)
+    mean(train_df[[v]][train_df[[TARGET]] == 1], na.rm = TRUE)),
+  `Mediana (No quiebra)` = sapply(num_vars, function(v)
+    median(train_df[[v]][train_df[[TARGET]] == 0], na.rm = TRUE)),
+  `Mediana (Quiebra)` = sapply(num_vars, function(v)
+    median(train_df[[v]][train_df[[TARGET]] == 1], na.rm = TRUE))
+) %>%
+  arrange(desc(abs(`Correlación Spearman (r)`)))
+
+tabla_bivariada %>%
+  kable(digits = 4,
+        caption = "Comparación bivariada de las 93 variables numéricas vs. Bankrupt? (ordenadas por relevancia)") %>%
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed"),
+                full_width = FALSE, font_size = 12) %>%
+  scroll_box(height = "420px")
+```
+
+La tabla confirma, a nivel general, lo que ya se venía observando: las variables mejor
+posicionadas (mayor `|r|`) combinan medias/medianas claramente distintas entre
+empresas sanas y quebradas, mientras que las últimas filas tienen valores casi
+idénticos entre ambos grupos — es decir, aportan poco de forma univariada.
+
+## Inferencia estadística: variables numéricas vs. objetivo
+
+El análisis descriptivo y los boxplots anteriores sugieren diferencias entre empresas
+solventes y quebradas, pero no permiten determinar si esas diferencias son compatibles
+con la variabilidad muestral. La inferencia estadística contrasta, para cada ratio:
+
+- **H₀:** la distribución del ratio es igual en empresas que no quiebran y en empresas
+  que sí quiebran.
+- **H₁:** la distribución del ratio difiere entre ambos estados de quiebra.
+
+Se usa $\alpha = 0.05$. Como el objetivo es binario e independiente de cada ratio
+numérico, se comparan dos grupos independientes (0 = no quiebra; 1 = quiebra).
+
+**Selección de la prueba:** se evalúa normalidad razonable en ambos grupos con
+Shapiro-Wilk (máximo 5.000 observaciones por grupo, muestreadas con semilla fija),
+sesgo y porcentaje de outliers (IQR); Levene se reporta solo como diagnóstico
+adicional. En estos datos, las 93 variables incumplen la normalidad razonable, así
+que se usa **Mann-Whitney U bilateral** para todas. Como tamaño de efecto se reporta
+la **correlación biserial de rangos** ($r_{rb}$, entre -1 y 1): positivo indica que el
+ratio tiende a ser mayor en empresas sin quiebra; negativo, mayor en empresas
+quebradas. Guía descriptiva de magnitud: $|r_{rb}|\approx 0.10$ pequeño, $0.30$
+moderado, $0.50$ grande.
+
+```{r inferencia-numericas}
+# Requiere el paquete car para Levene (install.packages("car") si hace falta)
+ALPHA <- 0.05
+
+inferencia_una_var <- function(var) {
+  grupo_0 <- train_df[[var]][train_df[[TARGET]] == 0]
+  grupo_1 <- train_df[[var]][train_df[[TARGET]] == 1]
+  grupo_0 <- grupo_0[!is.na(grupo_0)]
+  grupo_1 <- grupo_1[!is.na(grupo_1)]
+
+  set.seed(RANDOM_STATE)
+  muestra_0 <- if (length(grupo_0) > 5000) sample(grupo_0, 5000) else grupo_0
+  p_shapiro_0 <- shapiro.test(muestra_0)$p.value
+  p_shapiro_1 <- shapiro.test(grupo_1)$p.value
+
+  grupo_f  <- factor(c(rep("0", length(grupo_0)), rep("1", length(grupo_1))))
+  p_levene <- car::leveneTest(c(grupo_0, grupo_1) ~ grupo_f, center = median)$`Pr(>F)`[1]
+
+  sesgo_0    <- e1071::skewness(grupo_0, type = 2)
+  sesgo_1    <- e1071::skewness(grupo_1, type = 2)
+  pct_out_0  <- pct_outliers_iqr(grupo_0)
+  pct_out_1  <- pct_outliers_iqr(grupo_1)
+
+  normalidad_razonable <- p_shapiro_0 >= ALPHA && p_shapiro_1 >= ALPHA &&
+    abs(sesgo_0) <= 1 && abs(sesgo_1) <= 1 && max(pct_out_0, pct_out_1) <= 5
+
+  prueba <- wilcox.test(grupo_0, grupo_1, alternative = "two.sided", exact = FALSE)
+  U  <- as.numeric(prueba$statistic)
+  n0 <- length(grupo_0); n1 <- length(grupo_1)
+
+  tibble(
+    Variable = var, `N (0)` = n0, `N (1)` = n1,
+    `Mediana (0)` = median(grupo_0), `Mediana (1)` = median(grupo_1),
+    `p Shapiro (0)` = p_shapiro_0, `p Shapiro (1)` = p_shapiro_1, `p Levene` = p_levene,
+    `Normalidad razonable` = normalidad_razonable,
+    U = U, `p-value` = prueba$p.value,
+    `r biserial` = 2 * U / (n0 * n1) - 1
+  )
+}
+
+resultados_inferencia_num <- map_dfr(num_vars, inferencia_una_var)
+
+# Holm controla el error familiar entre las 93 pruebas y es menos conservador
+# que Bonferroni; p.adjust(method = "holm") ya implementa Holm-Bonferroni.
+resultados_inferencia_num <- resultados_inferencia_num %>%
+  mutate(`p ajustado (Holm)` = p.adjust(`p-value`, method = "holm"),
+         Decisión = ifelse(`p ajustado (Holm)` < ALPHA, "Se rechaza H0", "No se rechaza H0")) %>%
+  arrange(`p ajustado (Holm)`)
+
+resultados_inferencia_num %>%
+  select(Variable, `N (0)`, `N (1)`, `Mediana (0)`, `Mediana (1)`,
+         U, `p-value`, `p ajustado (Holm)`, `r biserial`, Decisión) %>%
+  kable(digits = c(0, 0, 0, 4, 4, 1, 3, 3, 3, 0)) %>%
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed"),
+                full_width = FALSE, font_size = 12) %>%
+  scroll_box(height = "420px")
+
+n_rechaza <- sum(resultados_inferencia_num$Decisión == "Se rechaza H0")
+cat(sprintf("Variables evaluadas: %d\n", nrow(resultados_inferencia_num)))
+cat(sprintf("Con evidencia después de Holm: %d\n", n_rechaza))
+cat(sprintf("Sin evidencia suficiente después de Holm: %d\n",
+            nrow(resultados_inferencia_num) - n_rechaza))
+```
+
+Realizar 93 contrastes con $\alpha=0.05$ sin ajuste aumentaría la probabilidad de
+falsos positivos: aun si todas las H₀ fueran ciertas, se esperarían en promedio
+$93 \times 0.05 \approx 4{,}65$ rechazos solo por azar. Después de la corrección de
+Holm, la mayoría de las variables numéricas conserva evidencia de diferencia entre
+empresas sanas y quebradas, y solo un grupo pequeño no la conserva — esta
+significancia abundante es compatible con el tamaño muestral y **no implica que todas
+las variables tengan utilidad práctica o predictiva**; la magnitud del efecto
+($r_{rb}$) y el contexto financiero siguen siendo necesarios para juzgar relevancia.
+Este resultado describe asociación, no causalidad.
+
 ## `Liability-Assets Flag` vs. objetivo
 
 Análisis bivariado de la única variable categórica con la variable objetivo.
@@ -188,11 +326,85 @@ tratarla con precaución en el modelado: puede aportar información valiosa para
 pequeño grupo de riesgo, pero su bajo número de casos limita qué tan bien puede
 generalizar.
 
+## Inferencia estadística: variables categóricas vs. objetivo
+
+Para cada flag, H₀ plantea independencia respecto de `Bankrupt?`; H₁ plantea
+asociación. La prueba Chi-cuadrado requiere frecuencias esperadas suficientemente
+grandes (regla habitual: ninguna esperada menor que 1 y no más del 20 % menores que
+5); no debe aplicarse automáticamente sin comprobarlo.
+
+```{r inferencia-categoricas}
+inferencia_flag <- function(var) {
+  tabla <- table(train_df[[var]], train_df[[TARGET]])
+
+  if (length(unique(train_df[[var]])) < 2) {
+    return(tibble(
+      Variable = var, `Prueba seleccionada` = "No contrastable",
+      Motivo = "La predictora es constante en train",
+      `Frecuencia esperada mínima` = NA_real_, `Estadístico / OR` = NA_real_,
+      `IC 95% OR` = "No aplica", `p-value` = NA_real_, Decisión = "No aplica"
+    ))
+  }
+
+  esperadas <- suppressWarnings(chisq.test(tabla, correct = FALSE)$expected)
+  minimo_esperado    <- min(esperadas)
+  pct_esperadas_bajo5 <- mean(esperadas < 5) * 100
+
+  if (minimo_esperado < 1 || pct_esperadas_bajo5 > 20) {
+    prueba <- fisher.test(tabla, alternative = "two.sided")
+    tibble(
+      Variable = var, `Prueba seleccionada` = "Exacta de Fisher (bilateral)",
+      Motivo = "Chi-cuadrado no válido por frecuencias esperadas pequeñas",
+      `Frecuencia esperada mínima` = minimo_esperado,
+      `Estadístico / OR` = as.numeric(prueba$estimate),
+      `IC 95% OR` = sprintf("[%.2f, %.2f]", prueba$conf.int[1], prueba$conf.int[2]),
+      `p-value` = prueba$p.value,
+      Decisión = ifelse(prueba$p.value < ALPHA, "Se rechaza H0", "No se rechaza H0")
+    )
+  } else {
+    prueba <- chisq.test(tabla, correct = FALSE)
+    tibble(
+      Variable = var, `Prueba seleccionada` = "Chi-cuadrado de independencia",
+      Motivo = "Frecuencias esperadas adecuadas",
+      `Frecuencia esperada mínima` = minimo_esperado,
+      `Estadístico / OR` = as.numeric(prueba$statistic),
+      `IC 95% OR` = "No aplica",
+      `p-value` = prueba$p.value,
+      Decisión = ifelse(prueba$p.value < ALPHA, "Se rechaza H0", "No se rechaza H0")
+    )
+  }
+}
+
+resultados_inferencia_cat <- map_dfr(cat_vars, inferencia_flag)
+
+resultados_inferencia_cat %>%
+  kable(digits = 3) %>%
+  kable_styling(bootstrap_options = c("striped", "hover"), full_width = FALSE)
+```
+
+Para `Liability-Assets Flag`, la categoría 1 tiene muy pocas empresas y al menos una
+celda con frecuencia esperada menor que 1, por lo que Chi-cuadrado no es válido y se
+usa la prueba exacta de Fisher; se reporta el *odds ratio* con su intervalo de
+confianza del 95 %, aunque un intervalo muy amplio refleja que la estimación descansa
+sobre muy pocos casos y no debe generalizarse sin más validación. `Net Income Flag` es
+constante en `train` (vale 1 en el 100 % de los casos): al no existir variabilidad no
+hay comparación posible entre categorías y **no es estadísticamente contrastable** —
+no corresponde asignarle un *p-value*. La prueba de Fisher/Chi-cuadrado identifica
+asociación, no causalidad, y asume observaciones independientes entre empresas.
+
 ## Correlaciones con la variable objetivo
+
+> **Spearman en vez de Pearson:** con 93 variables no es viable comprobar
+> rigurosamente el supuesto de normalidad de cada una (implicaría 93 pruebas
+> adicionales, con su propio problema de comparaciones múltiples). Además, ya se
+> documentaron sesgos y outliers fuertes en varias variables, algo que distorsiona a
+> Pearson. Por eso se usa la **correlación de Spearman (rho)**: no asume normalidad,
+> es robusta ante outliers y captura relaciones monótonas (no solo lineales) entre
+> cada ratio financiero y la probabilidad de quiebra.
 
 ```{r correlaciones, fig.width=10, fig.height=9}
 corr_objetivo <- sapply(train_df[num_vars], function(x) {
-  cor(x, train_df[[TARGET]], use = "pairwise.complete.obs")
+  cor(x, train_df[[TARGET]], method = "spearman", use = "pairwise.complete.obs")
 })
 corr_objetivo <- sort(corr_objetivo)
 
@@ -251,13 +463,13 @@ razón para tenerlas presentes al momento de seleccionar variables para el model
 
 ```{r heatmap-corr, fig.width=13, fig.height=11}
 corr_features <- c(top_15_features, TARGET)
-corr_matrix   <- cor(train_df[corr_features], use = "pairwise.complete.obs")
+corr_matrix   <- cor(train_df[corr_features], method = "spearman", use = "pairwise.complete.obs")
 
 ggcorrplot(
   corr_matrix, lab = TRUE, lab_size = 2.8, type = "full",
   colors = c(COLOR_MAIN, "white", COLOR_RISK),
   outline.color = "white",
-  title = "Matriz de correlación — Top 15 variables (train)"
+  title = "Matriz de correlación (Spearman) — Top 15 variables (train)"
 ) +
   theme(
     plot.title = element_text(face = "bold", size = 15, color = COLOR_MAIN),
@@ -279,10 +491,41 @@ quiebra).
   **multicolinealidad**: son distintas formas de medir prácticamente lo mismo
   (rentabilidad), calculadas con pequeñas variaciones metodológicas.
 
-Esto no afecta a Random Forest (que ya usamos para identificar estas variables), pero
-si más adelante se prueba un modelo lineal (como regresión logística), meter varias
-versiones casi idénticas del mismo ratio no aporta información nueva y puede inflar
-artificialmente la importancia de esa "familia" de variables o dificultar la
-interpretación de los coeficientes. Por ahora no se elimina ninguna — esa decisión se
-deja para la etapa de preprocesamiento, con más contexto sobre qué modelo se va a
-usar.
+### Pares con multicolinealidad crítica (`|rho| >= 0.80`)
+
+```{r pares-multicolinealidad}
+corr_solo_features <- corr_matrix[top_15_features, top_15_features]
+idx_pares <- which(abs(corr_solo_features) >= 0.80 & upper.tri(corr_solo_features),
+                    arr.ind = TRUE)
+
+if (nrow(idx_pares) > 0) {
+  df_pares <- tibble(
+    `Variable 1` = rownames(corr_solo_features)[idx_pares[, 1]],
+    `Variable 2` = colnames(corr_solo_features)[idx_pares[, 2]],
+    rho = corr_solo_features[idx_pares]
+  ) %>%
+    arrange(desc(abs(rho)))
+
+  df_pares %>%
+    kable(digits = 2, caption = "Pares de variables (top 15) con |rho| >= 0.80") %>%
+    kable_styling(bootstrap_options = c("striped", "hover"), full_width = FALSE)
+
+  cat(sprintf("\nSe detectaron %d pares de variables predictoras con correlación crítica.\n",
+              nrow(df_pares)))
+} else {
+  cat("No se detectaron pares de variables predictoras con multicolinealidad extrema",
+      "(|rho| >= 0.80) dentro del top 15 seleccionado.\n")
+}
+```
+
+La presencia de alta multicolinealidad entre métricas financieras distorsiona los
+coeficientes en modelos lineales (como regresión logística) y amplifica su varianza,
+por lo que más adelante conviene aplicar reducción de dimensionalidad (por ejemplo
+PCA) o eliminar variables redundantes con base en el Factor de Inflación de la
+Varianza (VIF, disponible en `car::vif()` una vez se ajuste un modelo). Esto no afecta
+a Random Forest (que ya usamos para identificar estas variables), pero si más adelante
+se prueba un modelo lineal, meter varias versiones casi idénticas del mismo ratio no
+aporta información nueva y puede inflar artificialmente la importancia de esa
+"familia" de variables o dificultar la interpretación de los coeficientes. Por ahora
+no se elimina ninguna — esa decisión se deja para la etapa de preprocesamiento, con
+más contexto sobre qué modelo se va a usar.

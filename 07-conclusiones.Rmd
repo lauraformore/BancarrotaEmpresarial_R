@@ -24,14 +24,24 @@
    **endeudamiento** son las que más distinguen a las empresas que quiebran de las
    que no.
 
-6. **Multicolinealidad:** existen varias versiones muy parecidas del mismo indicador
-   (por ejemplo, distintas formas de calcular ROA), altamente correlacionadas entre
-   sí. No se eliminó ninguna en esta etapa, pero es algo a tener en cuenta si se usa
-   un modelo lineal.
+6. **Inferencia estadística:** con Mann-Whitney U y corrección de Holm, la mayoría de
+   las 93 variables numéricas conserva evidencia de diferencia entre empresas sanas y
+   quebradas; un grupo más pequeño no la conserva. Para `Liability-Assets Flag`, la
+   prueba exacta de Fisher encuentra asociación con la quiebra, aunque con muy pocos
+   casos en la categoría de alerta; `Net Income Flag` no fue contrastable por ser
+   constante. La significancia estadística abundante no implica, por sí sola, utilidad
+   predictiva — la magnitud del efecto y el contexto financiero siguen siendo
+   necesarios para priorizar variables de cara al modelado.
 
-7. **`Liability-Assets Flag`:** tiene muy pocos casos con valor 1, pero ese grupo
-   pequeño concentra una proporción de quiebra más alta. Vale la pena conservarla
-   para el modelo pese a su baja cardinalidad.
+7. **Multicolinealidad:** existen varias versiones muy parecidas del mismo indicador
+   (por ejemplo, distintas formas de calcular ROA), altamente correlacionadas entre
+   sí (`|rho| >= 0.80` en varios pares del top 15). No se eliminó ninguna en esta
+   etapa, pero es algo a tener en cuenta si se usa un modelo lineal.
+
+8. **`Liability-Assets Flag`:** tiene muy pocos casos con valor 1, pero ese grupo
+   pequeño concentra una proporción de quiebra más alta y una asociación
+   estadísticamente significativa (Fisher exacto). Vale la pena conservarla para el
+   modelo pese a su baja cardinalidad.
 
 ## Problemas identificados para la etapa de preprocesamiento
 
