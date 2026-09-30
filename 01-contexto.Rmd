@@ -1,4 +1,4 @@
-# Contexto
+# Contexto editado
 
 Antes de entrar en el análisis, esta sección explica el dataset y los conceptos
 financieros necesarios para entender el resto del libro.
