@@ -3,7 +3,8 @@ bookdown::gitbook:
   split_by: none
   config:
     toc:
-      collapse: section
+      collapse: none
+      toc_depth: 3
       before: |
         <li><strong>Predicción de Bancarrota Empresarial</strong></li>
       after: |
@@ -12,3 +13,4 @@ bookdown::gitbook:
     sharing:
       facebook: no
       twitter: no
+      

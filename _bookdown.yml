@@ -3,7 +3,7 @@ delete_merged_file: true
 output_dir: "docs"
 language:
   ui:
-    chapter_name: "Capítulo "
+    chapter_name: " "
 rmd_files: [
   "index.Rmd",
   "EDA_completo.Rmd"
