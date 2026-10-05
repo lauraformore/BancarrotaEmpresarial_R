@@ -101,18 +101,9 @@ Este proyecto desarrolla un análisis integral del riesgo de insolvencia empresa
 
 # Análisis Exploratorio de Datos (EDA) - Company Bankruptcy Prediction (Taiwan)
 
-## CONTEXTO
-
-**Objetivo:** Realizar un análisis exploratorio de datos (EDA) sobre el conjunto de información financiera de empresas taiwanesas con el propósito de comprender su estructura, calidad, distribución y relaciones entre variables, y así preparar una base sólida para el desarrollo de un modelo predictivo de quiebra empresarial.
+Realizar un análisis exploratorio de datos (EDA) sobre el conjunto de información financiera de empresas taiwanesas con el propósito de comprender su estructura, calidad, distribución y relaciones entre variables, y así preparar una base sólida para el desarrollo de un modelo predictivo de quiebra empresarial.
 
 > Primero se separan los datos en `train` y `test`, y **todo el análisis exploratorio se hace únicamente sobre `train`**. El conjunto `test` se reserva y no se toca hasta la evaluación final del modelo, para evitar *data leakage* (que información del conjunto de prueba influya en decisiones tomadas antes de entrenar el modelo).
-
-
-### ¿Qué es un "ratio" financiero?
-
-Este concepto financiero es primordial para entender el resto del note. Se refiere a una relación entre dos cifras del estado financiero de una empresa (por ejemplo,
-utilidad entre activos) que permite comparar empresas de tamaños distintos en una
-misma escala. El dataset tiene 95 ratios de este tipo, todos ya calculados.
 
 ## ETL (extracción, transformación y carga)
 
