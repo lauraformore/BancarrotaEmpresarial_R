@@ -5101,7 +5101,7 @@ misma en <code>train</code> y en <code>test</code>.</p>
 <span id="cb43-19"><a href="#cb43-19" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">&quot;Conteo de Empresas por Clase (Train)&quot;</span>, <span class="at">x =</span> <span class="cn">NULL</span>, <span class="at">y =</span> <span class="cn">NULL</span>) <span class="sc">+</span></span>
 <span id="cb43-20"><a href="#cb43-20" tabindex="-1"></a>  tema_eda <span class="sc">+</span></span>
 <span id="cb43-21"><a href="#cb43-21" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text.y =</span> <span class="fu">element_blank</span>(), <span class="at">panel.grid =</span> <span class="fu">element_blank</span>())</span></code></pre></div>
-<p><img src="EDA_completo_files/figure-html/target-dist-1.png" width="70%" style="display: block; margin: auto;" /></p>
+<p><img src="index_files/figure-html/target-dist-1.png" width="70%" style="display: block; margin: auto;" /></p>
 <div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" tabindex="-1"></a><span class="co"># 3. Ratio de desbalance, referenciado en la interpretación de la siguiente celda</span></span>
 <span id="cb44-2"><a href="#cb44-2" tabindex="-1"></a>ratio_desbalance <span class="ot">&lt;-</span> conteo[[<span class="st">&quot;0&quot;</span>]] <span class="sc">/</span> conteo[[<span class="st">&quot;1&quot;</span>]]</span></code></pre></div>
 <p>La variable objetivo presenta un fuerte desbalance de clases, ya que hay <strong>5.279</strong> empresas que <strong>no quiebran</strong>, equivalentes al <strong>96,77 %</strong> del conjunto de entrenamiento, mientras que las que <strong>sí quiebran</strong> son <strong>176</strong> y representan el <strong>3,23 %</strong>. Este desbalance deberá tenerse en cuenta durante el entrenamiento y la evaluación del modelo.</p>
@@ -10004,7 +10004,7 @@ Las demás variables también presentan valores de sesgo elevados, como <strong>
 <span id="cb53-16"><a href="#cb53-16" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">&quot;Diagramas de Caja (Boxplots) para Variables con Mayor Sesgo (Train)&quot;</span>,</span>
 <span id="cb53-17"><a href="#cb53-17" tabindex="-1"></a>    <span class="at">theme =</span> <span class="fu">theme</span>(<span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">face =</span> <span class="st">&quot;bold&quot;</span>, <span class="at">size =</span> <span class="dv">14</span>, <span class="at">color =</span> PALETTE<span class="sc">$</span>downriver))</span>
 <span id="cb53-18"><a href="#cb53-18" tabindex="-1"></a>  )</span></code></pre></div>
-<p><img src="EDA_completo_files/figure-html/box-sesgo-1.png" width="100%" style="display: block; margin: auto;" /></p>
+<p><img src="index_files/figure-html/box-sesgo-1.png" width="100%" style="display: block; margin: auto;" /></p>
 <ul>
 <li><strong>Fixed Assets to Assets:</strong> La mayoría de los valores se concentra cerca de cero, pero aparece un valor extremadamente alto. Esto explica el fuerte sesgo positivo y muestra la presencia de un valor atípico muy marcado.</li>
 <li><strong>Revenue per person:</strong> Presenta un comportamiento similar. La mayoría de las observaciones está concentrada en valores bajos, mientras que existe un valor extremadamente alto que distorsiona la distribución.</li>
@@ -10189,7 +10189,7 @@ Inventory/Working Capital
 <span id="cb55-12"><a href="#cb55-12" tabindex="-1"></a>       <span class="at">x =</span> <span class="cn">NULL</span>, <span class="at">y =</span> <span class="st">&quot;% de empresas marcadas como outlier (Criterio 1.5 × IQR)&quot;</span>) <span class="sc">+</span></span>
 <span id="cb55-13"><a href="#cb55-13" tabindex="-1"></a>  tema_eda <span class="sc">+</span></span>
 <span id="cb55-14"><a href="#cb55-14" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">panel.grid.major.y =</span> <span class="fu">element_blank</span>(), <span class="at">axis.text.y =</span> <span class="fu">element_text</span>(<span class="at">color =</span> PALETTE<span class="sc">$</span>downriver))</span></code></pre></div>
-<p><img src="EDA_completo_files/figure-html/outliers-plot-1.png" width="100%" style="display: block; margin: auto;" /></p>
+<p><img src="index_files/figure-html/outliers-plot-1.png" width="100%" style="display: block; margin: auto;" /></p>
 <p>Las variables con mayor proporción de valores atípicos son <strong>Degree of Financial Leverage (DFL)</strong>, <strong>Fixed Assets Turnover Frequency</strong> e <strong>Interest Coverage Ratio</strong>, con aproximadamente 21,9 %, 20,9 % y 20,9 % de empresas marcadas como outliers, respectivamente.</p>
 <p>También destacan <strong>Current Asset Turnover Rate</strong>, <strong>Total Asset Growth Rate</strong> e <strong>Interest Expense Ratio</strong>, con alrededor del 20 % de sus observaciones identificadas como valores atípicos. Las demás variables del top 15 presentan entre aproximadamente 14 % y 18 % de observaciones marcadas como outliers.</p>
 <p>En general, varias variables presentan una proporción considerable de valores atípicos. Sin embargo, esto no significa que deban eliminarse automáticamente, ya que pueden representar situaciones financieras reales de algunas empresas. Estos resultados deberán considerarse posteriormente al definir el preprocesamiento de los datos.</p>
@@ -18289,7 +18289,7 @@ Interest-bearing debt interest rate
 <span id="cb73-17"><a href="#cb73-17" tabindex="-1"></a>       <span class="at">x =</span> <span class="cn">NULL</span>, <span class="at">y =</span> <span class="st">&quot;Coeficiente de Correlación de Spearman (rho)&quot;</span>) <span class="sc">+</span></span>
 <span id="cb73-18"><a href="#cb73-18" tabindex="-1"></a>  tema_eda <span class="sc">+</span> <span class="fu">theme</span>(<span class="at">panel.grid.major.y =</span> <span class="fu">element_blank</span>())</span>
 <span id="cb73-19"><a href="#cb73-19" tabindex="-1"></a>p_corr</span></code></pre></div>
-<p><img src="EDA_completo_files/figure-html/corr-objetivo-1.png" width="100%" style="display: block; margin: auto;" /></p>
+<p><img src="index_files/figure-html/corr-objetivo-1.png" width="100%" style="display: block; margin: auto;" /></p>
 <div class="sourceCode" id="cb74"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb74-1"><a href="#cb74-1" tabindex="-1"></a><span class="co"># 3. Variables extremas para referencia en la interpretación</span></span>
 <span id="cb74-2"><a href="#cb74-2" tabindex="-1"></a>var_max_pos <span class="ot">&lt;-</span> top_pos<span class="sc">$</span>Variable[<span class="dv">1</span>]; r_max_pos <span class="ot">&lt;-</span> top_pos<span class="sc">$</span><span class="st">`</span><span class="at">Correlación (rho)</span><span class="st">`</span>[<span class="dv">1</span>]</span>
 <span id="cb74-3"><a href="#cb74-3" tabindex="-1"></a>var_max_neg <span class="ot">&lt;-</span> top_neg<span class="sc">$</span>Variable[<span class="dv">1</span>]; r_max_neg <span class="ot">&lt;-</span> top_neg<span class="sc">$</span><span class="st">`</span><span class="at">Correlación (rho)</span><span class="st">`</span>[<span class="dv">1</span>]</span></code></pre></div>
@@ -18329,7 +18329,7 @@ Interest-bearing debt interest rate
 <span id="cb75-24"><a href="#cb75-24" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">45</span>, <span class="at">hjust =</span> <span class="dv">1</span>, <span class="at">size =</span> <span class="dv">8</span>, <span class="at">face =</span> <span class="st">&quot;bold&quot;</span>),</span>
 <span id="cb75-25"><a href="#cb75-25" tabindex="-1"></a>        <span class="at">axis.text.y =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">8</span>, <span class="at">face =</span> <span class="st">&quot;bold&quot;</span>),</span>
 <span id="cb75-26"><a href="#cb75-26" tabindex="-1"></a>        <span class="at">legend.position =</span> <span class="st">&quot;right&quot;</span>, <span class="at">panel.grid =</span> <span class="fu">element_blank</span>())</span></code></pre></div>
-<p><img src="EDA_completo_files/figure-html/heatmap-corr-1.png" width="100%" style="display: block; margin: auto;" /></p>
+<p><img src="index_files/figure-html/heatmap-corr-1.png" width="100%" style="display: block; margin: auto;" /></p>
 <div class="sourceCode" id="cb76"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb76-1"><a href="#cb76-1" tabindex="-1"></a><span class="co"># 3. Evaluación Dinámica de Multicolinealidad</span></span>
 <span id="cb76-2"><a href="#cb76-2" tabindex="-1"></a>corr_features_only <span class="ot">&lt;-</span> corr_matrix[top_15_features, top_15_features]</span>
 <span id="cb76-3"><a href="#cb76-3" tabindex="-1"></a>pairs <span class="ot">&lt;-</span> <span class="fu">list</span>()</span>
@@ -18418,6 +18418,7 @@ La presencia de alta multicolinealidad entre métricas financieras distorsiona l
 <div class="sourceCode" id="cb77"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb77-1"><a href="#cb77-1" tabindex="-1"></a><span class="fu">dir.create</span>(<span class="st">&quot;data&quot;</span>, <span class="at">showWarnings =</span> <span class="cn">FALSE</span>)</span>
 <span id="cb77-2"><a href="#cb77-2" tabindex="-1"></a><span class="fu">saveRDS</span>(<span class="fu">list</span>(<span class="at">X_train =</span> X_train, <span class="at">X_test =</span> X_test, <span class="at">y_train =</span> y_train, <span class="at">y_test =</span> y_test),</span>
 <span id="cb77-3"><a href="#cb77-3" tabindex="-1"></a>        <span class="at">file =</span> <span class="st">&quot;train_test_split.rds&quot;</span>)</span></code></pre></div>
+
 </div>
 </div>
             </section>
