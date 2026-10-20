@@ -1,13 +1,15 @@
-Welcome! 
+# Bancarrota empresarial · Bookdown
 
-This is a minimal example of a book based on R Markdown and **bookdown** (https://github.com/rstudio/bookdown). 
+Autoras: Laura Rivera · Natalý Cárdenas.
 
-This template provides a skeleton file structure that you can edit to create your book. 
+La fuente principal es `EDA_completo.Rmd`; `_bookdown.yml` la compila como un único libro en `docs/index.html`. Los archivos numerados y la copia del documento no forman parte de esta compilación.
 
-The contents inside the .Rmd files provide some pointers to help you get started, but feel free to also delete the content in each file and start fresh.
+Desde R, con los paquetes del documento y Pandoc instalados:
 
-Additional resources:
+```r
+bookdown::render_book("EDA_completo.Rmd", "bookdown::gitbook")
+```
 
-The **bookdown** book: https://pkg.yihui.org/bookdown/
+En Windows, R debe usar una configuración regional UTF-8 para interpretar los identificadores con tildes; si fuera necesario, ejecutar antes `Sys.setlocale("LC_CTYPE", "English_United States.utf8")`.
 
-The **bookdown** package reference site: https://pkgs.rstudio.com/bookdown
+El libro permite desplegar tablas ETL y consultar por variable las tablas y gráficas univariadas. Los boxplots muestran el rango completo de observaciones. Los cambios de presentación no modifican la partición, los cálculos estadísticos ni los modelos.

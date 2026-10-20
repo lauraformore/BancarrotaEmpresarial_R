@@ -1,10 +1,9 @@
 introducción
-marco-teórico
 objetivos
 objetivo-general
 objetivos-específicos
+marco-teórico
 metodología
-resumen-del-proyecto
 estructura-del-análisis
 análisis-exploratorio-de-datos-eda---company-bankruptcy-prediction-taiwan
 etl-extracción-transformación-y-carga

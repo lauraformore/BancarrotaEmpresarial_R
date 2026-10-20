@@ -110,7 +110,7 @@ blockquote p { margin: 0.3rem 0; }
   font-weight: 700 !important;
   font-family: var(--font-heading) !important;
   color: var(--brand-risk) !important;
-  text-transform: uppercase;
+  text-transform: none;
   font-size: 0.85rem !important;
   letter-spacing: 0.03em;
 }
@@ -204,3 +204,13 @@ p.caption, .caption {
 .book-summary { background: var(--bg-surface-muted) !important; border-right: 1px solid var(--color-border); }
 .book-summary li.chapter a { color: var(--color-text-main) !important; font-family: var(--font-heading); }
 .book-summary li.chapter.active > a { color: var(--brand-primary) !important; font-weight: 700; }
+
+/* Consulta progresiva, teclado y pantallas pequeñas */
+details.report-details, details.var-details {margin: .8rem 0; border:1px solid #dce2e9; border-radius:8px; background:#fff;}
+details > summary {cursor:pointer; padding:12px 16px; color:#032451; background:#fdf9f5; font-weight:600;}
+details > summary:focus-visible {outline:3px solid #fe8005; outline-offset:2px;}
+.report-body {padding:14px; overflow-x:auto;}
+.report-body pre {white-space:pre-wrap; overflow-wrap:anywhere;}
+p b, p strong, li b, li strong {font-weight:400;}
+img {max-width:100%; height:auto;}
+@media(max-width:640px){.report-body{padding:8px;} summary{overflow-wrap:anywhere;}}

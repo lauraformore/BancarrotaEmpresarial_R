@@ -5,6 +5,5 @@ language:
   ui:
     chapter_name: " "
 rmd_files: [
-  "index.Rmd",
   "EDA_completo.Rmd"
 ]

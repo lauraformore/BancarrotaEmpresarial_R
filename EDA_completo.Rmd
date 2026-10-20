@@ -32,23 +32,15 @@ options(knitr.table.format = "html")
 
 Departamento de Matemáticas, Física y Ciencia de Datos, Universidad del Norte, Barranquilla, Colombia  
 
-**Asignatura:** Visualización de Datos
+Asignatura: Visualización de Datos
 
-**Metodología:** EDA · Feature Engineering · Modelos de Clasificación
+Metodología: EDA · Feature Engineering · Modelos de Clasificación
 
 # Introducción
 
 Predecir con anticipación el riesgo de bancarrota de una empresa es un problema de alto impacto: permite a inversionistas, entidades financieras y a la propia gerencia tomar decisiones oportunas para prevenir o mitigar pérdidas, en lugar de reaccionar cuando la quiebra ya es inminente. Contar con un modelo que identifique señales tempranas de riesgo financiero, a partir de indicadores contables que las empresas ya reportan, aporta valor tanto para el análisis de crédito como para la supervisión financiera.
 
-Para este proyecto se utiliza el dataset del **Taiwan Economic Journal**, que reúne información financiera de **6.819 empresas** que cotizaron en la Bolsa de Taiwán entre 1999 y 2009. Cada empresa está descrita por **95 ratios financieros** (rentabilidad, liquidez, endeudamiento, eficiencia operativa, entre otros) y por una variable objetivo binaria que indica si la empresa terminó en bancarrota o no.
-
-## Marco Teórico
-
-**Riesgo de insolvencia / quiebra empresarial:** es la probabilidad de que una empresa no pueda cumplir con sus obligaciones financieras (pago de deudas, proveedores, nómina, etc.) y, como consecuencia, entre en un proceso legal de bancarrota. Este riesgo suele acumularse de forma progresiva y deja huellas medibles en los estados financieros de la empresa mucho antes de que la quiebra sea formal.
-
-**Ratios financieros:** son relaciones entre dos cifras del estado financiero de una empresa (por ejemplo, utilidad neta entre activos totales) que permiten comparar el desempeño de empresas de tamaños distintos en una misma escala, y que resumen aspectos como rentabilidad, liquidez, endeudamiento y eficiencia.
-
-**Modelos de clasificación:** dado que el problema consiste en distinguir entre dos categorías (empresa que quiebra vs. empresa que no quiebra) a partir de los ratios financieros, es natural abordarlo como un problema de **clasificación binaria supervisada**. Un modelo de este tipo aprende, a partir de datos históricos etiquetados, los patrones en los ratios que están asociados con la quiebra, para luego poder estimar el riesgo de empresas nuevas.
+Para este proyecto se utiliza el dataset del Taiwan Economic Journal, que reúne información financiera de 6.819 empresas que cotizaron en la Bolsa de Taiwán entre 1999 y 2009. Cada empresa está descrita por 95 ratios financieros (rentabilidad, liquidez, endeudamiento, eficiencia operativa, entre otros) y por una variable objetivo binaria que indica si la empresa terminó en bancarrota o no.
 
 ## Objetivos
 
@@ -66,13 +58,28 @@ Desarrollar un dashboard con un modelo predictivo de riesgo de bancarrota empres
 
 - Construir un dashboard interactivo que integre el EDA y, en etapas posteriores, el modelo predictivo.
 
+## Marco teórico
+
+Riesgo de insolvencia / quiebra empresarial: es la probabilidad de que una empresa no pueda cumplir con sus obligaciones financieras (pago de deudas, proveedores, nómina, etc.) y, como consecuencia, entre en un proceso legal de bancarrota. Este riesgo suele acumularse de forma progresiva y deja huellas medibles en los estados financieros de la empresa mucho antes de que la quiebra sea formal.
+
+Ratios financieros: son relaciones entre dos cifras del estado financiero de una empresa (por ejemplo, utilidad neta entre activos totales) que permiten comparar el desempeño de empresas de tamaños distintos en una misma escala, y que resumen aspectos como rentabilidad, liquidez, endeudamiento y eficiencia.
+
+Modelos de clasificación: dado que el problema consiste en distinguir entre dos categorías (empresa que quiebra vs. empresa que no quiebra) a partir de los ratios financieros, es natural abordarlo como un problema de clasificación binaria supervisada. Un modelo de este tipo aprende, a partir de datos históricos etiquetados, los patrones en los ratios que están asociados con la quiebra, para luego poder estimar el riesgo de empresas nuevas.
+
+
+Para expresar los conceptos anteriores, un ratio financiero puede escribirse como
+$$
+R=\frac{\text{magnitud financiera A}}{\text{magnitud financiera B}},
+$$
+siempre que el denominador sea distinto de cero. En clasificación binaria, el riesgo estimado se representa como
+$$
+p(\mathbf{x})=P(Y=1\mid\mathbf{X}=\mathbf{x}),\qquad Y\in\{0,1\}.
+$$
+Estas expresiones describen los conceptos; no implican recalcular ni transformar los indicadores del conjunto de datos.
+
 ## Metodología
 
-El proyecto sigue un flujo de trabajo secuencial: primero un **análisis exploratorio de datos (EDA)**, que permite entender la estructura, calidad y relaciones entre las variables; luego un **preprocesamiento**, donde se tratan los problemas identificados en el EDA (variables redundantes, desbalance de clases, escalas distintas, entre otros); después el **modelado**, en el que se entrenan y comparan distintos algoritmos de clasificación; y finalmente la construcción del **dashboard**, que integra los resultados de las etapas anteriores en una herramienta interactiva.
-
-## Resumen del Proyecto
-
-Este proyecto desarrolla un análisis integral del riesgo de insolvencia empresarial a partir de indicadores financieros corporativos. En primer lugar, se realiza un análisis exploratorio de datos (EDA) para comprender la estructura del conjunto de datos, estudiar la distribución de las variables, identificar valores faltantes, detectar posibles sesgos y examinar las relaciones entre los indicadores de solvencia y la quiebra empresarial.
+El proyecto sigue un flujo de trabajo secuencial: primero un análisis exploratorio de datos (EDA), que permite entender la estructura, calidad y relaciones entre las variables; luego un preprocesamiento, donde se tratan los problemas identificados en el EDA (variables redundantes, desbalance de clases, escalas distintas, entre otros); después el modelado, en el que se entrenan y comparan distintos algoritmos de clasificación; y finalmente la construcción del dashboard, que integra los resultados de las etapas anteriores en una herramienta interactiva.
 
 ## Estructura del Análisis
 
@@ -84,15 +91,15 @@ Este proyecto desarrolla un análisis integral del riesgo de insolvencia empresa
 
     Entrenamiento de algoritmos supervisados, optimización de hiperparámetros y evaluación de métricas orientadas a la detección de riesgo (Recall / ROC-AUC).
 
-> **See also**
+> See also
 >
-> Enlaces de interés **Conjunto de datos**
+> Enlaces de interés Conjunto de datos
 >
 > - [UCI Machine Learning Repository — Taiwanese Bankruptcy Prediction](https://archive.ics.uci.edu/dataset/572/taiwanese+bankruptcy+prediction)
 >
 > - [Kaggle — Company Bankruptcy Prediction](https://www.kaggle.com/datasets/fedesoriano/company-bankruptcy-prediction)
 >
-> **Repositorio del proyecto**
+> Repositorio del proyecto
 >
 > - [GitHub](https://github.com/lauraformore/BancarrotaEmpresarial_VIZ)
 
@@ -103,7 +110,7 @@ Este proyecto desarrolla un análisis integral del riesgo de insolvencia empresa
 
 Realizar un análisis exploratorio de datos (EDA) sobre el conjunto de información financiera de empresas taiwanesas con el propósito de comprender su estructura, calidad, distribución y relaciones entre variables, y así preparar una base sólida para el desarrollo de un modelo predictivo de quiebra empresarial.
 
-> Primero se separan los datos en `train` y `test`, y **todo el análisis exploratorio se hace únicamente sobre `train`**. El conjunto `test` se reserva y no se toca hasta la evaluación final del modelo, para evitar *data leakage* (que información del conjunto de prueba influya en decisiones tomadas antes de entrenar el modelo).
+> Primero se separan los datos en `train` y `test`, y todo el análisis exploratorio se hace únicamente sobre `train`. El conjunto `test` se reserva y no se toca hasta la evaluación final del modelo, para evitar *data leakage* (que información del conjunto de prueba influya en decisiones tomadas antes de entrenar el modelo).
 
 ## ETL (extracción, transformación y carga)
 
@@ -170,7 +177,7 @@ tarjeta_interpretacion <- function(titulo, cuerpo_html, color_borde = NULL) {
     ';border-radius:6px;padding:14px 18px;margin:10px 0 30px 0;box-shadow:0 2px 8px rgba(3,36,81,0.05);',
     'font-family:\'Segoe UI\',-apple-system,BlinkMacSystemFont,Roboto,sans-serif;">',
     '<div style="color:', PALETTE$downriver, ';margin:0 0 8px 0;font-size:14px;font-weight:700;',
-    'text-transform:uppercase;letter-spacing:.5px;">', titulo, '</div>',
+    'letter-spacing:.5px;">', titulo, '</div>',
     '<p style="margin:0;color:', PALETTE$stone_blue, ';font-size:13.5px;line-height:1.6;">',
     gsub("\n", " ", cuerpo_html), '</p></div>\n\n'
   ))
@@ -271,12 +278,23 @@ df <- read.csv("data/data.csv", check.names = FALSE, stringsAsFactors = FALSE)
 
 Verifiquemos que leímos bien los datos viendo el encabezado y la cola de los datos
 
+<details class="report-details">
+<summary>Primeras filas</summary>
+<div class="report-body">
+
 ```{r vista-head}
 df %>% head() %>%
   kable(format = "html") %>%
   kable_styling(bootstrap_options = c("condensed"), font_size = 11) %>%
   scroll_box(width = "100%")
 ```
+
+</div>
+</details>
+
+<details class="report-details">
+<summary>Últimas filas</summary>
+<div class="report-body">
 
 ```{r vista-tail}
 df %>% tail() %>%
@@ -285,26 +303,35 @@ df %>% tail() %>%
   scroll_box(width = "100%")
 ```
 
+</div>
+</details>
+
 Veamos dimensiones, nombres de las columnas y estructura de los datos.
 
-```{r dimensiones}
-# dimensiones del dataset completo
-cat(sprintf("\nDimensiones del dataset completo: %d filas x %d columnas\n", nrow(df), ncol(df)))
+<details class="report-details">
+<summary>Dimensiones, columnas y estructura</summary>
+<div class="report-body">
 
-# columnas del dataset
-cat("\nColumnas del dataset:\n")
-print(names(df))
-
-# estructura del dataset
-cat("\nEstructura del dataset:\n")
-str(df, list.len = ncol(df))
+```{r dimensiones, results='asis'}
+tabla_estilo(data.frame(Filas = nrow(df), Columnas = ncol(df)), titulo = "Dimensiones del dataset")
+tabla_estilo_scroll(data.frame(Columna = names(df), Tipo = vapply(df, function(x) paste(class(x), collapse = ", "), character(1))), titulo = "Columnas y estructura")
 ```
+
+</div>
+</details>
 
 Ver valores faltantes.
 
-```{r nulos-df}
-print(colSums(is.na(df)))
+<details class="report-details">
+<summary>Valores faltantes</summary>
+<div class="report-body">
+
+```{r nulos-df, results='asis'}
+tabla_estilo_scroll(data.frame(Columna = names(df), Faltantes = colSums(is.na(df))), titulo = "Valores faltantes")
 ```
+
+</div>
+</details>
 
 Limpiar nombres de variables (eliminar espacios).
 
@@ -357,7 +384,7 @@ variables_key <- c(
 
 La salida de esta celda indica claramente que se trata de un problema de clasificación, donde `Bankrupt?` es la variable objetivo, con 93 variables numéricas y 2 categóricas.
 
-##  DIVISIÓN TRAIN / TEST
+##  División train / test
 
 Antes de explorar los datos a fondo, separamos un conjunto de prueba (`test`) que se
 reserva para la evaluación final del modelo. **A partir de aquí, todo el EDA se hace
@@ -365,7 +392,7 @@ usando exclusivamente `train`.** El conjunto `test` no se grafica, no se describ
 influye en ninguna decisión de este análisis.
 
 Como el target está muy desbalanceado (pocas empresas quebradas), usamos partición
-**estratificada** (`stratify=y`) para que la proporción de empresas quebradas sea la
+estratificada (`stratify=y`) para que la proporción de empresas quebradas sea la
 misma en `train` y en `test`.
 
 ```{r train-test-split}
@@ -434,9 +461,13 @@ for (c in cat_vars) {
 
 > `Net Income Flag` vale 1 para el 100% de las empresas en `train`, es decir, no importa si una empresa quebró o no siempre tiene el mismo valor (1). Por lo tanto, es una variable constante y sería una candidata clara para eliminar antes del modelado. `Liability-Assets Flag` sí varía, aunque muy poco. Vale la pena revisarla más adelante junto al target, en la sección de análisis bivariado.
 
-##  ANÁLISIS UNIVARIADO
+##  Análisis univariado
 
 ###  Variable objetivo 
+
+<details class="report-details">
+<summary>Distribución de la variable objetivo</summary>
+<div class="report-body">
 
 ```{r target-dist, fig.width=7, fig.height=5, out.width="70%"}
 # 1. Cálculos de distribución
@@ -465,11 +496,18 @@ ggplot(df_plot, aes(x = label, y = n, fill = clase)) +
 ratio_desbalance <- conteo[["0"]] / conteo[["1"]]
 ```
 
-La variable objetivo presenta un fuerte desbalance de clases, ya que hay **5.279** empresas que **no quiebran**, equivalentes al **96,77 %** del conjunto de entrenamiento, mientras que las que **sí quiebran** son **176** y representan el **3,23 %**. Este desbalance deberá tenerse en cuenta durante el entrenamiento y la evaluación del modelo.
+</div>
+</details>
+
+La variable objetivo presenta un fuerte desbalance de clases, ya que hay 5.279 empresas que no quiebran, equivalentes al 96,77 % del conjunto de entrenamiento, mientras que las que sí quiebran son 176 y representan el 3,23 %. Este desbalance deberá tenerse en cuenta durante el entrenamiento y la evaluación del modelo.
 
 ###  Variables numéricas
 
 #### Estadísticas descriptivas
+
+<details class="report-details">
+<summary>Estadísticas de las variables numéricas</summary>
+<div class="report-body">
 
 ```{r estadisticas, results='asis'}
 unidad_indicador <- function(variable) {
@@ -545,15 +583,18 @@ tabla_estilo_scroll(df_stats_num, formatos = list(
 ), alto_px = 420)
 ```
 
+</div>
+</details>
+
 El análisis estadístico de las variables numéricas revela características clave sobre la estructura financiera y operativa de las empresas analizadas en el conjunto de entrenamiento (train_df, $N = 5{,}455$ empresas).
 
-En primer lugar, la tasa de rentabilidad sobre activos **ROA(C) before interest and depreciation before interest** presenta un valor promedio de $0.5044$ (**50.44%**) ($\text{DS} = 0.0604$, **6.04 puntos porcentuales**), con un rango entre $0.0243$ (**2.43%**) y $1.0000$ (**100%**). El $50\%$ de las empresas registra un ROA intermedio cercano a la mediana de $0.5021$ (**50.21%**) (rango intercuartílico $\text{IQR} = 0.0585$, **5.85 puntos porcentuales**, de $Q_1 = 0.4761$ (**47.61%**) a $Q_3 = 0.5346$ (**53.46%**)). No obstante, una curtosis elevada ($\text{Curtosis} = 6.28$) evidencia la presencia de colas pesadas y valores atípicos en empresas con rentabilidades extremadamente reducidas o inusualmente altas.
+En primer lugar, la tasa de rentabilidad sobre activos ROA(C) before interest and depreciation before interest presenta un valor promedio de $0.5044$ (50.44%) ($\text{DS} = 0.0604$, 6.04 puntos porcentuales), con un rango entre $0.0243$ (2.43%) y $1.0000$ (100%). El $50\%$ de las empresas registra un ROA intermedio cercano a la mediana de $0.5021$ (50.21%) (rango intercuartílico $\text{IQR} = 0.0585$, 5.85 puntos porcentuales, de $Q_1 = 0.4761$ (47.61%) a $Q_3 = 0.5346$ (53.46%)). No obstante, una curtosis elevada ($\text{Curtosis} = 6.28$) evidencia la presencia de colas pesadas y valores atípicos en empresas con rentabilidades extremadamente reducidas o inusualmente altas.
 
-Por otro lado, la variable de apalancamiento **Debt ratio %** exhibe una media de $0.1132$ (**11.32%**) ($\text{DS} = 0.0542$, **5.42 puntos porcentuales**), situando al $50\%$ de las firmas por debajo de $0.1114$ (**11.14%**) ($\text{IQR} = 0.0761$, **7.61 puntos porcentuales**, entre $Q_1 = 0.0729$ (**7.29%**) y $Q_3 = 0.1489$ (**14.89%**)). Esta variable muestra una variabilidad pronunciada con un valor máximo de $1.0000$ (**100%**), lo que refleja la coexistencia de entidades con muy bajo nivel de endeudamiento junto a empresas altamente apalancadas con mayor riesgo financiero implícito.
+Por otro lado, la variable de apalancamiento Debt ratio % exhibe una media de $0.1132$ (11.32%) ($\text{DS} = 0.0542$, 5.42 puntos porcentuales), situando al $50\%$ de las firmas por debajo de $0.1114$ (11.14%) ($\text{IQR} = 0.0761$, 7.61 puntos porcentuales, entre $Q_1 = 0.0729$ (7.29%) y $Q_3 = 0.1489$ (14.89%)). Esta variable muestra una variabilidad pronunciada con un valor máximo de $1.0000$ (100%), lo que refleja la coexistencia de entidades con muy bajo nivel de endeudamiento junto a empresas altamente apalancadas con mayor riesgo financiero implícito.
 
-En cuanto a la liquidez, el indicador **Current Ratio** presenta una media de $0.0151$ (ratio) ($\text{DS} = 0.0232$) y una mediana de $0.0106$ (ratio) ($\text{IQR} = 0.0089$, de $Q_1 = 0.0075$ a $Q_3 = 0.0164$). Su valor máximo alcanza $1.0000$ (ratio), generando una curtosis excepcionalmente alta ($\text{Curtosis} \approx 814$), lo cual indica que la gran mayoría de las observaciones se concentra en niveles muy bajos de liquidez relativa, con contadas excepciones extremas en la cola superior.
+En cuanto a la liquidez, el indicador Current Ratio presenta una media de $0.0151$ (ratio) ($\text{DS} = 0.0232$) y una mediana de $0.0106$ (ratio) ($\text{IQR} = 0.0089$, de $Q_1 = 0.0075$ a $Q_3 = 0.0164$). Su valor máximo alcanza $1.0000$ (ratio), generando una curtosis excepcionalmente alta ($\text{Curtosis} \approx 814$), lo cual indica que la gran mayoría de las observaciones se concentra en niveles muy bajos de liquidez relativa, con contadas excepciones extremas en la cola superior.
 
-Finalmente, indicadores de rotación y flujo operativo como **CFO to Assets** (flujo de caja operativo sobre activos totales) registran una media de $0.5932$ (**59.32%**) ($\text{DS} = 0.0577$, **5.77 puntos porcentuales**), con el $50\%$ de los registros situado por debajo de $0.5933$ (**59.33%**) (rango de $Q_1 = 0.5659$ (**56.59%**) a $Q_3 = 0.6241$ (**62.41%**)) y extremos que van de $0.0000$ (**0%**) a $1.0000$ (**100%**).
+Finalmente, indicadores de rotación y flujo operativo como CFO to Assets (flujo de caja operativo sobre activos totales) registran una media de $0.5932$ (59.32%) ($\text{DS} = 0.0577$, 5.77 puntos porcentuales), con el $50\%$ de los registros situado por debajo de $0.5933$ (59.33%) (rango de $Q_1 = 0.5659$ (56.59%) a $Q_3 = 0.6241$ (62.41%)) y extremos que van de $0.0000$ (0%) a $1.0000$ (100%).
 
 En conjunto, las 93 variables numéricas muestran distribuciones marcadamente asimétricas, con leptocurtosis acentuada en múltiples indicadores. Esto pone de manifiesto una marcada heterogeneidad operativa y la existencia de subgrupos o patrones financieros claramente diferenciados entre las firmas de la muestra. Las escalas son muy distintas entre variables: porcentajes, ratios y proporciones, días y unidades monetarias, como Yuan por acción o por persona. Para cualquier modelo sensible a la escala (como regresión logística, SVM o PCA), será necesario estandarizar las variables en el pipeline de preprocesamiento.
 
@@ -593,7 +634,7 @@ generar_bloque_univariado <- function(var) {
   p_box <- ggplot(tibble(y = serie), aes(x = "", y = y)) +
     geom_boxplot(fill = PALETTE$downriver, color = PALETTE$downriver, width = 0.35,
                  outlier.alpha = 0.5, outlier.size = 1.2) +
-    coord_cartesian(ylim = limites_boxplot(serie)) +
+    coord_cartesian(ylim = range(serie, na.rm = TRUE), expand = TRUE) +
     labs(title = "Boxplot", x = NULL, y = var) +
     tema_eda +
     theme(plot.title = element_text(size = 10.5), axis.title = element_text(size = 9))
@@ -614,18 +655,19 @@ generar_bloque_univariado <- function(var) {
   # IMPORTANTE: el HTML va en una sola línea por bloque y sin sangría (Pandoc
   # trataría las líneas con 4+ espacios como bloque de código literal).
   paste0(
-    '<div style="background-color:#FFFFFF;border:1px solid #E1E4E9;border-radius:8px;padding:16px 18px;margin-bottom:18px;font-family:\'Segoe UI\',-apple-system,BlinkMacSystemFont,Roboto,sans-serif;">',
+    '<details class="report-details"><summary>', var, '</summary><div class="report-body">',
+    tabla_html(df_stats_num[df_stats_num$Variable == var, ]),
     '<div style="color:', PALETTE$downriver, ';margin:0 0 10px 0;font-size:14px;font-weight:700;">', var, '</div>',
     '<div style="text-align:center;margin-bottom:12px;"><img src="data:image/png;base64,', imagen_b64,
     '" style="max-width:100%;height:auto;border-radius:4px;"></div>',
     '<p style="margin:0;color:', PALETTE$stone_blue, ';font-size:13px;line-height:1.6;border-left:4px solid ',
     PALETTE$poinciana, ';background-color:', PALETTE$bg_card, ';padding:10px 14px;border-radius:4px;">',
-    'El histograma de <b style="color:', PALETTE$downriver, ';">', var, '</b> muestra ', asimetria_desc,
-    ', con una media de <b style="color:', PALETTE$poinciana, ';">', formatear_valor(var, media_v),
-    '</b> y una mediana de <b style="color:', PALETTE$tangerine, ';">', formatear_valor(var, mediana_v),
-    '</b>. La curtosis observada de <b style="color:', PALETTE$downriver, ';">', sprintf("%.2f", kurt_v),
-    '</b> indica una concentración notable de observaciones alrededor de la zona central, acompañada por la presencia de valores atípicos en las colas. Esta morfología sugiere una alta homogeneidad en el grueso de las empresas analizadas, pero con comportamientos extremos puntuales a monitorear en la etapa de preprocesamiento.',
-    '</p></div>'
+    'El histograma de <span style="color:', PALETTE$downriver, ';">', var, '</span> muestra ', asimetria_desc,
+    ', con una media de <span style="color:', PALETTE$poinciana, ';">', formatear_valor(var, media_v),
+    '</span> y una mediana de <span style="color:', PALETTE$tangerine, ';">', formatear_valor(var, mediana_v),
+    '</span>. La curtosis observada de <span style="color:', PALETTE$downriver, ';">', sprintf("%.2f", kurt_v),
+    '</span> indica una concentración notable de observaciones alrededor de la zona central, acompañada por la presencia de valores atípicos en las colas. Esta morfología sugiere una alta homogeneidad en el grueso de las empresas analizadas, pero con comportamientos extremos puntuales a monitorear en la etapa de preprocesamiento.',
+    '</p></div></details>'
   )
 }
 
@@ -705,6 +747,7 @@ formatear_valor <- function(variable, valor, decimales = 4) {
 }
 
 for (var in cat_vars) {
+  cat(paste0('<details class="report-details"><summary>', var, '</summary><div class="report-body">'))
   # 1. Cálculo de Frecuencias Absolutas (N) y Relativas (%)
   conteo <- as.data.frame(table(Categoría = train_df[[var]]), stringsAsFactors = FALSE) %>%
     rename(N = Freq) %>%
@@ -740,9 +783,9 @@ for (var in cat_vars) {
 
   if (num_cats == 1) {
     detalles_interp <- paste0(
-      "La variable <b style='color:", PALETTE$downriver, ";'>", var, "</b> presenta una varianza nula dentro del ",
+      "La variable <span style='color:", PALETTE$downriver, ";'>", var, "</span> presenta una varianza nula dentro del ",
       "conjunto de entrenamiento (<code>train_df</code>), constituida al 100% por la categoría ",
-      "<b style='color:", PALETTE$downriver, ";'>", cat_dominante, "</b> (<i>N</i> = ", fmt_int(n_dominante), " empresas). ",
+      "<span style='color:", PALETTE$downriver, ";'>", cat_dominante, "</span> (<i>N</i> = ", fmt_int(n_dominante), " empresas). ",
       "Al no contar con variabilidad entre las observaciones, esta variable no aporta poder discriminante ni ",
       "información predictiva para los modelos de Machine Learning, por lo que se sugiere su exclusión en el ",
       "preprocesamiento."
@@ -752,18 +795,19 @@ for (var in cat_vars) {
     pct_minoritaria <- conteo$`Porcentaje (%)`[2]
     n_minoritaria   <- conteo$N[2]
     detalles_interp <- paste0(
-      "El análisis de la variable <b style='color:", PALETTE$downriver, ";'>", var, "</b> revela una marcada ",
+      "El análisis de la variable <span style='color:", PALETTE$downriver, ";'>", var, "</span> revela una marcada ",
       "asimetría en la distribución de sus categorías. La categoría dominante ",
-      "<b style='color:", PALETTE$downriver, ";'>", cat_dominante, "</b> representa el ",
-      "<b style='color:", PALETTE$downriver, ";'>", sprintf("%.2f", pct_dominante), "%</b> de la muestra (<i>N</i> = ",
+      "<span style='color:", PALETTE$downriver, ";'>", cat_dominante, "</span> representa el ",
+      "<span style='color:", PALETTE$downriver, ";'>", sprintf("%.2f", pct_dominante), "%</span> de la muestra (<i>N</i> = ",
       sprintf("%s.0", fmt_int(n_dominante)), "), ",
-      "mientras que la categoría <b style='color:", PALETTE$poinciana, ";'>", cat_minoritaria, "</b> concentra ",
-      "únicamente el <b style='color:", PALETTE$poinciana, ";'>", sprintf("%.2f", pct_minoritaria), "%</b> de los registros ",
+      "mientras que la categoría <span style='color:", PALETTE$poinciana, ";'>", cat_minoritaria, "</span> concentra ",
+      "únicamente el <span style='color:", PALETTE$poinciana, ";'>", sprintf("%.2f", pct_minoritaria), "%</span> de los registros ",
       "(<i>N</i> = ", fmt_int(n_minoritaria), " empresas). Esta desproporción evidencia un comportamiento altamente desbalanceado ",
       "en este indicador financiero dentro de las empresas evaluadas."
     )
   }
   tarjeta_interpretacion(paste0("Interpretación de ", var), detalles_interp)
+  cat("</div></details>\n")
 }
 ```
 
@@ -807,11 +851,11 @@ tabla_estilo(
 
 Las variables presentan valores de sesgo muy altos, tanto positivos como negativos. Esto indica que varias distribuciones están alejadas de una distribución simétrica y pueden presentar valores extremos.
 
-**Fixed Assets to Assets, Revenue per person** y **Net Value Growth Rate** presenta el mayor sesgo positivo, con valores cercanos a 73,86. Esto indica una fuerte concentración de los datos en ciertos valores y la presencia de observaciones extremas hacia la derecha.
-**Operating Profit Rate** presenta un sesgo negativo de aproximadamente -73,36, lo que indica una distribución con una cola pronunciada hacia la izquierda.
-Las demás variables también presentan valores de sesgo elevados, como **Contingent liabilities/Net worth** (71,85) y **Working capital Turnover Rate** (67,09).
+Fixed Assets to Assets, Revenue per person y Net Value Growth Rate presenta el mayor sesgo positivo, con valores cercanos a 73,86. Esto indica una fuerte concentración de los datos en ciertos valores y la presencia de observaciones extremas hacia la derecha.
+Operating Profit Rate presenta un sesgo negativo de aproximadamente -73,36, lo que indica una distribución con una cola pronunciada hacia la izquierda.
+Las demás variables también presentan valores de sesgo elevados, como Contingent liabilities/Net worth (71,85) y Working capital Turnover Rate (67,09).
 
-**Conclusión:** Varias variables presentan un sesgo elevado, lo que sugiere la presencia de distribuciones muy asimétricas y posibles valores extremos. Estas variables deberán revisarse durante el preprocesamiento para determinar si requieren alguna transformación, especialmente si se utilizan modelos sensibles a la escala o a la distribución de los datos.
+Conclusión: Varias variables presentan un sesgo elevado, lo que sugiere la presencia de distribuciones muy asimétricas y posibles valores extremos. Estas variables deberán revisarse durante el preprocesamiento para determinar si requieren alguna transformación, especialmente si se utilizan modelos sensibles a la escala o a la distribución de los datos.
 
 #### Boxplots de las variables más sesgadas
 
@@ -836,12 +880,12 @@ wrap_plots(lapply(top_skew_vars, plot_box_skew), ncol = 3) +
   )
 ```
 
-- **Fixed Assets to Assets:** La mayoría de los valores se concentra cerca de cero, pero aparece un valor extremadamente alto. Esto explica el fuerte sesgo positivo y muestra la presencia de un valor atípico muy marcado.
-- **Revenue per person:** Presenta un comportamiento similar. La mayoría de las observaciones está concentrada en valores bajos, mientras que existe un valor extremadamente alto que distorsiona la distribución.
-- **Net Value Growth Rate:** Casi todos los valores se encuentran cerca de cero, pero se observa un valor muy alejado del resto. Este valor extremo explica gran parte del sesgo positivo de la variable.
-- **Total income/Total expense:** La mayoría de las observaciones se concentra cerca de valores bajos, mientras que aparece un valor cercano a 1 claramente separado del resto. Esto indica una distribución muy asimétrica y la presencia de un posible valor atípico.
-- **Operating Profit Rate:** Los valores están muy concentrados cerca de 1, aunque aparecen algunas observaciones alejadas, principalmente hacia valores inferiores. Esto genera el fuerte sesgo negativo observado anteriormente.
-- **Contingent liabilities/Net worth:** La mayoría de los datos se encuentra cerca de cero, pero aparecen varios valores alejados y uno cercano a 1. Estos valores extremos contribuyen al elevado sesgo positivo.
+- Fixed Assets to Assets: La mayoría de los valores se concentra cerca de cero, pero aparece un valor extremadamente alto. Esto explica el fuerte sesgo positivo y muestra la presencia de un valor atípico muy marcado.
+- Revenue per person: Presenta un comportamiento similar. La mayoría de las observaciones está concentrada en valores bajos, mientras que existe un valor extremadamente alto que distorsiona la distribución.
+- Net Value Growth Rate: Casi todos los valores se encuentran cerca de cero, pero se observa un valor muy alejado del resto. Este valor extremo explica gran parte del sesgo positivo de la variable.
+- Total income/Total expense: La mayoría de las observaciones se concentra cerca de valores bajos, mientras que aparece un valor cercano a 1 claramente separado del resto. Esto indica una distribución muy asimétrica y la presencia de un posible valor atípico.
+- Operating Profit Rate: Los valores están muy concentrados cerca de 1, aunque aparecen algunas observaciones alejadas, principalmente hacia valores inferiores. Esto genera el fuerte sesgo negativo observado anteriormente.
+- Contingent liabilities/Net worth: La mayoría de los datos se encuentra cerca de cero, pero aparecen varios valores alejados y uno cercano a 1. Estos valores extremos contribuyen al elevado sesgo positivo.
 Conclusión
 
 Los boxplots muestran que las variables con mayor sesgo presentan valores atípicos muy alejados de la mayoría de las observaciones. En varias de ellas, estos valores extremos explican gran parte del sesgo observado. Por ahora no se deberían eliminar automáticamente, ya que primero es necesario determinar si representan errores o situaciones reales de las empresas.
@@ -888,17 +932,17 @@ ggplot(df_top15_plot, aes(x = etiqueta, y = `% Outliers (IQR)`)) +
   theme(panel.grid.major.y = element_blank(), axis.text.y = element_text(color = PALETTE$downriver))
 ```
 
-Las variables con mayor proporción de valores atípicos son **Degree of Financial Leverage (DFL)**, **Fixed Assets Turnover Frequency** e **Interest Coverage Ratio**, con aproximadamente 21,9 %, 20,9 % y 20,9 % de empresas marcadas como outliers, respectivamente.
+Las variables con mayor proporción de valores atípicos son Degree of Financial Leverage (DFL), Fixed Assets Turnover Frequency e Interest Coverage Ratio, con aproximadamente 21,9 %, 20,9 % y 20,9 % de empresas marcadas como outliers, respectivamente.
 
-También destacan **Current Asset Turnover Rate**, **Total Asset Growth Rate** e **Interest Expense Ratio**, con alrededor del 20 % de sus observaciones identificadas como valores atípicos. Las demás variables del top 15 presentan entre aproximadamente 14 % y 18 % de observaciones marcadas como outliers.
+También destacan Current Asset Turnover Rate, Total Asset Growth Rate e Interest Expense Ratio, con alrededor del 20 % de sus observaciones identificadas como valores atípicos. Las demás variables del top 15 presentan entre aproximadamente 14 % y 18 % de observaciones marcadas como outliers.
 
 En general, varias variables presentan una proporción considerable de valores atípicos. Sin embargo, esto no significa que deban eliminarse automáticamente, ya que pueden representar situaciones financieras reales de algunas empresas. Estos resultados deberán considerarse posteriormente al definir el preprocesamiento de los datos.
 
-##  ANÁLISIS BIVARIADO
+##  Análisis bivariado
 
-####  variables numéricas vs objetivo
+###  variables numéricas vs objetivo
 
-##### Estadísticas descriptivas
+#### Estadísticas descriptivas
 
 ```{r biv-tabla, results='asis'}
 # 1. TABLA CONSOLIDADA: las 93 variables en una sola tabla. Se ordena por
@@ -962,17 +1006,17 @@ for (k in seq_along(num_vars)) {
     tendencia <- "no presenta diferencias sustanciales entre ambos grupos, sugiriendo un poder discriminante limitado de forma univariada."
     color_borde <- PALETTE$stone_blue
   } else if (diff_media < 0) {
-    tendencia <- paste0("muestra una tendencia a registrar <b style='color:", PALETTE$poinciana,
-                        ";'>valores inferiores en empresas en quiebra</b> ", resumen_vals)
+    tendencia <- paste0("muestra una tendencia a registrar <span style='color:", PALETTE$poinciana,
+                        ";'>valores inferiores en empresas en quiebra</span> ", resumen_vals)
     color_borde <- PALETTE$poinciana
   } else {
-    tendencia <- paste0("muestra una tendencia a registrar <b style='color:", PALETTE$flame,
-                        ";'>valores superiores en empresas en quiebra</b> ", resumen_vals)
+    tendencia <- paste0("muestra una tendencia a registrar <span style='color:", PALETTE$flame,
+                        ";'>valores superiores en empresas en quiebra</span> ", resumen_vals)
     color_borde <- PALETTE$flame
   }
 
   interpretacion_html <- paste0(
-    "Al segmentar la variable <b style='color:", PALETTE$downriver, ";'>", var, "</b> según la condición de ",
+    "Al segmentar la variable <span style='color:", PALETTE$downriver, ";'>", var, "</span> según la condición de ",
     "insolvencia (<code>", TARGET, "</code>), se observa que la distribución ", tendencia,
     " Esta diferencia entre los centros de tendencia central es un indicador clave para anticipar la importancia de esta variable ",
     "dentro de los modelos de clasificación."
@@ -983,7 +1027,7 @@ for (k in seq_along(num_vars)) {
     '<div style="margin-bottom:14px;overflow-x:auto;">', tabla_h, '</div>',
     '<div style="background-color:', PALETTE$bg_card, ';border-left:5px solid ', color_borde,
     ';border-radius:6px;padding:14px 18px;font-family:\'Segoe UI\',-apple-system,BlinkMacSystemFont,Roboto,sans-serif;">',
-    '<div style="color:', PALETTE$downriver, ';margin:0 0 8px 0;font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;">Interpretación Bivariada</div>',
+    '<div style="color:', PALETTE$downriver, ';margin:0 0 8px 0;font-size:13px;font-weight:700;letter-spacing:.5px;">Interpretación Bivariada</div>',
     '<p style="margin:0;color:', PALETTE$stone_blue, ';font-size:13.5px;line-height:1.6;">', interpretacion_html, '</p>',
     '</div></div></details>'
   )
@@ -1005,7 +1049,7 @@ cat("\n\n```{=html}\n", html_estilo_deep_dive,
     paste(detalles_deep_dive, collapse = ""), "</div>\n```\n\n", sep = "")
 ```
 
-##### Gráficas
+#### Gráficas
 
 ```{r biv-graficas, results='asis'}
 # Cada variable se convierte en un bloque <details> plegable: el gráfico se
@@ -1028,7 +1072,7 @@ for (k in seq_along(num_vars)) {
                  outlier.size = 1.2, outlier.shape = 16) +
     scale_fill_manual(values = TARGET_COLORS) +
     scale_x_discrete(labels = c("0 (Solvente)", "1 (Quiebra)")) +
-    coord_cartesian(ylim = ylim_rob) +
+    coord_cartesian(ylim = range(grupo_0, grupo_1, na.rm = TRUE), expand = TRUE) +
     labs(title = paste0("Distribución de ", var, " según Estado de Bancarrota (", TARGET, ")"),
          x = "Estado de Bancarrota (0 = Solvente, 1 = Quiebra)", y = var) +
     tema_eda +
@@ -1045,20 +1089,20 @@ for (k in seq_along(num_vars)) {
 
   if (abs(diff_mediana) < 0.01) {
     comparacion_mediana <- "medianas visualmente alineadas y un solapamiento alto en sus rangos intercuartílicos"
-    conclusion <- paste0("la variable <b style='color:", PALETTE$downriver, ";'>", var,
-                         "</b> muestra un comportamiento similar entre ambos grupos sin una separación clara a simple vista.")
+    conclusion <- paste0("la variable <span style='color:", PALETTE$downriver, ";'>", var,
+                         "</span> muestra un comportamiento similar entre ambos grupos sin una separación clara a simple vista.")
   } else if (diff_mediana < 0) {
-    comparacion_mediana <- paste0("que el 50% de las empresas en quiebra se ubica en niveles inferiores de <b style='color:", PALETTE$poinciana, ";'>", var,
-                                  "</b> (mediana cercana a ", formatear_valor(var, med_1), ") en comparación con el grupo solvente (mediana cercana a ",
+    comparacion_mediana <- paste0("que el 50% de las empresas en quiebra se ubica en niveles inferiores de <span style='color:", PALETTE$poinciana, ";'>", var,
+                                  "</span> (mediana cercana a ", formatear_valor(var, med_1), ") en comparación con el grupo solvente (mediana cercana a ",
                                   formatear_valor(var, med_0), ")")
-    conclusion <- paste0("los valores más bajos de <b style='color:", PALETTE$poinciana, ";'>", var,
-                         "</b> tienden a concentrarse en las empresas con riesgo de quiebra.")
+    conclusion <- paste0("los valores más bajos de <span style='color:", PALETTE$poinciana, ";'>", var,
+                         "</span> tienden a concentrarse en las empresas con riesgo de quiebra.")
   } else {
-    comparacion_mediana <- paste0("que el 50% de las empresas en quiebra presenta valores más elevados de <b style='color:", PALETTE$flame, ";'>", var,
-                                  "</b> (mediana cercana a ", formatear_valor(var, med_1), ") frente al grupo sano (mediana cercana a ",
+    comparacion_mediana <- paste0("que el 50% de las empresas en quiebra presenta valores más elevados de <span style='color:", PALETTE$flame, ";'>", var,
+                                  "</span> (mediana cercana a ", formatear_valor(var, med_1), ") frente al grupo sano (mediana cercana a ",
                                   formatear_valor(var, med_0), ")")
-    conclusion <- paste0("los valores más altos de <b style='color:", PALETTE$flame, ";'>", var,
-                         "</b> se aprecian con mayor frecuencia en el grupo con riesgo de quiebra.")
+    conclusion <- paste0("los valores más altos de <span style='color:", PALETTE$flame, ";'>", var,
+                         "</span> se aprecian con mayor frecuencia en el grupo con riesgo de quiebra.")
   }
 
   # 4. Bloque <details> plegable: título + imagen + interpretación
@@ -1067,8 +1111,8 @@ for (k in seq_along(num_vars)) {
     '<div style="text-align:center;margin-bottom:14px;"><img src="data:image/png;base64,', imagen_base64,
     '" style="max-width:100%;height:auto;border-radius:4px;"></div>',
     '<p style="margin:0;color:', PALETTE$stone_blue, ';font-size:13.5px;line-height:1.6;">',
-    'El gráfico compara la distribución de <b style="color:', PALETTE$downriver, ';">', var,
-    '</b> entre empresas solventes (<b style="color:', PALETTE$downriver, ';">0</b>) y en quiebra (<b style="color:', PALETTE$poinciana, ';">1</b>). ',
+    'El gráfico compara la distribución de <span style="color:', PALETTE$downriver, ';">', var,
+    '</span> entre empresas solventes (<span style="color:', PALETTE$downriver, ';">0</span>) y en quiebra (<span style="color:', PALETTE$poinciana, ';">1</span>). ',
     'Se observa ', comparacion_mediana, '. El rango central de los datos (IQR) muestra la dispersión interna de cada segmento, ',
     'evidenciándose la presencia de valores atípicos (<i>outliers</i>) más allá de los bigotes. En resumen, ', conclusion,
     '</p></div></details>'
@@ -1088,22 +1132,22 @@ html_estilo <- paste0(
 cat(html_estilo, "<div>", paste(detalles_numericas, collapse = ""), "</div>\n\n", sep = "")
 ```
 
-##### Inferencia estadística: variables numéricas vs. objetivo
+#### Inferencia estadística: variables numéricas vs. objetivo
 
-El análisis descriptivo y los boxplots anteriores sugieren diferencias entre empresas solventes y quebradas, pero no permiten determinar si esas diferencias son compatibles con la variabilidad muestral. La **inferencia estadística** contrasta dos explicaciones para cada ratio financiero:
+El análisis descriptivo y los boxplots anteriores sugieren diferencias entre empresas solventes y quebradas, pero no permiten determinar si esas diferencias son compatibles con la variabilidad muestral. La inferencia estadística contrasta dos explicaciones para cada ratio financiero:
 
-- **H₀:** la distribución del ratio es la misma en empresas que no quiebran y en empresas que sí quiebran.
-- **H₁:** la distribución del ratio difiere entre ambos estados de bancarrota.
+- H₀: la distribución del ratio es la misma en empresas que no quiebran y en empresas que sí quiebran.
+- H₁: la distribución del ratio difiere entre ambos estados de bancarrota.
 
-Se utiliza $\alpha=0.05$: este umbral representa el riesgo máximo de error tipo I que se admite para una prueba individual. El *p-value* es la probabilidad, suponiendo verdadera H₀, de observar un resultado al menos tan extremo como el obtenido. Si $p<\alpha$, se rechaza H₀; si $p\geq\alpha$, **no se rechaza H₀**. No rechazarla no demuestra igualdad, sino falta de evidencia suficiente.
+Se utiliza $\alpha=0.05$: este umbral representa el riesgo máximo de error tipo I que se admite para una prueba individual. El *p-value* es la probabilidad, suponiendo verdadera H₀, de observar un resultado al menos tan extremo como el obtenido. Si $p<\alpha$, se rechaza H₀; si $p\geq\alpha$, no se rechaza H₀. No rechazarla no demuestra igualdad, sino falta de evidencia suficiente.
 
-**Selección de la prueba**
+Selección de la prueba
 
 El objetivo `Bankrupt?` es categórico binario e independiente de cada ratio numérico. Por ello se comparan dos grupos independientes (0 = no quiebra; 1 = quiebra).
 
-En estos datos, las 93 variables incumplen la normalidad razonable en consecuencia, se selecciona **Mann–Whitney U bilateral** para todas. Esta prueba evalúa igualdad de distribuciones (o dominancia estocástica); solo puede interpretarse estrictamente como los valores de un grupo tienden a ser sistemáticamente más altos (o más bajos) que los del otro".
+En estos datos, las 93 variables incumplen la normalidad razonable en consecuencia, se selecciona Mann–Whitney U bilateral para todas. Esta prueba evalúa igualdad de distribuciones (o dominancia estocástica); solo puede interpretarse estrictamente como los valores de un grupo tienden a ser sistemáticamente más altos (o más bajos) que los del otro".
 
-Como tamaño de efecto se presenta la **correlación biserial de rangos** $r_{rb}$, entre -1 y 1. Aquí, valores positivos indican que el ratio tiende a ser mayor en empresas sin quiebra y valores negativos, mayor en empresas quebradas. Como guía descriptiva: $|r_{rb}|\approx0.10$ pequeño, $0.30$ moderado y $0.50$ grande. La magnitud debe interpretarse junto con el contexto financiero; significancia estadística no equivale necesariamente a importancia práctica.
+Como tamaño de efecto se presenta la correlación biserial de rangos $r_{rb}$, entre -1 y 1. Aquí, valores positivos indican que el ratio tiende a ser mayor en empresas sin quiebra y valores negativos, mayor en empresas quebradas. Como guía descriptiva: $|r_{rb}|\approx0.10$ pequeño, $0.30$ moderado y $0.50$ grande. La magnitud debe interpretarse junto con el contexto financiero; significancia estadística no equivale necesariamente a importancia práctica.
 
 ```{r inferencia-num, results='asis'}
 ALPHA <- 0.05
@@ -1200,7 +1244,7 @@ for (i in seq_len(nrow(res_ord))) {
   if (fila$Decisión == "Se rechaza H₀") {
     conclusion <- paste0(
       "Se rechaza H₀ después de la corrección de Holm. Hay evidencia estadística ",
-      "de que la distribución de <b>", fila$Variable, "</b> difiere según el estado ",
+      "de que la distribución de <span>", fila$Variable, "</span> difiere según el estado ",
       "de bancarrota; el ratio ", direccion, "."
     )
     color_borde <- PALETTE$poinciana
@@ -1208,7 +1252,7 @@ for (i in seq_len(nrow(res_ord))) {
     conclusion <- paste0(
       "No se rechaza H₀ después de la corrección de Holm. La muestra no aporta ",
       "evidencia suficiente de una diferencia en la distribución de ",
-      "<b>", fila$Variable, "</b> entre ambos estados. Esto no demuestra igualdad."
+      "<span>", fila$Variable, "</span> entre ambos estados. Esto no demuestra igualdad."
     )
     color_borde <- PALETTE$stone_blue
   }
@@ -1232,9 +1276,9 @@ cat("<div style='max-height:480px;overflow-y:auto;border:1px solid #E1E4E9;borde
     paste(tarjetas_html, collapse = ""), "</div>\n\n", sep = "")
 ```
 
-####  Variables categóricas vs. objetivo
+###  Variables categóricas vs. objetivo
 
-##### Tabla
+#### Tabla
 
 ```{r cat-tabla, results='asis'}
 for (var in cat_vars) {
@@ -1280,7 +1324,7 @@ La gran mayoría de los eventos de quiebra suceden en firmas que no tenían acti
 
 Esta variable carece de variabilidad (varianza cero), por lo que no aporta información predictiva ni explicativa para diferenciar empresas sanas de insolventes. Se sugiere descartarla formalmente durante la fase de preprocesamiento.
 
-##### Gráficas
+#### Gráficas
 
 ```{r cat-graficas, results='asis'}
 # Solo 2 variables categóricas: se muestran lado a lado en una cuadrícula de dos columnas.
@@ -1318,17 +1362,17 @@ cat('<div style="display:grid;grid-template-columns:repeat(2,1fr);gap:20px;margi
     paste(bloques_cat, collapse = ""), '</div>\n\n', sep = "")
 ```
 
-**Interpretación de `Liability-Assets Flag` vs `Bankrupt?` :** El gráfico para Liability-Assets Flag muestra la tasa de bancarrota según si los pasivos de la empresa superan a sus activos (1) o no (0). En ambos casos, la inmensa mayoría de las empresas son solventes (0), lo que refleja el fuerte desbalance de la variable objetivo. Aunque se esperaría lo contrario, tener más pasivos que activos muestra un impacto prácticamente nulo en la tasa de insolvencia de la muestra. Sumado a que muy pocas observaciones presentan este indicador en 1, la variable aporta muy poca capacidad discriminante por sí sola.
+Interpretación de `Liability-Assets Flag` vs `Bankrupt?` : El gráfico para Liability-Assets Flag muestra la tasa de bancarrota según si los pasivos de la empresa superan a sus activos (1) o no (0). En ambos casos, la inmensa mayoría de las empresas son solventes (0), lo que refleja el fuerte desbalance de la variable objetivo. Aunque se esperaría lo contrario, tener más pasivos que activos muestra un impacto prácticamente nulo en la tasa de insolvencia de la muestra. Sumado a que muy pocas observaciones presentan este indicador en 1, la variable aporta muy poca capacidad discriminante por sí sola.
 
-**Interpretación de `Net Income Flag` vs `Bankrupt?` :** El gráfico para Net Income Flag refleja una distribución idéntica para todas las observaciones del conjunto de datos, ya que el 100% de las empresas se encuentran clasificado bajo el valor único 1. Al no existir variación entre las categorías de esta variable frente al estado de bancarrota (los casos 0 y 1 del target se distribuyen sobre un solo nivel), la variable carece totalmente de poder explicativo o discriminante, confirmando la necesidad de descartarla antes de la fase de modelado predictivo.
+Interpretación de `Net Income Flag` vs `Bankrupt?` : El gráfico para Net Income Flag refleja una distribución idéntica para todas las observaciones del conjunto de datos, ya que el 100% de las empresas se encuentran clasificado bajo el valor único 1. Al no existir variación entre las categorías de esta variable frente al estado de bancarrota (los casos 0 y 1 del target se distribuyen sobre un solo nivel), la variable carece totalmente de poder explicativo o discriminante, confirmando la necesidad de descartarla antes de la fase de modelado predictivo.
 
-##### Inferencia estadística: variables categóricas vs. objetivo
+#### Inferencia estadística: variables categóricas vs. objetivo
 
 Para cada flag, H₀ plantea independencia respecto de `Bankrupt?`; H₁ plantea asociación. La prueba Chi-cuadrado requiere observaciones independientes y frecuencias esperadas suficientemente grandes (regla habitual: ninguna esperada menor que 1 y no más del 20% menores que 5). No debe aplicarse automáticamente.
 
-`Liability-Assets Flag` forma una tabla 2×2, pero su categoría 1 solo contiene cinco empresas y una celda tiene frecuencia esperada 0,16 empresas. Por tanto, Chi-cuadrado incumple sus supuestos y se usa la **prueba exacta bilateral de Fisher**, válida con conteos pequeños. Se informa la *odds ratio* como tamaño de efecto, con intervalo aproximado del 95%; debido a la categoría extremadamente escasa, su estimación es muy imprecisa.
+`Liability-Assets Flag` forma una tabla 2×2, pero su categoría 1 solo contiene cinco empresas y una celda tiene frecuencia esperada 0,16 empresas. Por tanto, Chi-cuadrado incumple sus supuestos y se usa la prueba exacta bilateral de Fisher, válida con conteos pequeños. Se informa la *odds ratio* como tamaño de efecto, con intervalo aproximado del 95%; debido a la categoría extremadamente escasa, su estimación es muy imprecisa.
 
-`Net Income Flag` vale 1 en todas las observaciones de `train`; al no tener variabilidad no existe una comparación entre categorías y **no es estadísticamente contrastable**. No corresponde asignarle un *p-value*.
+`Net Income Flag` vale 1 en todas las observaciones de `train`; al no tener variabilidad no existe una comparación entre categorías y no es estadísticamente contrastable. No corresponde asignarle un *p-value*.
 
 ```{r inferencia-cat, results='asis'}
 resultados_inferencia_cat <- map_dfr(cat_vars, function(var) {
@@ -1393,17 +1437,17 @@ Para `Net Income Flag` no se formula una decisión inferencial: al ser constante
 
 La prueba de Fisher identifica asociación, no causalidad. Además, las observaciones deben corresponder a empresas independientes; si existieran mediciones repetidas por empresa, habría que utilizar un método que modele esa dependencia.
 
-##### Control de comparaciones múltiples
+#### Control de comparaciones múltiples
 
-Realizar 93 contrastes numéricos con $\alpha=0.05$ sin ajuste aumenta la probabilidad de falsos positivos: aun si todas las H₀ fueran ciertas, se esperarían aproximadamente $93\times0.05=4.65$ rechazos por azar. Se aplica el método **Holm** a la familia de pruebas numéricas. Holm controla la probabilidad de cometer al menos un error tipo I en el conjunto y es menos conservador que Bonferroni. Se prefiere aquí sobre FDR porque el objetivo es sustentar conclusiones académicas del EDA con control fuerte del error familiar.
+Realizar 93 contrastes numéricos con $\alpha=0.05$ sin ajuste aumenta la probabilidad de falsos positivos: aun si todas las H₀ fueran ciertas, se esperarían aproximadamente $93\times0.05=4.65$ rechazos por azar. Se aplica el método Holm a la familia de pruebas numéricas. Holm controla la probabilidad de cometer al menos un error tipo I en el conjunto y es menos conservador que Bonferroni. Se prefiere aquí sobre FDR porque el objetivo es sustentar conclusiones académicas del EDA con control fuerte del error familiar.
 
-La única prueba categórica realizable (`Liability-Assets Flag`) constituye una familia separada y no requiere ajuste adicional. Después de Holm, **81 de las 93 variables numéricas** conservan evidencia de diferencia y **12 no presentan evidencia suficiente**. La significancia abundante es compatible con el tamaño muestral y no implica que todas las variables tengan utilidad práctica o predictiva.
+La única prueba categórica realizable (`Liability-Assets Flag`) constituye una familia separada y no requiere ajuste adicional. Después de Holm, 81 de las 93 variables numéricas conservan evidencia de diferencia y 12 no presentan evidencia suficiente. La significancia abundante es compatible con el tamaño muestral y no implica que todas las variables tengan utilidad práctica o predictiva.
 
-##  ANÁLISIS MULTIVARIADO Y MULTICOLINEALIDAD
+##  Análisis multivariado y multicolinealidad
 
 ###  Correlaciones con la variable objetivo
 
-> **Spearman en vez de Pearson:** con 93 variables no es viable comprobar rigurosamente el supuesto de normalidad de cada una (requeriría 93 pruebas adicionales, con su propio problema de comparaciones múltiples). Además, ya se documentaron sesgos y outliers fuertes en varias variables, algo que distorsiona a Pearson. Por eso se usa la **correlación de Spearman (rho)**: no asume normalidad, es robusta ante outliers y captura relaciones monótonas (no solo lineales) entre cada ratio financiero y la probabilidad de quiebra.
+> Spearman en vez de Pearson: con 93 variables no es viable comprobar rigurosamente el supuesto de normalidad de cada una (requeriría 93 pruebas adicionales, con su propio problema de comparaciones múltiples). Además, ya se documentaron sesgos y outliers fuertes en varias variables, algo que distorsiona a Pearson. Por eso se usa la correlación de Spearman (rho): no asume normalidad, es robusta ante outliers y captura relaciones monótonas (no solo lineales) entre cada ratio financiero y la probabilidad de quiebra.
 
 ```{r corr-objetivo, results='asis', fig.width=10, fig.height=8.5}
 # 1. Cálculo de Correlaciones respecto al Target (Spearman, no Pearson)
@@ -1448,12 +1492,12 @@ var_max_pos <- top_pos$Variable[1]; r_max_pos <- top_pos$`Correlación (rho)`[1]
 var_max_neg <- top_neg$Variable[1]; r_max_neg <- top_neg$`Correlación (rho)`[1]
 ```
 
-**En palabras simples:** el gráfico confirma, con números, lo que ya insinuaba el Random Forest: **rentabilidad y endeudamiento son los dos bloques que más se relacionan con la quiebra**, pero en direcciones opuestas.
+En palabras simples: el gráfico confirma, con números, lo que ya insinuaba el Random Forest: rentabilidad y endeudamiento son los dos bloques que más se relacionan con la quiebra, pero en direcciones opuestas.
 
-- **Correlaciones negativas (azul):** dominadas por variables de **rentabilidad** — distintas versiones de ROA, utilidad neta sobre activos/patrimonio, ganancias retenidas. La relación es negativa porque tiene sentido financiero: **a mayor rentabilidad, menor probabilidad de quiebra**. La más fuerte es `Net Income to Total Assets` (-0.32, correlación).
-- **Correlaciones positivas (naranja):** dominadas por variables de **endeudamiento** — `Debt ratio %`, `Borrowing dependency`, varias razones de pasivos sobre activos o patrimonio. Aquí la relación es positiva porque **a mayor nivel de deuda relativa, mayor probabilidad de quiebra**. La más fuerte es `Debt ratio %` (0.25).
+- Correlaciones negativas (azul): dominadas por variables de rentabilidad — distintas versiones de ROA, utilidad neta sobre activos/patrimonio, ganancias retenidas. La relación es negativa porque tiene sentido financiero: a mayor rentabilidad, menor probabilidad de quiebra. La más fuerte es `Net Income to Total Assets` (-0.32, correlación).
+- Correlaciones positivas (naranja): dominadas por variables de endeudamiento — `Debt ratio %`, `Borrowing dependency`, varias razones de pasivos sobre activos o patrimonio. Aquí la relación es positiva porque a mayor nivel de deuda relativa, mayor probabilidad de quiebra. La más fuerte es `Debt ratio %` (0.25).
 
-Es importante notar que **ninguna correlación individual supera 0.32  en valor absoluto**: son relaciones reales pero moderadas, no fuertes. Esto refuerza una conclusión que ya se venía formando en el EDA: ninguna variable por sí sola explica bien la quiebra, por lo que un modelo que combine varias señales (como Random Forest) probablemente capture mejor el patrón que basarse en una sola razón financiera.
+Es importante notar que ninguna correlación individual supera 0.32  en valor absoluto: son relaciones reales pero moderadas, no fuertes. Esto refuerza una conclusión que ya se venía formando en el EDA: ninguna variable por sí sola explica bien la quiebra, por lo que un modelo que combine varias señales (como Random Forest) probablemente capture mejor el patrón que basarse en una sola razón financiera.
 
 También vale la pena notar que varias de las variables con correlación negativa más fuerte (las distintas versiones de ROA) son las mismas que ya se identificaron como altamente correlacionadas entre sí en la sección de multicolinealidad — otra razón para tenerlas presentes al momento de seleccionar variables para el modelo.
 
@@ -1504,12 +1548,12 @@ num_multicol <- length(pairs)
 
 if (num_multicol > 0) {
   lista_html <- paste0(vapply(head(pairs, 5), function(p) {
-    sprintf("<li><b>%s</b> y <b>%s</b> (<i>rho</i> = <b style='color:%s;'>%+.2f</b>)</li>",
+    sprintf("<li><span>%s</span> y <span>%s</span> (<i>rho</i> = <span style='color:%s;'>%+.2f</span>)</li>",
             p[[1]], p[[2]], PALETTE$poinciana, p[[3]])
   }, character(1)), collapse = "")
   obs_multicol <- paste0(
-    "Se detectaron <b style=\"color: ", PALETTE$poinciana, ";\">", num_multicol,
-    " pares de variables predictoras</b> con correlación crítica (<i>|rho| ≥ 0.80</i>). ",
+    "Se detectaron <span style=\"color: ", PALETTE$poinciana, ";\">", num_multicol,
+    " pares de variables predictoras</span> con correlación crítica (<i>|rho| ≥ 0.80</i>). ",
     "Algunos de los pares más relevantes incluyen: ",
     "<ul style=\"margin:6px 0 8px 0;color:", PALETTE$stone_blue, ";font-size:13px;padding-left:20px;\">", lista_html, "</ul>",
     "La presencia de alta multicolinealidad entre métricas financieras distorsiona los coeficientes en modelos ",
@@ -1532,28 +1576,28 @@ tarjeta_interpretacion(
 
 Esta matriz reúne en un solo lugar las 15 variables más relevantes según Random Forest, junto con `Bankrupt?`, para ver cómo se relacionan entre sí (no solo con la quiebra).
 
-**Última fila/columna (`Bankrupt?`):** muestra correlaciones moderadas con las demás variables, consistentes con lo visto en 6.1 — ninguna supera ~0.3 en valor absoluto, lo que confirma que ninguna variable por sí sola explica la quiebra con fuerza.
-**Bloques oscuros entre variables (no con el target):** aquí está lo más llamativo. Varias combinaciones de ROA, utilidad neta y ganancias retenidas muestran correlaciones muy altas entre sí (cercanas a 0.9-1.0). Esto confirma la **multicolinealidad** ya mencionada: son distintas formas de medir prácticamente lo mismo (rentabilidad), calculadas con pequeñas variaciones metodológicas.
+Última fila/columna (`Bankrupt?`): muestra correlaciones moderadas con las demás variables, consistentes con lo visto en 6.1 — ninguna supera ~0.3 en valor absoluto, lo que confirma que ninguna variable por sí sola explica la quiebra con fuerza.
+Bloques oscuros entre variables (no con el target): aquí está lo más llamativo. Varias combinaciones de ROA, utilidad neta y ganancias retenidas muestran correlaciones muy altas entre sí (cercanas a 0.9-1.0). Esto confirma la multicolinealidad ya mencionada: son distintas formas de medir prácticamente lo mismo (rentabilidad), calculadas con pequeñas variaciones metodológicas.
 
 Esto no afecta a Random Forest (que ya usamos para identificar estas variables), pero si más adelante se prueba un modelo lineal (como regresión logística), meter varias versiones casi idénticas del mismo ratio no aporta información nueva y puede inflar artificialmente la importancia de esa "familia" de variables o dificultar la interpretación de los coeficientes. Por ahora no se elimina ninguna — esa decisión se deja para la etapa de preprocesamiento, con más contexto sobre qué modelo se va a usar.
 
-##  CONCLUSIONES DEL EDA
+##  Conclusiones del EDA
 
-1. **Estructura del dataset:** `train` tiene 5.455 empresas y 95 variables predictoras (93 numéricas + 2 flags binarios), más el target `Bankrupt?`.
+1. Estructura del dataset: `train` tiene 5.455 empresas y 95 variables predictoras (93 numéricas + 2 flags binarios), más el target `Bankrupt?`.
 
-2. **Calidad de los datos:** no hay valores nulos ni filas duplicadas en `train`, lo cual facilita el modelado. `Net Income Flag` es constante (siempre vale 1) y no aporta información — candidata a eliminarse.
+2. Calidad de los datos: no hay valores nulos ni filas duplicadas en `train`, lo cual facilita el modelado. `Net Income Flag` es constante (siempre vale 1) y no aporta información — candidata a eliminarse.
 
-3. **Desbalance del target:** el problema es de clasificación binaria con un desbalance fuerte (aproximadamente 20-30 empresas sanas por cada empresa quebrada). Esto obliga a usar métricas distintas al accuracy y a considerar técnicas de balanceo en el modelado, no en el EDA.
+3. Desbalance del target: el problema es de clasificación binaria con un desbalance fuerte (aproximadamente 20-30 empresas sanas por cada empresa quebrada). Esto obliga a usar métricas distintas al accuracy y a considerar técnicas de balanceo en el modelado, no en el EDA.
 
-4. **Sesgo y outliers:** varias variables financieras tienen sesgo alto y un porcentaje considerable de outliers según IQR. No parecen errores de captura, sino comportamientos extremos reales de algunas empresas, por lo que su tratamiento (transformación, winsorizing, o dejarlos igual) debe decidirse con cuidado más adelante.
+4. Sesgo y outliers: varias variables financieras tienen sesgo alto y un porcentaje considerable de outliers según IQR. No parecen errores de captura, sino comportamientos extremos reales de algunas empresas, por lo que su tratamiento (transformación, winsorizing, o dejarlos igual) debe decidirse con cuidado más adelante.
 
-5. **Variables relevantes:** según Random Forest y correlación con el target, las variables de **rentabilidad** (ROA, utilidad neta sobre patrimonio) y de **endeudamiento** son las que más distinguen a las empresas que quiebran de las que no.
+5. Variables relevantes: según Random Forest y correlación con el target, las variables de rentabilidad (ROA, utilidad neta sobre patrimonio) y de endeudamiento son las que más distinguen a las empresas que quiebran de las que no.
 
-6. **Multicolinealidad:** existen varias versiones muy parecidas del mismo indicador (por ejemplo, distintas formas de calcular ROA), altamente correlacionadas entre sí. No se eliminó ninguna en esta etapa, pero es algo a tener en cuenta si se usa un modelo lineal.
+6. Multicolinealidad: existen varias versiones muy parecidas del mismo indicador (por ejemplo, distintas formas de calcular ROA), altamente correlacionadas entre sí. No se eliminó ninguna en esta etapa, pero es algo a tener en cuenta si se usa un modelo lineal.
 
-<!-- 7. **Separabilidad limitada en 2D:** la proyección PCA muestra que las clases no se separan claramente en dos dimensiones, lo que sugiere que un modelo capaz de capturar relaciones más complejas (por ejemplo, basado en árboles) podría funcionar mejor que un modelo lineal simple. -->
+<!-- 7. Separabilidad limitada en 2D: la proyección PCA muestra que las clases no se separan claramente en dos dimensiones, lo que sugiere que un modelo capaz de capturar relaciones más complejas (por ejemplo, basado en árboles) podría funcionar mejor que un modelo lineal simple. -->
 
-7. **`Liability-Assets Flag`:** tiene muy pocos casos con valor 1, pero ese grupo pequeño concentra una proporción de quiebra más alta. Vale la pena conservarla para el modelo pese a su baja cardinalidad.
+7. `Liability-Assets Flag`: tiene muy pocos casos con valor 1, pero ese grupo pequeño concentra una proporción de quiebra más alta. Vale la pena conservarla para el modelo pese a su baja cardinalidad.
 
 ```{r guardar-split}
 dir.create("data", showWarnings = FALSE)
