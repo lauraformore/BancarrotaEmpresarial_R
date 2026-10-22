@@ -247,6 +247,7 @@ Enlaces de interés
 <script>
 (function () {
   "use strict";
+  if (window.bookReportContents) { window.bookReportContents(); return; }
   let observer;
   function renderContents() {
     document.querySelectorAll(".report-page-toc").forEach(function (node) { node.remove(); });
@@ -293,6 +294,7 @@ Enlaces de interés
       entries.forEach(function (entry) { observer.observe(entry.heading); });
     }
   }
+  window.bookReportContents = renderContents;
   function initialize() {
     renderContents();
     if (window.gitbook && typeof window.gitbook.require === "function") {
