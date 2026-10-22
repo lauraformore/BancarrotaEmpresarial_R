@@ -1,7 +1,7 @@
 ---
 title: "Modelo de Clasificación Binaria para la Predicción de Bancarrota Empresarial a partir de Estados Financieros: Dataset Taiwan Economic Journal"
 subtitle: "Análisis de Solvencia Corporativa y Riesgo Financiero con Machine Learning"
-author: "Laura Rivera · Natalý Cárdenas"
+author: "Laura Rivera y Natalý Cárdenas"
 output:
 html_document:
 css: custom.css

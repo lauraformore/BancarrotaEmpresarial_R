@@ -80,3 +80,8 @@ table.report-table tbody tr:hover {background:#fff2e5;}
 .book #index > h1 {display:none;}
 
 .book .book-body .page-wrapper .page-inner section.normal pre {font:13px/1.55 Consolas,monospace;}
+
+/* Galería de 5.1: una lista desplazable de consultas por variable. */
+.report-variable-gallery {max-height:640px; overflow-y:auto; overflow-x:hidden; border:1px solid #dce2e9; border-radius:8px; padding:14px; background:#fafbfc; scrollbar-gutter:stable;}
+.report-variable-gallery:focus-visible {outline:3px solid #fe8005; outline-offset:2px;}
+.report-variable-gallery .var-details:last-child {margin-bottom:0;}

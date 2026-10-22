@@ -1,7 +1,7 @@
 ---
 title: "Modelo de Clasificación Binaria para la Predicción de Bancarrota Empresarial a partir de Estados Financieros: Dataset Taiwan Economic Journal"
 subtitle: "Análisis de Solvencia Corporativa y Riesgo Financiero con Machine Learning"
-author: "Laura Rivera · Natalý Cárdenas"
+author: "Laura Rivera y Natalý Cárdenas"
 output:
   html_document:
     css: custom.css
@@ -124,7 +124,10 @@ aplicar_formatos <- function(df, formatos) {
 tabla_html <- function(df, formatos = NULL, alto_px = NULL, titulo = NULL) {
   if (!is.null(formatos)) df <- aplicar_formatos(df, formatos)
   k <- knitr::kable(df, format = "html", align = "l", row.names = FALSE,
-                   caption = titulo, table.attr = 'class="report-table"')
+                   caption = NULL, table.attr = 'class="report-table"')
+  if (!is.null(titulo)) {
+    k <- sub("(<table[^>]*>)", paste0("\\1<caption>", htmltools::htmlEscape(titulo), "</caption>"), as.character(k))
+  }
   clase <- if (is.null(alto_px)) "report-table-wrap" else "report-table-wrap report-table-scroll"
   estilo <- if (is.null(alto_px)) "" else sprintf(' style="max-height:%spx"', alto_px)
   paste0('<div class="', clase, '"', estilo, '>', as.character(k), '</div>')
@@ -1003,7 +1006,7 @@ html_estilo <- paste0(
   ".var-details summary::before{content:'\u25B6 ';font-size:11px;color:", PALETTE$stone_blue, ";}",
   ".var-details[open] summary::before{content:'\u25BC ';}</style>"
 )
-cat(html_estilo, "<div>", paste(detalles_numericas, collapse = ""), "</div>\n\n", sep = "")
+cat(html_estilo, '<div class="report-variable-gallery" role="region" aria-label="Gráficas bivariadas por variable" tabindex="0">', paste(detalles_numericas, collapse = ""), "</div>\n\n", sep = "")
 ```
 
 #### Inferencia estadística: variables numéricas vs. objetivo

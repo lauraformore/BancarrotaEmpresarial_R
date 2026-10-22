@@ -20,7 +20,7 @@
 
 
 
-<meta name="author" content="Laura Rivera · Natalý Cárdenas" />
+<meta name="author" content="Laura Rivera y Natalý Cárdenas" />
 
 
 
@@ -139,7 +139,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li><strong>Predicción de Bancarrota Empresarial</strong></li>
 
 <li class="divider"></li>
-<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Presentación</a>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Acerca del proyecto</a>
 <ul>
 <li class="chapter" data-level="" data-path="index.html"><a href="index.html#introducci%C3%B3n"><i class="fa fa-check"></i>Introducción</a></li>
 <li class="chapter" data-level="" data-path="index.html"><a href="index.html#objetivos"><i class="fa fa-check"></i>Objetivos</a>
@@ -295,65 +295,68 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb1-76"><a href="EDA.html#cb1-76" tabindex="-1"></a>tabla_html <span class="ot">&lt;-</span> <span class="cf">function</span>(df, <span class="at">formatos =</span> <span class="cn">NULL</span>, <span class="at">alto_px =</span> <span class="cn">NULL</span>, <span class="at">titulo =</span> <span class="cn">NULL</span>) {</span>
 <span id="cb1-77"><a href="EDA.html#cb1-77" tabindex="-1"></a>  <span class="cf">if</span> (<span class="sc">!</span><span class="fu">is.null</span>(formatos)) df <span class="ot">&lt;-</span> <span class="fu">aplicar_formatos</span>(df, formatos)</span>
 <span id="cb1-78"><a href="EDA.html#cb1-78" tabindex="-1"></a>  k <span class="ot">&lt;-</span> knitr<span class="sc">::</span><span class="fu">kable</span>(df, <span class="at">format =</span> <span class="st">&quot;html&quot;</span>, <span class="at">align =</span> <span class="st">&quot;l&quot;</span>, <span class="at">row.names =</span> <span class="cn">FALSE</span>,</span>
-<span id="cb1-79"><a href="EDA.html#cb1-79" tabindex="-1"></a>                   <span class="at">caption =</span> titulo, <span class="at">table.attr =</span> <span class="st">&#39;class=&quot;report-table&quot;&#39;</span>)</span>
-<span id="cb1-80"><a href="EDA.html#cb1-80" tabindex="-1"></a>  clase <span class="ot">&lt;-</span> <span class="cf">if</span> (<span class="fu">is.null</span>(alto_px)) <span class="st">&quot;report-table-wrap&quot;</span> <span class="cf">else</span> <span class="st">&quot;report-table-wrap report-table-scroll&quot;</span></span>
-<span id="cb1-81"><a href="EDA.html#cb1-81" tabindex="-1"></a>  estilo <span class="ot">&lt;-</span> <span class="cf">if</span> (<span class="fu">is.null</span>(alto_px)) <span class="st">&quot;&quot;</span> <span class="cf">else</span> <span class="fu">sprintf</span>(<span class="st">&#39; style=&quot;max-height:%spx&quot;&#39;</span>, alto_px)</span>
-<span id="cb1-82"><a href="EDA.html#cb1-82" tabindex="-1"></a>  <span class="fu">paste0</span>(<span class="st">&#39;&lt;div class=&quot;&#39;</span>, clase, <span class="st">&#39;&quot;&#39;</span>, estilo, <span class="st">&#39;&gt;&#39;</span>, <span class="fu">as.character</span>(k), <span class="st">&#39;&lt;/div&gt;&#39;</span>)</span>
-<span id="cb1-83"><a href="EDA.html#cb1-83" tabindex="-1"></a>}</span>
-<span id="cb1-84"><a href="EDA.html#cb1-84" tabindex="-1"></a></span>
-<span id="cb1-85"><a href="EDA.html#cb1-85" tabindex="-1"></a>tabla_estilo <span class="ot">&lt;-</span> <span class="cf">function</span>(df, <span class="at">formatos =</span> <span class="cn">NULL</span>, <span class="at">titulo =</span> <span class="cn">NULL</span>) {</span>
-<span id="cb1-86"><a href="EDA.html#cb1-86" tabindex="-1"></a>  <span class="fu">cat</span>(<span class="fu">tabla_html</span>(df, formatos, <span class="at">titulo =</span> titulo), <span class="st">&quot;</span><span class="sc">\n\n</span><span class="st">&quot;</span>)</span>
-<span id="cb1-87"><a href="EDA.html#cb1-87" tabindex="-1"></a>}</span>
-<span id="cb1-88"><a href="EDA.html#cb1-88" tabindex="-1"></a></span>
-<span id="cb1-89"><a href="EDA.html#cb1-89" tabindex="-1"></a>tabla_estilo_scroll <span class="ot">&lt;-</span> <span class="cf">function</span>(df, <span class="at">formatos =</span> <span class="cn">NULL</span>, <span class="at">titulo =</span> <span class="cn">NULL</span>, <span class="at">alto_px =</span> <span class="dv">420</span>) {</span>
-<span id="cb1-90"><a href="EDA.html#cb1-90" tabindex="-1"></a>  <span class="fu">cat</span>(<span class="fu">tabla_html</span>(df, formatos, alto_px, titulo), <span class="st">&quot;</span><span class="sc">\n\n</span><span class="st">&quot;</span>)</span>
-<span id="cb1-91"><a href="EDA.html#cb1-91" tabindex="-1"></a>}</span>
-<span id="cb1-92"><a href="EDA.html#cb1-92" tabindex="-1"></a></span>
-<span id="cb1-93"><a href="EDA.html#cb1-93" tabindex="-1"></a>limites_boxplot <span class="ot">&lt;-</span> <span class="cf">function</span>(..., <span class="at">pad_frac =</span> <span class="fl">0.15</span>) {</span>
-<span id="cb1-94"><a href="EDA.html#cb1-94" tabindex="-1"></a>  <span class="co"># Rango de eje Y robusto para boxplots: se basa en el rango real de los</span></span>
-<span id="cb1-95"><a href="EDA.html#cb1-95" tabindex="-1"></a>  <span class="co"># bigotes (Q1/Q3 +/- 1.5*IQR) de cada grupo, en vez del mínimo y máximo</span></span>
-<span id="cb1-96"><a href="EDA.html#cb1-96" tabindex="-1"></a>  <span class="co"># absolutos, para que un outlier extremo no aplaste la caja.</span></span>
-<span id="cb1-97"><a href="EDA.html#cb1-97" tabindex="-1"></a>  los <span class="ot">&lt;-</span> <span class="fu">c</span>(); his <span class="ot">&lt;-</span> <span class="fu">c</span>()</span>
-<span id="cb1-98"><a href="EDA.html#cb1-98" tabindex="-1"></a>  <span class="cf">for</span> (s <span class="cf">in</span> <span class="fu">list</span>(...)) {</span>
-<span id="cb1-99"><a href="EDA.html#cb1-99" tabindex="-1"></a>    s <span class="ot">&lt;-</span> s[<span class="sc">!</span><span class="fu">is.na</span>(s)]</span>
-<span id="cb1-100"><a href="EDA.html#cb1-100" tabindex="-1"></a>    <span class="cf">if</span> (<span class="fu">length</span>(s) <span class="sc">==</span> <span class="dv">0</span>) <span class="cf">next</span></span>
-<span id="cb1-101"><a href="EDA.html#cb1-101" tabindex="-1"></a>    q <span class="ot">&lt;-</span> <span class="fu">quantile</span>(s, <span class="fu">c</span>(<span class="fl">0.25</span>, <span class="fl">0.75</span>), <span class="at">names =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb1-102"><a href="EDA.html#cb1-102" tabindex="-1"></a>    iqr <span class="ot">&lt;-</span> q[<span class="dv">2</span>] <span class="sc">-</span> q[<span class="dv">1</span>]</span>
-<span id="cb1-103"><a href="EDA.html#cb1-103" tabindex="-1"></a>    <span class="cf">if</span> (iqr <span class="sc">==</span> <span class="dv">0</span>) {</span>
-<span id="cb1-104"><a href="EDA.html#cb1-104" tabindex="-1"></a>      lo <span class="ot">&lt;-</span> <span class="fu">min</span>(s); hi <span class="ot">&lt;-</span> <span class="fu">max</span>(s)</span>
-<span id="cb1-105"><a href="EDA.html#cb1-105" tabindex="-1"></a>    } <span class="cf">else</span> {</span>
-<span id="cb1-106"><a href="EDA.html#cb1-106" tabindex="-1"></a>      dentro <span class="ot">&lt;-</span> s[s <span class="sc">&gt;=</span> q[<span class="dv">1</span>] <span class="sc">-</span> <span class="fl">1.5</span> <span class="sc">*</span> iqr <span class="sc">&amp;</span> s <span class="sc">&lt;=</span> q[<span class="dv">2</span>] <span class="sc">+</span> <span class="fl">1.5</span> <span class="sc">*</span> iqr]</span>
-<span id="cb1-107"><a href="EDA.html#cb1-107" tabindex="-1"></a>      lo <span class="ot">&lt;-</span> <span class="cf">if</span> (<span class="fu">length</span>(dentro)) <span class="fu">min</span>(dentro) <span class="cf">else</span> q[<span class="dv">1</span>]</span>
-<span id="cb1-108"><a href="EDA.html#cb1-108" tabindex="-1"></a>      hi <span class="ot">&lt;-</span> <span class="cf">if</span> (<span class="fu">length</span>(dentro)) <span class="fu">max</span>(dentro) <span class="cf">else</span> q[<span class="dv">2</span>]</span>
-<span id="cb1-109"><a href="EDA.html#cb1-109" tabindex="-1"></a>    }</span>
-<span id="cb1-110"><a href="EDA.html#cb1-110" tabindex="-1"></a>    los <span class="ot">&lt;-</span> <span class="fu">c</span>(los, lo); his <span class="ot">&lt;-</span> <span class="fu">c</span>(his, hi)</span>
-<span id="cb1-111"><a href="EDA.html#cb1-111" tabindex="-1"></a>  }</span>
-<span id="cb1-112"><a href="EDA.html#cb1-112" tabindex="-1"></a>  lo <span class="ot">&lt;-</span> <span class="fu">min</span>(los); hi <span class="ot">&lt;-</span> <span class="fu">max</span>(his)</span>
-<span id="cb1-113"><a href="EDA.html#cb1-113" tabindex="-1"></a>  pad <span class="ot">&lt;-</span> <span class="cf">if</span> (hi <span class="sc">!=</span> lo) (hi <span class="sc">-</span> lo) <span class="sc">*</span> pad_frac <span class="cf">else</span> { p <span class="ot">&lt;-</span> <span class="fu">abs</span>(lo) <span class="sc">*</span> pad_frac; <span class="cf">if</span> (p <span class="sc">==</span> <span class="dv">0</span>) <span class="dv">1</span> <span class="cf">else</span> p }</span>
-<span id="cb1-114"><a href="EDA.html#cb1-114" tabindex="-1"></a>  <span class="fu">c</span>(lo <span class="sc">-</span> pad, hi <span class="sc">+</span> pad)</span>
-<span id="cb1-115"><a href="EDA.html#cb1-115" tabindex="-1"></a>}</span>
-<span id="cb1-116"><a href="EDA.html#cb1-116" tabindex="-1"></a></span>
-<span id="cb1-117"><a href="EDA.html#cb1-117" tabindex="-1"></a>grid_variables <span class="ot">&lt;-</span> <span class="cf">function</span>(variables, tipo, <span class="at">target =</span> <span class="cn">NULL</span>, <span class="at">df =</span> <span class="cn">NULL</span>, <span class="at">ncols =</span> <span class="dv">8</span>) {</span>
-<span id="cb1-118"><a href="EDA.html#cb1-118" tabindex="-1"></a>  <span class="co"># Panorama compacto (small multiples) de TODAS las variables numéricas en una</span></span>
-<span id="cb1-119"><a href="EDA.html#cb1-119" tabindex="-1"></a>  <span class="co"># sola figura. tipo: &#39;hist&#39; (histograma) o &#39;box&#39; (boxplot vs. target).</span></span>
-<span id="cb1-120"><a href="EDA.html#cb1-120" tabindex="-1"></a>  <span class="cf">if</span> (<span class="fu">is.null</span>(df)) df <span class="ot">&lt;-</span> train_df</span>
-<span id="cb1-121"><a href="EDA.html#cb1-121" tabindex="-1"></a>  largos <span class="ot">&lt;-</span> df <span class="sc">%&gt;%</span></span>
-<span id="cb1-122"><a href="EDA.html#cb1-122" tabindex="-1"></a>    <span class="fu">select</span>(<span class="fu">all_of</span>(<span class="fu">c</span>(variables, <span class="cf">if</span> (<span class="sc">!</span><span class="fu">is.null</span>(target)) target))) <span class="sc">%&gt;%</span></span>
-<span id="cb1-123"><a href="EDA.html#cb1-123" tabindex="-1"></a>    <span class="fu">pivot_longer</span>(<span class="fu">all_of</span>(variables), <span class="at">names_to =</span> <span class="st">&quot;variable&quot;</span>, <span class="at">values_to =</span> <span class="st">&quot;valor&quot;</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb1-124"><a href="EDA.html#cb1-124" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">variable =</span> <span class="fu">factor</span>(<span class="fu">str_trunc</span>(variable, <span class="dv">24</span>), <span class="at">levels =</span> <span class="fu">unique</span>(<span class="fu">str_trunc</span>(variables, <span class="dv">24</span>))))</span>
-<span id="cb1-125"><a href="EDA.html#cb1-125" tabindex="-1"></a>  <span class="cf">if</span> (tipo <span class="sc">==</span> <span class="st">&quot;hist&quot;</span>) {</span>
-<span id="cb1-126"><a href="EDA.html#cb1-126" tabindex="-1"></a>    p <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(largos, <span class="fu">aes</span>(valor)) <span class="sc">+</span></span>
-<span id="cb1-127"><a href="EDA.html#cb1-127" tabindex="-1"></a>      <span class="fu">geom_histogram</span>(<span class="at">bins =</span> <span class="dv">20</span>, <span class="at">fill =</span> PALETTE<span class="sc">$</span>downriver)</span>
-<span id="cb1-128"><a href="EDA.html#cb1-128" tabindex="-1"></a>  } <span class="cf">else</span> {</span>
-<span id="cb1-129"><a href="EDA.html#cb1-129" tabindex="-1"></a>    p <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(largos, <span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">factor</span>(.data[[target]]), <span class="at">y =</span> valor, <span class="at">fill =</span> <span class="fu">factor</span>(.data[[target]]))) <span class="sc">+</span></span>
-<span id="cb1-130"><a href="EDA.html#cb1-130" tabindex="-1"></a>      <span class="fu">geom_boxplot</span>(<span class="at">width =</span> <span class="fl">0.5</span>, <span class="at">outlier.size =</span> <span class="fl">0.3</span>) <span class="sc">+</span></span>
-<span id="cb1-131"><a href="EDA.html#cb1-131" tabindex="-1"></a>      <span class="fu">scale_fill_manual</span>(<span class="at">values =</span> TARGET_COLORS)</span>
-<span id="cb1-132"><a href="EDA.html#cb1-132" tabindex="-1"></a>  }</span>
-<span id="cb1-133"><a href="EDA.html#cb1-133" tabindex="-1"></a>  p <span class="sc">+</span> <span class="fu">facet_wrap</span>(<span class="sc">~</span>variable, <span class="at">ncol =</span> ncols, <span class="at">scales =</span> <span class="st">&quot;free&quot;</span>) <span class="sc">+</span></span>
-<span id="cb1-134"><a href="EDA.html#cb1-134" tabindex="-1"></a>    <span class="fu">labs</span>(<span class="at">x =</span> <span class="cn">NULL</span>, <span class="at">y =</span> <span class="cn">NULL</span>) <span class="sc">+</span></span>
-<span id="cb1-135"><a href="EDA.html#cb1-135" tabindex="-1"></a>    <span class="fu">theme</span>(<span class="at">strip.text =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="fl">6.6</span>, <span class="at">color =</span> PALETTE<span class="sc">$</span>downriver),</span>
-<span id="cb1-136"><a href="EDA.html#cb1-136" tabindex="-1"></a>          <span class="at">axis.text =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="fl">5.3</span>))</span>
-<span id="cb1-137"><a href="EDA.html#cb1-137" tabindex="-1"></a>}</span></code></pre></div>
+<span id="cb1-79"><a href="EDA.html#cb1-79" tabindex="-1"></a>                   <span class="at">caption =</span> <span class="cn">NULL</span>, <span class="at">table.attr =</span> <span class="st">&#39;class=&quot;report-table&quot;&#39;</span>)</span>
+<span id="cb1-80"><a href="EDA.html#cb1-80" tabindex="-1"></a>  <span class="cf">if</span> (<span class="sc">!</span><span class="fu">is.null</span>(titulo)) {</span>
+<span id="cb1-81"><a href="EDA.html#cb1-81" tabindex="-1"></a>    k <span class="ot">&lt;-</span> <span class="fu">sub</span>(<span class="st">&quot;(&lt;table[^&gt;]*&gt;)&quot;</span>, <span class="fu">paste0</span>(<span class="st">&quot;</span><span class="sc">\\</span><span class="st">1&lt;caption&gt;&quot;</span>, htmltools<span class="sc">::</span><span class="fu">htmlEscape</span>(titulo), <span class="st">&quot;&lt;/caption&gt;&quot;</span>), <span class="fu">as.character</span>(k))</span>
+<span id="cb1-82"><a href="EDA.html#cb1-82" tabindex="-1"></a>  }</span>
+<span id="cb1-83"><a href="EDA.html#cb1-83" tabindex="-1"></a>  clase <span class="ot">&lt;-</span> <span class="cf">if</span> (<span class="fu">is.null</span>(alto_px)) <span class="st">&quot;report-table-wrap&quot;</span> <span class="cf">else</span> <span class="st">&quot;report-table-wrap report-table-scroll&quot;</span></span>
+<span id="cb1-84"><a href="EDA.html#cb1-84" tabindex="-1"></a>  estilo <span class="ot">&lt;-</span> <span class="cf">if</span> (<span class="fu">is.null</span>(alto_px)) <span class="st">&quot;&quot;</span> <span class="cf">else</span> <span class="fu">sprintf</span>(<span class="st">&#39; style=&quot;max-height:%spx&quot;&#39;</span>, alto_px)</span>
+<span id="cb1-85"><a href="EDA.html#cb1-85" tabindex="-1"></a>  <span class="fu">paste0</span>(<span class="st">&#39;&lt;div class=&quot;&#39;</span>, clase, <span class="st">&#39;&quot;&#39;</span>, estilo, <span class="st">&#39;&gt;&#39;</span>, <span class="fu">as.character</span>(k), <span class="st">&#39;&lt;/div&gt;&#39;</span>)</span>
+<span id="cb1-86"><a href="EDA.html#cb1-86" tabindex="-1"></a>}</span>
+<span id="cb1-87"><a href="EDA.html#cb1-87" tabindex="-1"></a></span>
+<span id="cb1-88"><a href="EDA.html#cb1-88" tabindex="-1"></a>tabla_estilo <span class="ot">&lt;-</span> <span class="cf">function</span>(df, <span class="at">formatos =</span> <span class="cn">NULL</span>, <span class="at">titulo =</span> <span class="cn">NULL</span>) {</span>
+<span id="cb1-89"><a href="EDA.html#cb1-89" tabindex="-1"></a>  <span class="fu">cat</span>(<span class="fu">tabla_html</span>(df, formatos, <span class="at">titulo =</span> titulo), <span class="st">&quot;</span><span class="sc">\n\n</span><span class="st">&quot;</span>)</span>
+<span id="cb1-90"><a href="EDA.html#cb1-90" tabindex="-1"></a>}</span>
+<span id="cb1-91"><a href="EDA.html#cb1-91" tabindex="-1"></a></span>
+<span id="cb1-92"><a href="EDA.html#cb1-92" tabindex="-1"></a>tabla_estilo_scroll <span class="ot">&lt;-</span> <span class="cf">function</span>(df, <span class="at">formatos =</span> <span class="cn">NULL</span>, <span class="at">titulo =</span> <span class="cn">NULL</span>, <span class="at">alto_px =</span> <span class="dv">420</span>) {</span>
+<span id="cb1-93"><a href="EDA.html#cb1-93" tabindex="-1"></a>  <span class="fu">cat</span>(<span class="fu">tabla_html</span>(df, formatos, alto_px, titulo), <span class="st">&quot;</span><span class="sc">\n\n</span><span class="st">&quot;</span>)</span>
+<span id="cb1-94"><a href="EDA.html#cb1-94" tabindex="-1"></a>}</span>
+<span id="cb1-95"><a href="EDA.html#cb1-95" tabindex="-1"></a></span>
+<span id="cb1-96"><a href="EDA.html#cb1-96" tabindex="-1"></a>limites_boxplot <span class="ot">&lt;-</span> <span class="cf">function</span>(..., <span class="at">pad_frac =</span> <span class="fl">0.15</span>) {</span>
+<span id="cb1-97"><a href="EDA.html#cb1-97" tabindex="-1"></a>  <span class="co"># Rango de eje Y robusto para boxplots: se basa en el rango real de los</span></span>
+<span id="cb1-98"><a href="EDA.html#cb1-98" tabindex="-1"></a>  <span class="co"># bigotes (Q1/Q3 +/- 1.5*IQR) de cada grupo, en vez del mínimo y máximo</span></span>
+<span id="cb1-99"><a href="EDA.html#cb1-99" tabindex="-1"></a>  <span class="co"># absolutos, para que un outlier extremo no aplaste la caja.</span></span>
+<span id="cb1-100"><a href="EDA.html#cb1-100" tabindex="-1"></a>  los <span class="ot">&lt;-</span> <span class="fu">c</span>(); his <span class="ot">&lt;-</span> <span class="fu">c</span>()</span>
+<span id="cb1-101"><a href="EDA.html#cb1-101" tabindex="-1"></a>  <span class="cf">for</span> (s <span class="cf">in</span> <span class="fu">list</span>(...)) {</span>
+<span id="cb1-102"><a href="EDA.html#cb1-102" tabindex="-1"></a>    s <span class="ot">&lt;-</span> s[<span class="sc">!</span><span class="fu">is.na</span>(s)]</span>
+<span id="cb1-103"><a href="EDA.html#cb1-103" tabindex="-1"></a>    <span class="cf">if</span> (<span class="fu">length</span>(s) <span class="sc">==</span> <span class="dv">0</span>) <span class="cf">next</span></span>
+<span id="cb1-104"><a href="EDA.html#cb1-104" tabindex="-1"></a>    q <span class="ot">&lt;-</span> <span class="fu">quantile</span>(s, <span class="fu">c</span>(<span class="fl">0.25</span>, <span class="fl">0.75</span>), <span class="at">names =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb1-105"><a href="EDA.html#cb1-105" tabindex="-1"></a>    iqr <span class="ot">&lt;-</span> q[<span class="dv">2</span>] <span class="sc">-</span> q[<span class="dv">1</span>]</span>
+<span id="cb1-106"><a href="EDA.html#cb1-106" tabindex="-1"></a>    <span class="cf">if</span> (iqr <span class="sc">==</span> <span class="dv">0</span>) {</span>
+<span id="cb1-107"><a href="EDA.html#cb1-107" tabindex="-1"></a>      lo <span class="ot">&lt;-</span> <span class="fu">min</span>(s); hi <span class="ot">&lt;-</span> <span class="fu">max</span>(s)</span>
+<span id="cb1-108"><a href="EDA.html#cb1-108" tabindex="-1"></a>    } <span class="cf">else</span> {</span>
+<span id="cb1-109"><a href="EDA.html#cb1-109" tabindex="-1"></a>      dentro <span class="ot">&lt;-</span> s[s <span class="sc">&gt;=</span> q[<span class="dv">1</span>] <span class="sc">-</span> <span class="fl">1.5</span> <span class="sc">*</span> iqr <span class="sc">&amp;</span> s <span class="sc">&lt;=</span> q[<span class="dv">2</span>] <span class="sc">+</span> <span class="fl">1.5</span> <span class="sc">*</span> iqr]</span>
+<span id="cb1-110"><a href="EDA.html#cb1-110" tabindex="-1"></a>      lo <span class="ot">&lt;-</span> <span class="cf">if</span> (<span class="fu">length</span>(dentro)) <span class="fu">min</span>(dentro) <span class="cf">else</span> q[<span class="dv">1</span>]</span>
+<span id="cb1-111"><a href="EDA.html#cb1-111" tabindex="-1"></a>      hi <span class="ot">&lt;-</span> <span class="cf">if</span> (<span class="fu">length</span>(dentro)) <span class="fu">max</span>(dentro) <span class="cf">else</span> q[<span class="dv">2</span>]</span>
+<span id="cb1-112"><a href="EDA.html#cb1-112" tabindex="-1"></a>    }</span>
+<span id="cb1-113"><a href="EDA.html#cb1-113" tabindex="-1"></a>    los <span class="ot">&lt;-</span> <span class="fu">c</span>(los, lo); his <span class="ot">&lt;-</span> <span class="fu">c</span>(his, hi)</span>
+<span id="cb1-114"><a href="EDA.html#cb1-114" tabindex="-1"></a>  }</span>
+<span id="cb1-115"><a href="EDA.html#cb1-115" tabindex="-1"></a>  lo <span class="ot">&lt;-</span> <span class="fu">min</span>(los); hi <span class="ot">&lt;-</span> <span class="fu">max</span>(his)</span>
+<span id="cb1-116"><a href="EDA.html#cb1-116" tabindex="-1"></a>  pad <span class="ot">&lt;-</span> <span class="cf">if</span> (hi <span class="sc">!=</span> lo) (hi <span class="sc">-</span> lo) <span class="sc">*</span> pad_frac <span class="cf">else</span> { p <span class="ot">&lt;-</span> <span class="fu">abs</span>(lo) <span class="sc">*</span> pad_frac; <span class="cf">if</span> (p <span class="sc">==</span> <span class="dv">0</span>) <span class="dv">1</span> <span class="cf">else</span> p }</span>
+<span id="cb1-117"><a href="EDA.html#cb1-117" tabindex="-1"></a>  <span class="fu">c</span>(lo <span class="sc">-</span> pad, hi <span class="sc">+</span> pad)</span>
+<span id="cb1-118"><a href="EDA.html#cb1-118" tabindex="-1"></a>}</span>
+<span id="cb1-119"><a href="EDA.html#cb1-119" tabindex="-1"></a></span>
+<span id="cb1-120"><a href="EDA.html#cb1-120" tabindex="-1"></a>grid_variables <span class="ot">&lt;-</span> <span class="cf">function</span>(variables, tipo, <span class="at">target =</span> <span class="cn">NULL</span>, <span class="at">df =</span> <span class="cn">NULL</span>, <span class="at">ncols =</span> <span class="dv">8</span>) {</span>
+<span id="cb1-121"><a href="EDA.html#cb1-121" tabindex="-1"></a>  <span class="co"># Panorama compacto (small multiples) de TODAS las variables numéricas en una</span></span>
+<span id="cb1-122"><a href="EDA.html#cb1-122" tabindex="-1"></a>  <span class="co"># sola figura. tipo: &#39;hist&#39; (histograma) o &#39;box&#39; (boxplot vs. target).</span></span>
+<span id="cb1-123"><a href="EDA.html#cb1-123" tabindex="-1"></a>  <span class="cf">if</span> (<span class="fu">is.null</span>(df)) df <span class="ot">&lt;-</span> train_df</span>
+<span id="cb1-124"><a href="EDA.html#cb1-124" tabindex="-1"></a>  largos <span class="ot">&lt;-</span> df <span class="sc">%&gt;%</span></span>
+<span id="cb1-125"><a href="EDA.html#cb1-125" tabindex="-1"></a>    <span class="fu">select</span>(<span class="fu">all_of</span>(<span class="fu">c</span>(variables, <span class="cf">if</span> (<span class="sc">!</span><span class="fu">is.null</span>(target)) target))) <span class="sc">%&gt;%</span></span>
+<span id="cb1-126"><a href="EDA.html#cb1-126" tabindex="-1"></a>    <span class="fu">pivot_longer</span>(<span class="fu">all_of</span>(variables), <span class="at">names_to =</span> <span class="st">&quot;variable&quot;</span>, <span class="at">values_to =</span> <span class="st">&quot;valor&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb1-127"><a href="EDA.html#cb1-127" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">variable =</span> <span class="fu">factor</span>(<span class="fu">str_trunc</span>(variable, <span class="dv">24</span>), <span class="at">levels =</span> <span class="fu">unique</span>(<span class="fu">str_trunc</span>(variables, <span class="dv">24</span>))))</span>
+<span id="cb1-128"><a href="EDA.html#cb1-128" tabindex="-1"></a>  <span class="cf">if</span> (tipo <span class="sc">==</span> <span class="st">&quot;hist&quot;</span>) {</span>
+<span id="cb1-129"><a href="EDA.html#cb1-129" tabindex="-1"></a>    p <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(largos, <span class="fu">aes</span>(valor)) <span class="sc">+</span></span>
+<span id="cb1-130"><a href="EDA.html#cb1-130" tabindex="-1"></a>      <span class="fu">geom_histogram</span>(<span class="at">bins =</span> <span class="dv">20</span>, <span class="at">fill =</span> PALETTE<span class="sc">$</span>downriver)</span>
+<span id="cb1-131"><a href="EDA.html#cb1-131" tabindex="-1"></a>  } <span class="cf">else</span> {</span>
+<span id="cb1-132"><a href="EDA.html#cb1-132" tabindex="-1"></a>    p <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(largos, <span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">factor</span>(.data[[target]]), <span class="at">y =</span> valor, <span class="at">fill =</span> <span class="fu">factor</span>(.data[[target]]))) <span class="sc">+</span></span>
+<span id="cb1-133"><a href="EDA.html#cb1-133" tabindex="-1"></a>      <span class="fu">geom_boxplot</span>(<span class="at">width =</span> <span class="fl">0.5</span>, <span class="at">outlier.size =</span> <span class="fl">0.3</span>) <span class="sc">+</span></span>
+<span id="cb1-134"><a href="EDA.html#cb1-134" tabindex="-1"></a>      <span class="fu">scale_fill_manual</span>(<span class="at">values =</span> TARGET_COLORS)</span>
+<span id="cb1-135"><a href="EDA.html#cb1-135" tabindex="-1"></a>  }</span>
+<span id="cb1-136"><a href="EDA.html#cb1-136" tabindex="-1"></a>  p <span class="sc">+</span> <span class="fu">facet_wrap</span>(<span class="sc">~</span>variable, <span class="at">ncol =</span> ncols, <span class="at">scales =</span> <span class="st">&quot;free&quot;</span>) <span class="sc">+</span></span>
+<span id="cb1-137"><a href="EDA.html#cb1-137" tabindex="-1"></a>    <span class="fu">labs</span>(<span class="at">x =</span> <span class="cn">NULL</span>, <span class="at">y =</span> <span class="cn">NULL</span>) <span class="sc">+</span></span>
+<span id="cb1-138"><a href="EDA.html#cb1-138" tabindex="-1"></a>    <span class="fu">theme</span>(<span class="at">strip.text =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="fl">6.6</span>, <span class="at">color =</span> PALETTE<span class="sc">$</span>downriver),</span>
+<span id="cb1-139"><a href="EDA.html#cb1-139" tabindex="-1"></a>          <span class="at">axis.text =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="fl">5.3</span>))</span>
+<span id="cb1-140"><a href="EDA.html#cb1-140" tabindex="-1"></a>}</span></code></pre></div>
 </div>
 <div id="carga-del-dataset" class="section level3 hasAnchor">
 <h3>2.2 Carga del dataset<a href="EDA.html#carga-del-dataset" class="anchor-section" aria-label="Anchor link to header"></a></h3>
@@ -367,7 +370,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div class="report-table-wrap">
 <table class="report-table">
 <caption>
-<span id="tab:vista-head">Table 1: </span>Primeras filas del dataset
+Primeras filas del dataset
 </caption>
 <thead>
 <tr>
@@ -2409,7 +2412,7 @@ Equity to Liability
 <div class="report-table-wrap">
 <table class="report-table">
 <caption>
-<span id="tab:vista-tail">Table 2: </span>Últimas filas del dataset
+Últimas filas del dataset
 </caption>
 <thead>
 <tr>
@@ -4453,7 +4456,7 @@ Equity to Liability
 <div class="report-table-wrap">
 <table class="report-table">
 <caption>
-<span id="tab:dimensiones">Table 3: </span>Dimensiones del dataset
+Dimensiones del dataset
 </caption>
 <thead>
 <tr>
@@ -4493,7 +4496,7 @@ Columnas
 <div class="report-table-wrap report-table-scroll" style="max-height:380px">
 <table class="report-table">
 <caption>
-<span id="tab:dimensiones">Table 3: </span>Columnas y estructura del dataset
+Columnas y estructura del dataset
 </caption>
 <thead>
 <tr>
@@ -5575,7 +5578,7 @@ numeric
 <div class="report-table-wrap report-table-scroll" style="max-height:340px">
 <table class="report-table">
 <caption>
-<span id="tab:nulos-df">Table 4: </span>Valores faltantes por columna
+Valores faltantes por columna
 </caption>
 <thead>
 <tr>
@@ -6405,7 +6408,7 @@ Equity to Liability
 <div class="report-table-wrap">
 <table class="report-table">
 <caption>
-<span id="tab:resumen-target">Table 5: </span>Resumen de variables
+Resumen de variables
 </caption>
 <thead>
 <tr>
@@ -6501,7 +6504,7 @@ misma en <code>train</code> y en <code>test</code>.</p>
 <div class="report-table-wrap">
 <table class="report-table">
 <caption>
-<span id="tab:train-test-split">Table 6: </span>Partición estratificada del dataset
+Partición estratificada del dataset
 </caption>
 <thead>
 <tr>
@@ -6571,7 +6574,7 @@ Test
 <div class="report-table-wrap">
 <table class="report-table">
 <caption>
-<span id="tab:nulos-train">Table 7: </span>Calidad de train
+Calidad de train
 </caption>
 <thead>
 <tr>
@@ -6605,7 +6608,7 @@ No se encontraron valores nulos.
 <div class="report-table-wrap">
 <table class="report-table">
 <caption>
-<span id="tab:duplicados">Table 8: </span>Filas duplicadas
+Filas duplicadas
 </caption>
 <thead>
 <tr>
@@ -6643,7 +6646,7 @@ Filas duplicadas en train
 <div class="report-table-wrap">
 <table class="report-table">
 <caption>
-<span id="tab:categoricas-card">Table 9: </span>Frecuencias y cardinalidad: Liability-Assets Flag
+Frecuencias y cardinalidad: Liability-Assets Flag
 </caption>
 <thead>
 <tr>
@@ -6687,7 +6690,7 @@ Cardinalidad
 <div class="report-table-wrap">
 <table class="report-table">
 <caption>
-<span id="tab:categoricas-card">Table 9: </span>Frecuencias y cardinalidad: Net Income Flag
+Frecuencias y cardinalidad: Net Income Flag
 </caption>
 <thead>
 <tr>
@@ -18976,7 +18979,7 @@ El histograma de <span style="color:#032451;">Equity to Liability</span> muestra
 <div class="report-table-wrap">
 <table class="report-table">
 <caption>
-<span id="tab:varianza-baja">Table 10: </span>Varianza cercana a cero
+Varianza cercana a cero
 </caption>
 <thead>
 <tr>
@@ -19019,7 +19022,7 @@ Consultar las variables identificadas en la tabla siguiente.
 <div class="report-table-wrap report-table-scroll" style="max-height:340px">
 <table class="report-table">
 <caption>
-<span id="tab:varianza-baja">Table 10: </span>Variables con varianza baja
+Variables con varianza baja
 </caption>
 <thead>
 <tr>
@@ -19154,7 +19157,7 @@ Total income/Total expense
 <div class="report-table-wrap">
 <table class="report-table">
 <caption>
-<span id="tab:categoricas-uni">Table 11: </span>Tabla de Frecuencias: Liability-Assets Flag
+Tabla de Frecuencias: Liability-Assets Flag
 </caption>
 <thead>
 <tr>
@@ -19209,7 +19212,7 @@ El análisis de la variable <span style="color:#032451;">Liability-Assets Flag</
 <div class="report-table-wrap">
 <table class="report-table">
 <caption>
-<span id="tab:categoricas-uni">Table 11: </span>Tabla de Frecuencias: Net Income Flag
+Tabla de Frecuencias: Net Income Flag
 </caption>
 <thead>
 <tr>
@@ -19289,7 +19292,7 @@ Machine Learning.</p>
 <div class="report-table-wrap">
 <table class="report-table">
 <caption>
-<span id="tab:skewness">Table 12: </span>Top 10 Variables Numéricas con Mayor Asimetría (Skewness)
+Top 10 Variables Numéricas con Mayor Asimetría (Skewness)
 </caption>
 <thead>
 <tr>
@@ -19481,7 +19484,7 @@ Conclusión</li>
 <div class="report-table-wrap">
 <table class="report-table">
 <caption>
-<span id="tab:outliers-iqr">Table 13: </span>Top 15 Variables con Mayor Proporción de Valores Atípicos
+Top 15 Variables con Mayor Proporción de Valores Atípicos
 </caption>
 <thead>
 <tr>
@@ -19674,7 +19677,7 @@ Inventory/Working Capital
 <div class="report-table-wrap report-table-scroll" style="max-height:420px">
 <table class="report-table">
 <caption>
-<span id="tab:biv-tabla">Table 14: </span>Comparación Bivariada de las 93 Variables numéricas vs. Bankrupt? (ordenadas por relevancia)
+Comparación Bivariada de las 93 Variables numéricas vs. Bankrupt? (ordenadas por relevancia)
 </caption>
 <thead>
 <tr>
@@ -21719,9 +21722,9 @@ Análisis bivariado detallado de todas las variables numéricas
 <span id="cb28-75"><a href="EDA.html#cb28-75" tabindex="-1"></a>  <span class="st">&quot;.var-details summary::before{content:&#39;\u25B6 &#39;;font-size:11px;color:&quot;</span>, PALETTE<span class="sc">$</span>stone_blue, <span class="st">&quot;;}&quot;</span>,</span>
 <span id="cb28-76"><a href="EDA.html#cb28-76" tabindex="-1"></a>  <span class="st">&quot;.var-details[open] summary::before{content:&#39;\u25BC &#39;;}&lt;/style&gt;&quot;</span></span>
 <span id="cb28-77"><a href="EDA.html#cb28-77" tabindex="-1"></a>)</span>
-<span id="cb28-78"><a href="EDA.html#cb28-78" tabindex="-1"></a><span class="fu">cat</span>(html_estilo, <span class="st">&quot;&lt;div&gt;&quot;</span>, <span class="fu">paste</span>(detalles_numericas, <span class="at">collapse =</span> <span class="st">&quot;&quot;</span>), <span class="st">&quot;&lt;/div&gt;</span><span class="sc">\n\n</span><span class="st">&quot;</span>, <span class="at">sep =</span> <span class="st">&quot;&quot;</span>)</span></code></pre></div>
+<span id="cb28-78"><a href="EDA.html#cb28-78" tabindex="-1"></a><span class="fu">cat</span>(html_estilo, <span class="st">&#39;&lt;div class=&quot;report-variable-gallery&quot; role=&quot;region&quot; aria-label=&quot;Gráficas bivariadas por variable&quot; tabindex=&quot;0&quot;&gt;&#39;</span>, <span class="fu">paste</span>(detalles_numericas, <span class="at">collapse =</span> <span class="st">&quot;&quot;</span>), <span class="st">&quot;&lt;/div&gt;</span><span class="sc">\n\n</span><span class="st">&quot;</span>, <span class="at">sep =</span> <span class="st">&quot;&quot;</span>)</span></code></pre></div>
 <style>.var-details{margin:0 0 10px 0;border:1px solid #E1E4E9;border-radius:8px;overflow:hidden;background-color:#FFFFFF;}.var-details summary{padding:12px 18px;cursor:pointer;font-size:14.5px;font-weight:600;color:#032451;background-color:#FDF9F5;list-style:none;}.var-details summary::-webkit-details-marker{display:none;}.var-details summary::before{content:'▶ ';font-size:11px;color:#3D4D65;}.var-details[open] summary::before{content:'▼ ';}</style>
-<div>
+<div class="report-variable-gallery" role="region" aria-label="Gráficas bivariadas por variable" tabindex="0">
 <details class="var-details">
 <summary>
 ROA(C) before interest and depreciation before interest
@@ -23014,7 +23017,7 @@ El gráfico compara la distribución de <span style="color:#032451;">Equity to L
 <div class="report-table-wrap report-table-scroll" style="max-height:420px">
 <table class="report-table">
 <caption>
-<span id="tab:inferencia-num">Table 15: </span>Resultados de Mann–Whitney U por variable, con corrección de Holm
+Resultados de Mann–Whitney U por variable, con corrección de Holm
 </caption>
 <thead>
 <tr>
@@ -26320,7 +26323,7 @@ No se rechaza H₀
 <div class="report-table-wrap">
 <table class="report-table">
 <caption>
-<span id="tab:inferencia-num-resumen">Table 16: </span>Resumen de los contrastes numéricos
+Resumen de los contrastes numéricos
 </caption>
 <thead>
 <tr>
@@ -27189,7 +27192,7 @@ Se aplicó Mann-Whitney U bilateral (U = 478,568.0, p = 5.058e-01, p ajustado de
 <div class="report-table-wrap">
 <table class="report-table">
 <caption>
-<span id="tab:cat-tabla">Table 17: </span>Tabla de contingencia: Liability-Assets Flag vs Bankrupt?
+Tabla de contingencia: Liability-Assets Flag vs Bankrupt?
 </caption>
 <thead>
 <tr>
@@ -27256,7 +27259,7 @@ Total
 <div class="report-table-wrap">
 <table class="report-table">
 <caption>
-<span id="tab:cat-tabla">Table 17: </span>Tabla de contingencia: Net Income Flag vs Bankrupt?
+Tabla de contingencia: Net Income Flag vs Bankrupt?
 </caption>
 <thead>
 <tr>
@@ -27570,7 +27573,7 @@ No aplica
 <div class="report-table-wrap">
 <table class="report-table">
 <caption>
-<span id="tab:corr-objetivo">Table 18: </span>Top 10 Correlaciones Negativas con Bankrupt? (Factores Protectores)
+Top 10 Correlaciones Negativas con Bankrupt? (Factores Protectores)
 </caption>
 <thead>
 <tr>
@@ -27671,7 +27674,7 @@ Net worth/Assets
 <div class="report-table-wrap">
 <table class="report-table">
 <caption>
-<span id="tab:corr-objetivo">Table 18: </span>Top 10 Correlaciones Positivas con Bankrupt? (Factores de Riesgo)
+Top 10 Correlaciones Positivas con Bankrupt? (Factores de Riesgo)
 </caption>
 <thead>
 <tr>
@@ -27916,13 +27919,6 @@ Bloques oscuros entre variables (no con el target): aquí está lo más llamativ
 <span id="cb41-2"><a href="EDA.html#cb41-2" tabindex="-1"></a><span class="fu">saveRDS</span>(<span class="fu">list</span>(<span class="at">X_train =</span> X_train, <span class="at">X_test =</span> X_test, <span class="at">y_train =</span> y_train, <span class="at">y_test =</span> y_test),</span>
 <span id="cb41-3"><a href="EDA.html#cb41-3" tabindex="-1"></a>        <span class="at">file =</span> <span class="st">&quot;train_test_split.rds&quot;</span>)</span></code></pre></div>
 
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
 </div>
 </div>
 <script>

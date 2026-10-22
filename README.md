@@ -1,6 +1,6 @@
 # Bancarrota empresarial · Bookdown
 
-Autoras: Laura Rivera · Natalý Cárdenas.
+Autoras: Laura Rivera y Natalý Cárdenas.
 
 `portada.Rmd` contiene la presentación, los objetivos y el marco teórico. `EDA_completo.Rmd` contiene el análisis en R. `_bookdown.yml` los compila en `docs/index.html` y `docs/EDA.html`, con la misma organización de contenidos que [Jupyter Book](https://lauraformore.github.io/BancarrotaEmpresarial_VIZ/).
 

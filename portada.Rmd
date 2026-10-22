@@ -1,7 +1,7 @@
 ---
 title: "Modelo de Clasificación Binaria para la Predicción de Bancarrota Empresarial a partir de Estados Financieros: Dataset Taiwan Economic Journal"
 subtitle: "Análisis de Solvencia Corporativa y Riesgo Financiero con Machine Learning"
-author: "Laura Rivera · Natalý Cárdenas"
+author: "Laura Rivera y Natalý Cárdenas"
 output:
   html_document:
     css: custom.css
@@ -16,11 +16,11 @@ output:
     fig_caption: true
 ---
 
-# Presentación {#index .unnumbered}
+# Acerca del proyecto {#index .unnumbered}
 
 *Análisis de Solvencia Corporativa y Riesgo Financiero con Machine Learning*
 
-Laura Rivera · Natalý Cárdenas Departamento de Matemáticas, Física y Ciencia de Datos, Universidad del Norte, Barranquilla, Colombia
+Departamento de Matemáticas, Física y Ciencia de Datos, Universidad del Norte, Barranquilla, Colombia
 `sriveral@uninorte.edu.co` · `nizaquita@uninorte.edu.co`
 
 <div class="report-grid report-grid-3">
@@ -35,9 +35,7 @@ Visualización de Datos
 
 <div class="report-card">
 
-<div class="report-card-title">Autoras</div>
-
-Laura Rivera · Natalý Cárdenas
+<div class="report-card-title">Institución</div>
 
 *Departamento de Matemáticas, Física y Ciencia de Datos*
 *Universidad del Norte*
