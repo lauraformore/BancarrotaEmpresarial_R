@@ -1,6 +1,9 @@
 bookdown::gitbook:
   css: custom.css
-  split_by: none
+  split_by: chapter
+  number_sections: false
+  includes:
+    after_body: book-ui.html
   config:
     toc:
       collapse: none

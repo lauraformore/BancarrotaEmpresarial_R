@@ -1,209 +1,42 @@
-/* ============================================================
-   Predicción de Bancarrota Empresarial — Tema Académico
-   Bookdown / gitbook
-   ============================================================ */
+/* Bookdown aligned with the Jupyter Book presentation. */
+:root {--brand-primary:#032451;--brand-accent:#3D4D65;--brand-risk:#CE2F25;--surface:#fff;--border:#dce2e9;}
+.book, .book.font-family-1, body {font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif; color:#3d4d65; font-size:16px; line-height:1.65;}
+.book .book-body .page-wrapper .page-inner {max-width:1060px; padding:28px 44px 48px;}
+.book .book-body .page-wrapper .page-inner section.normal {font-family:inherit; font-size:16px; line-height:1.65; color:#3d4d65;}
+.book .book-body .page-wrapper .page-inner section.normal h1,
+.book .book-body .page-wrapper .page-inner section.normal h2,
+.book .book-body .page-wrapper .page-inner section.normal h3,
+.book .book-body .page-wrapper .page-inner section.normal h4 {font-family:inherit; color:#032451; font-weight:600; line-height:1.3; border:0; font-style:normal;}
+.book .book-body .page-wrapper .page-inner section.normal h1 {font-size:2rem; margin:1.5rem 0 1rem;}
+.book .book-body .page-wrapper .page-inner section.normal h2 {font-size:1.65rem; margin-top:2rem;}
+.book .book-body .page-wrapper .page-inner section.normal h3 {font-size:1.3rem; margin-top:1.6rem;}
+.book .book-body .page-wrapper .page-inner section.normal h4 {font-size:1.1rem;}
+.book p {text-align:left;}
+.book a {color:#1766a3; text-decoration:none;}
+.book a:hover {text-decoration:underline;}
+.book .book-summary {background:#f7f8fa; border-right:1px solid #dce2e9; font-family:inherit;}
+.book .book-summary ul.summary li a {color:#3d4d65;}
+.book .book-summary ul.summary li.active>a {color:#1766a3; border-left:3px solid #1766a3; background:#eef3f7;}
+.book .book-body .book-header {background:#fff; border-bottom:1px solid #eef1f4;}
+.book blockquote {background:#f5f8fb; border-left:4px solid #1766a3; border-radius:4px; color:#3d4d65; padding:12px 16px; font-style:normal;}
+.book pre {background:#f5f7fa; border:1px solid #dce2e9; border-radius:6px; padding:14px; font:13px/1.55 Consolas,monospace; overflow-x:auto;}
+.book code {font-family:Consolas,monospace; font-size:.9em;}
+.book :not(pre)>code {background:#f0f3f6; color:#3d4d65; padding:2px 4px; border-radius:3px;}
+.book img {max-width:100%; height:auto; border:0; box-shadow:none;}
+.book .report-table-wrap table.report-table {max-width:none; margin:0; border:0; width:100%; font-size:14px;}
+.book table.report-table thead th {background:#032451; color:#fff; border:0; padding:10px 14px; text-align:left;}
+.book table.report-table tbody td {border:0; border-bottom:1px solid #e9edf2; padding:9px 14px;}
+.book table.report-table tbody tr:nth-child(2n) {background:#f5f8fb;}
+.report-grid {display:grid; gap:18px; margin:20px 0;}
+.report-grid-3 {grid-template-columns:repeat(3,minmax(0,1fr));}
+.report-grid-2, .report-plot-grid {display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px;}
+.report-card {border:1px solid #dce2e9; border-radius:6px; padding:16px; background:#fff; box-shadow:0 2px 6px #0324510a;}
+.report-card-title {font-size:1rem; font-weight:600; color:#032451; margin-bottom:10px;}
+.report-card p:last-child {margin-bottom:0;}
+.report-seealso {border-left:4px solid #1766a3; border-radius:4px; padding:16px; background:#f5f8fb;}
+.report-plot-grid {margin-top:10px;}
+@media(max-width:760px){.book .book-body .page-wrapper .page-inner{padding:20px;} .report-grid-3,.report-grid-2,.report-plot-grid{grid-template-columns:1fr;}}
 
-@import url('https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,wght@0,400;0,600;0,700;1,400&family=Source+Sans+3:wght@400;600;700&family=Source+Code+Pro:wght@400;500&display=swap');
-
-:root {
-  /* Paleta académica: tinta y burdeos, desaturados frente al azul/naranja original */
-  --brand-primary: #1F2D3D;   /* tinta casi negra, para texto y encabezados */
-  --brand-accent:  #2E4C6D;   /* azul apagado, para líneas y detalles */
-  --brand-risk:    #7A2E2E;   /* burdeos, reemplaza el naranja/rojo vivo */
-
-  --bg-surface:        #FFFFFF;
-  --bg-surface-muted:  #F7F6F3;   /* hueso muy suave, tipo papel */
-  --color-text-main:   #26282B;
-  --color-text-muted:  #5B5F66;
-  --color-border:      #D8D3C7;
-
-  --font-body: 'Source Serif 4', Georgia, 'Times New Roman', serif;
-  --font-heading: 'Source Sans 3', 'Source Serif 4', serif;
-  --font-mono: 'Source Code Pro', Consolas, monospace;
-}
-
-/* ---------- Base y tipografía ---------- */
-body {
-  font-family: var(--font-body);
-  font-size: 17px;
-  line-height: 1.7;
-  background-color: var(--bg-surface);
-  color: var(--color-text-main);
-}
-
-h1, h2, h3, h4 {
-  font-family: var(--font-heading);
-  font-weight: 700;
-  color: var(--brand-primary) !important;
-  letter-spacing: 0;
-}
-
-h1 {
-  font-size: 2rem;
-  border-bottom: 1px solid var(--brand-primary);
-  padding-bottom: 0.5rem;
-  margin-bottom: 1rem;
-}
-
-/* Subtítulo/autoría bajo el título, sin color llamativo */
-h1 + p em, h1 + p strong em {
-  display: block;
-  color: var(--color-text-muted);
-  font-size: 1rem;
-  font-style: italic;
-  font-weight: 400;
-  margin-top: 0.4rem;
-}
-
-h2 {
-  font-size: 1.4rem;
-  margin-top: 2.2rem;
-  padding-bottom: 0.3rem;
-  border-bottom: 1px solid var(--color-border);
-}
-
-h3 {
-  font-size: 1.15rem;
-  color: var(--brand-accent) !important;
-}
-
-h4 {
-  font-size: 1rem;
-  font-style: italic;
-  color: var(--color-text-muted) !important;
-  font-weight: 600;
-}
-
-p { color: var(--color-text-main); text-align: justify; }
-
-code, pre, .highlight { font-family: var(--font-mono) !important; }
-
-/* ---------- Citas / notas metodológicas (blockquote de Markdown) ---------
-   Reemplaza las "tarjetas" con sombra e ícono por una nota clásica de
-   informe académico: filete izquierdo delgado, sin fondo de color, cursiva. */
-blockquote {
-  background: transparent !important;
-  border: none !important;
-  border-left: 3px solid var(--brand-accent) !important;
-  border-radius: 0 !important;
-  margin: 1.4rem 0 !important;
-  padding: 0.3rem 0 0.3rem 1.1rem !important;
-  box-shadow: none !important;
-  color: var(--color-text-muted) !important;
-  font-style: italic;
-}
-
-blockquote p { margin: 0.3rem 0; }
-
-/* Admonitions (si el theme_creator/kableExtra las usa en algún momento) se
-   nivelan a la misma estética sobria de la cita, sin íconos ni sombras. */
-.admonition, aside.admonition, div[class*="admonition"] {
-  background: transparent !important;
-  border: none !important;
-  border-left: 3px solid var(--brand-risk) !important;
-  border-radius: 0 !important;
-  box-shadow: none !important;
-  margin: 1.4rem 0 !important;
-  padding: 0.4rem 0 0.4rem 1.1rem !important;
-}
-.admonition .admonition-title {
-  font-weight: 700 !important;
-  font-family: var(--font-heading) !important;
-  color: var(--brand-risk) !important;
-  text-transform: none;
-  font-size: 0.85rem !important;
-  letter-spacing: 0.03em;
-}
-
-/* ---------- Tablas: estilo "informe impreso", no tarjeta de dashboard ---------- */
-table, table.dataframe {
-  border-collapse: collapse !important;
-  width: auto;
-  max-width: 100%;
-  margin: 1.6rem auto;
-  font-size: 0.92rem;
-  font-family: var(--font-body);
-  box-shadow: none !important;
-  border-radius: 0 !important;
-  background: var(--bg-surface);
-}
-
-table thead th {
-  background: var(--bg-surface) !important;
-  color: var(--brand-primary) !important;
-  font-weight: 700;
-  text-align: left !important;
-  border-top: 2px solid var(--brand-primary) !important;
-  border-bottom: 1px solid var(--brand-primary) !important;
-  padding: 8px 14px !important;
-}
-
-table td {
-  border-bottom: 1px solid var(--color-border) !important;
-  padding: 6px 14px !important;
-  font-variant-numeric: tabular-nums;
-  color: var(--color-text-main);
-}
-
-table tr:last-child td { border-bottom: 2px solid var(--brand-primary) !important; }
-
-/* Sin cebra de color: una tabla académica se lee por alineación, no por
-   bandas de color. Si prefieres cebra sutil, descomenta lo siguiente:
-table tr:nth-child(even) td { background: var(--bg-surface-muted); } */
-
-/* ---------- Código y salidas ---------- */
-.cell_input, div.highlight, div.highlight pre {
-  background-color: #F5F4F1 !important;
-  border: 1px solid var(--color-border) !important;
-  border-radius: 3px !important;
-  box-shadow: none !important;
-}
-
-.output_text, .stream, div.output_area pre {
-  background-color: var(--bg-surface-muted) !important;
-  color: var(--color-text-main) !important;
-  border: 1px solid var(--color-border) !important;
-  border-radius: 3px !important;
-  font-family: var(--font-mono) !important;
-  font-size: 0.85rem !important;
-  padding: 0.9rem 1.1rem !important;
-}
-
-/* Código en línea */
-.book-body code:not(pre code), main code:not(pre code) {
-  background: var(--bg-surface-muted);
-  color: var(--brand-primary);
-  padding: 0.15em 0.35em;
-  border-radius: 3px;
-  font-size: 0.88em;
-}
-
-/* ---------- Enlaces e imágenes ---------- */
-a { color: var(--brand-accent); text-decoration: underline; text-underline-offset: 2px; }
-a:hover { color: var(--brand-risk); }
-
-img {
-  max-width: 100%;
-  height: auto;
-  border-radius: 0;
-  box-shadow: none;
-  border: 1px solid var(--color-border);
-}
-
-/* Pie de figura, si el libro usa fig.cap de knitr */
-p.caption, .caption {
-  font-size: 0.85rem;
-  font-style: italic;
-  color: var(--color-text-muted);
-  text-align: center;
-}
-
-::selection { background: var(--brand-accent); color: #FFFFFF; }
-
-/* ---------- Sidebar/TOC de gitbook: se deja limpio, sin color de marca fuerte ---------- */
-.book-summary { background: var(--bg-surface-muted) !important; border-right: 1px solid var(--color-border); }
-.book-summary li.chapter a { color: var(--color-text-main) !important; font-family: var(--font-heading); }
-.book-summary li.chapter.active > a { color: var(--brand-primary) !important; font-weight: 700; }
 
 /* Consulta progresiva, teclado y pantallas pequeñas */
 details.report-details, details.var-details {margin: .8rem 0; border:1px solid #dce2e9; border-radius:8px; background:#fff;}
@@ -214,3 +47,34 @@ details > summary:focus-visible {outline:3px solid #fe8005; outline-offset:2px;}
 p b, p strong, li b, li strong {font-weight:400;}
 img {max-width:100%; height:auto;}
 @media(max-width:640px){.report-body{padding:8px;} summary{overflow-wrap:anywhere;}}
+
+/* Salidas breves visibles; desplazamiento solo dentro de tablas extensas. */
+.report-table-wrap {max-width:100%; overflow-x:auto; margin:1rem 0 1.5rem; border:1px solid #dce2e9; border-radius:8px; background:#fff;}
+.report-table-wrap table.report-table {margin:0; width:100%; border-collapse:collapse; font:14px/1.55 "Segoe UI",sans-serif; color:#3d4d65;}
+table.report-table caption {caption-side:top; text-align:left; padding:12px 16px; color:#032451; font-size:15px; font-weight:600; background:#fdf9f5;}
+table.report-table thead th {background:#032451; color:white; text-align:left; padding:10px 14px; white-space:nowrap;}
+table.report-table tbody td, table.report-table tbody th {padding:9px 14px; text-align:left; border-bottom:1px solid #e9edf2; vertical-align:top;}
+table.report-table tbody tr:nth-child(even) {background:#f5f8fb;}
+table.report-table tbody tr:hover {background:#fff2e5;}
+.report-table-scroll {overflow-y:auto;}
+.report-table-scroll thead th {position:sticky; top:0; z-index:1;}
+.report-output-title {color:#032451; font-size:15px; margin-top:1.2rem;}
+@media(max-width:640px){.report-table-wrap table.report-table{font-size:12px;} table.report-table tbody td,table.report-table thead th{padding:8px;}}
+
+/* Navegación del libro a la izquierda y contenido de la página a la derecha. */
+.book .book-summary ul.summary li.chapter>ul {display:none;}
+.book .book-summary ul.summary li.report-current-page>a {color:#1766a3; border-left:3px solid #1766a3; background:#eef3f7;}
+.report-page-toc {display:none;}
+@media(min-width:992px){.book .book-summary{width:250px;} .book.with-summary .book-body{left:250px;}}
+@media(min-width:1200px){
+  .book .book-body .page-wrapper{padding-right:230px;}
+  .report-page-toc{display:block;position:fixed;right:0;top:50px;width:225px;max-height:calc(100vh - 50px);overflow:auto;padding:18px 14px;border-left:1px solid #e3e8ed;background:#fff;font:13px/1.6 "Segoe UI",sans-serif;z-index:10;}
+  .report-toc-title{font-weight:600;color:#3d4d65;margin-bottom:12px;}
+  .report-page-toc ul{padding:0;margin:0;list-style:none;}
+  .report-page-toc a{display:block;padding:5px 8px;color:#3d4d65;text-decoration:none;border-left:2px solid transparent;}
+  .report-page-toc .report-toc-subsection a{padding-left:20px;font-size:12px;}
+  .report-page-toc .report-toc-active a{color:#1766a3;border-left-color:#1766a3;}
+  .report-page-toc a:focus-visible{outline:3px solid #fe8005;}
+}
+
+.book #index > h1 {display:none;}

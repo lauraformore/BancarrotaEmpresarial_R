@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Page not found | Modelo de Clasificación Binaria para la Predicción de Bancarrota Empresarial a partir de Estados Financieros: Dataset Taiwan Economic Journal</title>
+  <meta name="description" content="Page not found | Modelo de Clasificación Binaria para la Predicción de Bancarrota Empresarial a partir de Estados Financieros: Dataset Taiwan Economic Journal" />
+  <meta name="generator" content="bookdown 0.47 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Page not found | Modelo de Clasificación Binaria para la Predicción de Bancarrota Empresarial a partir de Estados Financieros: Dataset Taiwan Economic Journal" />
+  <meta property="og:type" content="book" />
+
+
+
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Page not found | Modelo de Clasificación Binaria para la Predicción de Bancarrota Empresarial a partir de Estados Financieros: Dataset Taiwan Economic Journal" />
+
+
+
+
+<meta name="author" content="Laura Rivera · Natalý Cárdenas" />
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+
+
+
+
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+
+
+<style type="text/css">
+
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
+
+<link rel="stylesheet" href="custom.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><strong>Predicción de Bancarrota Empresarial</strong></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Presentación</a>
+<ul>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#introducci%C3%B3n"><i class="fa fa-check"></i>Introducción</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#objetivos"><i class="fa fa-check"></i>Objetivos</a>
+<ul>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#objetivo-general"><i class="fa fa-check"></i>Objetivo general</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#objetivos-espec%C3%ADficos"><i class="fa fa-check"></i>Objetivos específicos</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#marco-te%C3%B3rico"><i class="fa fa-check"></i>Marco teórico</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#metodolog%C3%ADa"><i class="fa fa-check"></i>Metodología</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#estructura-del-an%C3%A1lisis"><i class="fa fa-check"></i>Estructura del Análisis</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="EDA.html"><a href="EDA.html"><i class="fa fa-check"></i>Análisis Exploratorio de Datos (EDA) - Company Bankruptcy Prediction (Taiwan)</a>
+<ul>
+<li class="chapter" data-level="" data-path="EDA.html"><a href="EDA.html#contexto"><i class="fa fa-check"></i>1. Contexto</a></li>
+<li class="chapter" data-level="" data-path="EDA.html"><a href="EDA.html#etl-extracci%C3%B3n-transformaci%C3%B3n-y-carga"><i class="fa fa-check"></i>2. ETL (extracción, transformación y carga)</a>
+<ul>
+<li class="chapter" data-level="" data-path="EDA.html"><a href="EDA.html#importaci%C3%B3n-de-librerias-y-configuraci%C3%B3n-visual"><i class="fa fa-check"></i>2.1 Importación de librerias y configuración visual</a></li>
+<li class="chapter" data-level="" data-path="EDA.html"><a href="EDA.html#carga-del-dataset"><i class="fa fa-check"></i>2.2 Carga del dataset</a></li>
+<li class="chapter" data-level="" data-path="EDA.html"><a href="EDA.html#calidad-de-datos"><i class="fa fa-check"></i>2.3 Calidad de datos</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="EDA.html"><a href="EDA.html#divisi%C3%B3n-train-test"><i class="fa fa-check"></i>3. División train / test</a>
+<ul>
+<li class="chapter" data-level="" data-path="EDA.html"><a href="EDA.html#revisi%C3%B3n-de-train"><i class="fa fa-check"></i>3.1. Revisión de <code>train</code></a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="EDA.html"><a href="EDA.html#an%C3%A1lisis-univariado"><i class="fa fa-check"></i>4. Análisis univariado</a>
+<ul>
+<li class="chapter" data-level="" data-path="EDA.html"><a href="EDA.html#variable-objetivo"><i class="fa fa-check"></i>4.1 Variable objetivo</a></li>
+<li class="chapter" data-level="" data-path="EDA.html"><a href="EDA.html#variables-num%C3%A9ricas"><i class="fa fa-check"></i>4.2 Variables numéricas</a></li>
+<li class="chapter" data-level="" data-path="EDA.html"><a href="EDA.html#variables-categ%C3%B3ricas"><i class="fa fa-check"></i>4.3 Variables categóricas</a></li>
+<li class="chapter" data-level="" data-path="EDA.html"><a href="EDA.html#an%C3%A1lisis-de-outliers-y-sesgos"><i class="fa fa-check"></i>4.4 Análisis de outliers y sesgos</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="EDA.html"><a href="EDA.html#an%C3%A1lisis-bivariado"><i class="fa fa-check"></i>5. Análisis bivariado</a>
+<ul>
+<li class="chapter" data-level="" data-path="EDA.html"><a href="EDA.html#variables-num%C3%A9ricas-vs.-objetivo"><i class="fa fa-check"></i>5.1 Variables numéricas vs. objetivo</a></li>
+<li class="chapter" data-level="" data-path="EDA.html"><a href="EDA.html#variables-categ%C3%B3ricas-vs.-objetivo"><i class="fa fa-check"></i>5.2 Variables categóricas vs. objetivo</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="EDA.html"><a href="EDA.html#an%C3%A1lisis-multivariado-y-multicolinealidad"><i class="fa fa-check"></i>6. Análisis multivariado y multicolinealidad</a>
+<ul>
+<li class="chapter" data-level="" data-path="EDA.html"><a href="EDA.html#correlaciones-con-la-variable-objetivo"><i class="fa fa-check"></i>6.1 Correlaciones con la variable objetivo</a></li>
+<li class="chapter" data-level="" data-path="EDA.html"><a href="EDA.html#matriz-de-correlaci%C3%B3n-de-las-variables"><i class="fa fa-check"></i>6.2 Matriz de correlación de las variables</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="EDA.html"><a href="EDA.html#conclusiones-del-eda"><i class="fa fa-check"></i>7. Conclusiones del EDA</a></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://github.com/lauraformore" target="_blank">Universidad del Norte</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Modelo de Clasificación Binaria para la Predicción de Bancarrota Empresarial a partir de Estados Financieros: Dataset Taiwan Economic Journal</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="page-not-found" class="section level1">
+<h1>Page not found</h1>
+<p>The page you requested cannot be found (perhaps it was moved or renamed).</p>
+<p>You may want to try searching to find the page's new location, or use
+the table of contents to find the page you are looking for.</p>
+</div>
+<script>
+(function () {
+  "use strict";
+  let observer;
+  function renderContents() {
+    document.querySelectorAll(".report-page-toc").forEach(function (node) { node.remove(); });
+    if (observer) observer.disconnect();
+    const main = document.querySelector(".page-inner section.normal");
+    if (!main) return;
+    const headings = Array.from(main.querySelectorAll(".section.level2 > h2, .section.level3 > h3"));
+    const toc = document.createElement("nav");
+    toc.className = "report-page-toc";
+    toc.setAttribute("aria-label", "Contenido de esta página");
+    const title = document.createElement("div");
+    title.className = "report-toc-title";
+    title.textContent = "Contenido";
+    toc.appendChild(title);
+    const list = document.createElement("ul");
+    const entries = [];
+    headings.forEach(function (heading) {
+      const id = heading.id || heading.parentElement.id;
+      if (!id) return;
+      const item = document.createElement("li");
+      item.className = heading.tagName === "H3" ? "report-toc-subsection" : "";
+      const link = document.createElement("a");
+      link.href = "#" + encodeURIComponent(id);
+      link.textContent = heading.textContent.replace(/\s+/g, " ").trim();
+      item.appendChild(link);
+      list.appendChild(item);
+      entries.push({ heading: heading, item: item });
+    });
+    if (!entries.length) return;
+    toc.appendChild(list);
+    document.body.appendChild(toc);
+    const page = location.pathname.split("/").pop() || "index.html";
+    document.querySelectorAll(".book-summary ul.summary > li.chapter").forEach(function (item) {
+      const anchor = item.querySelector("a");
+      item.classList.toggle("report-current-page", Boolean(anchor && anchor.getAttribute("href").split("#")[0] === page));
+    });
+    if ("IntersectionObserver" in window) {
+      observer = new IntersectionObserver(function (changes) {
+        changes.forEach(function (change) {
+          if (!change.isIntersecting) return;
+          entries.forEach(function (entry) { entry.item.classList.toggle("report-toc-active", entry.heading === change.target); });
+        });
+      }, { rootMargin: "-10% 0px -65% 0px" });
+      entries.forEach(function (entry) { observer.observe(entry.heading); });
+    }
+  }
+  function initialize() {
+    renderContents();
+    if (window.gitbook && typeof window.gitbook.require === "function") {
+      window.gitbook.require(["gitbook"], function (gitbook) { gitbook.events.bind("page.change", renderContents); });
+    }
+  }
+  if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", initialize);
+  else initialize();
+}());
+</script>
+            </section>
+
+          </div>
+        </div>
+      </div>
+
+
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+  "sharing": {
+    "github": false,
+    "facebook": false,
+    "twitter": false,
+    "linkedin": false,
+    "weibo": false,
+    "instapaper": false,
+    "vk": false,
+    "whatsapp": false,
+    "all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+  },
+  "fontsettings": {
+    "theme": "white",
+    "family": "sans",
+    "size": 2
+  },
+  "edit": {
+    "link": null,
+    "text": null
+  },
+  "history": {
+    "link": null,
+    "text": null
+  },
+  "view": {
+    "link": null,
+    "text": null
+  },
+  "download": null,
+  "search": {
+    "engine": "fuse",
+    "options": null
+  },
+  "toc": {
+    "collapse": "none",
+    "toc_depth": 3
+  }
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

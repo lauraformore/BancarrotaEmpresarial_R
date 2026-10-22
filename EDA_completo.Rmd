@@ -16,108 +16,35 @@ output:
     fig_caption: true
 ---
 
-
 ```{r opciones-globales, include=FALSE}
 knitr::opts_chunk$set(
   echo = TRUE,
   warning = FALSE,
   message = FALSE,
   fig.align = "center",
-  out.width = "100%"
+  out.width = "100%",
+  dev = "svg",
+  fig.ext = "svg",
+  fig.width = 10,
+  fig.height = 5.5,
+  dpi = 180,
+  dev.args = list(bg = "white")
 )
 options(knitr.table.format = "html")
 ```
 
-`sriveral@uninorte.edu.co` · `nizaquita@uninorte.edu.co`
+# Análisis Exploratorio de Datos (EDA) - Company Bankruptcy Prediction (Taiwan) {#EDA}
 
-Departamento de Matemáticas, Física y Ciencia de Datos, Universidad del Norte, Barranquilla, Colombia  
-
-Asignatura: Visualización de Datos
-
-Metodología: EDA · Feature Engineering · Modelos de Clasificación
-
-# Introducción
-
-Predecir con anticipación el riesgo de bancarrota de una empresa es un problema de alto impacto: permite a inversionistas, entidades financieras y a la propia gerencia tomar decisiones oportunas para prevenir o mitigar pérdidas, en lugar de reaccionar cuando la quiebra ya es inminente. Contar con un modelo que identifique señales tempranas de riesgo financiero, a partir de indicadores contables que las empresas ya reportan, aporta valor tanto para el análisis de crédito como para la supervisión financiera.
-
-Para este proyecto se utiliza el dataset del Taiwan Economic Journal, que reúne información financiera de 6.819 empresas que cotizaron en la Bolsa de Taiwán entre 1999 y 2009. Cada empresa está descrita por 95 ratios financieros (rentabilidad, liquidez, endeudamiento, eficiencia operativa, entre otros) y por una variable objetivo binaria que indica si la empresa terminó en bancarrota o no.
-
-## Objetivos
-
-### Objetivo general
-
-Desarrollar un dashboard con un modelo predictivo de riesgo de bancarrota empresarial, que permita explorar los datos financieros de las empresas y estimar su nivel de riesgo.
-
-### Objetivos específicos
-
-- Realizar un análisis exploratorio de datos (EDA) que permita entender la calidad, distribución y relaciones entre los ratios financieros del dataset.
-
-- Tratar el desbalance de clases presente en la variable objetivo antes de entrenar los modelos.
-
-- Entrenar y comparar distintos modelos de clasificación para identificar el que mejor predice el riesgo de bancarrota.
-
-- Construir un dashboard interactivo que integre el EDA y, en etapas posteriores, el modelo predictivo.
-
-## Marco teórico
-
-Riesgo de insolvencia / quiebra empresarial: es la probabilidad de que una empresa no pueda cumplir con sus obligaciones financieras (pago de deudas, proveedores, nómina, etc.) y, como consecuencia, entre en un proceso legal de bancarrota. Este riesgo suele acumularse de forma progresiva y deja huellas medibles en los estados financieros de la empresa mucho antes de que la quiebra sea formal.
-
-Ratios financieros: son relaciones entre dos cifras del estado financiero de una empresa (por ejemplo, utilidad neta entre activos totales) que permiten comparar el desempeño de empresas de tamaños distintos en una misma escala, y que resumen aspectos como rentabilidad, liquidez, endeudamiento y eficiencia.
-
-Modelos de clasificación: dado que el problema consiste en distinguir entre dos categorías (empresa que quiebra vs. empresa que no quiebra) a partir de los ratios financieros, es natural abordarlo como un problema de clasificación binaria supervisada. Un modelo de este tipo aprende, a partir de datos históricos etiquetados, los patrones en los ratios que están asociados con la quiebra, para luego poder estimar el riesgo de empresas nuevas.
-
-
-Para expresar los conceptos anteriores, un ratio financiero puede escribirse como
-$$
-R=\frac{\text{magnitud financiera A}}{\text{magnitud financiera B}},
-$$
-siempre que el denominador sea distinto de cero. En clasificación binaria, el riesgo estimado se representa como
-$$
-p(\mathbf{x})=P(Y=1\mid\mathbf{X}=\mathbf{x}),\qquad Y\in\{0,1\}.
-$$
-Estas expresiones describen los conceptos; no implican recalcular ni transformar los indicadores del conjunto de datos.
-
-## Metodología
-
-El proyecto sigue un flujo de trabajo secuencial: primero un análisis exploratorio de datos (EDA), que permite entender la estructura, calidad y relaciones entre las variables; luego un preprocesamiento, donde se tratan los problemas identificados en el EDA (variables redundantes, desbalance de clases, escalas distintas, entre otros); después el modelado, en el que se entrenan y comparan distintos algoritmos de clasificación; y finalmente la construcción del dashboard, que integra los resultados de las etapas anteriores en una herramienta interactiva.
-
-## Estructura del Análisis
-
-1. Análisis Exploratorio (EDA)
-
-    Evaluación de distribuciones, tratamiento de valores faltantes, detección de sesgo y análisis de correlación entre variables financieras.
-
-2. Modelado y Predicción
-
-    Entrenamiento de algoritmos supervisados, optimización de hiperparámetros y evaluación de métricas orientadas a la detección de riesgo (Recall / ROC-AUC).
-
-> See also
->
-> Enlaces de interés Conjunto de datos
->
-> - [UCI Machine Learning Repository — Taiwanese Bankruptcy Prediction](https://archive.ics.uci.edu/dataset/572/taiwanese+bankruptcy+prediction)
->
-> - [Kaggle — Company Bankruptcy Prediction](https://www.kaggle.com/datasets/fedesoriano/company-bankruptcy-prediction)
->
-> Repositorio del proyecto
->
-> - [GitHub](https://github.com/lauraformore/BancarrotaEmpresarial_VIZ)
-
----
-
-
-# Análisis Exploratorio de Datos (EDA) - Company Bankruptcy Prediction (Taiwan)
+## 1. Contexto
 
 Realizar un análisis exploratorio de datos (EDA) sobre el conjunto de información financiera de empresas taiwanesas con el propósito de comprender su estructura, calidad, distribución y relaciones entre variables, y así preparar una base sólida para el desarrollo de un modelo predictivo de quiebra empresarial.
 
 > Primero se separan los datos en `train` y `test`, y todo el análisis exploratorio se hace únicamente sobre `train`. El conjunto `test` se reserva y no se toca hasta la evaluación final del modelo, para evitar *data leakage* (que información del conjunto de prueba influya en decisiones tomadas antes de entrenar el modelo).
 
-## ETL (extracción, transformación y carga)
-
+## 2. ETL (extracción, transformación y carga)
 Carguemos los datos y verifiquemos su calidad.
 
-### Importación de librerias y configuración visual
-
+### 2.1 Importación de librerias y configuración visual
 ```{r setup-libs}
 # Importar librerías necesarias
 # Si te falta algún paquete, instálalo una vez con:
@@ -159,7 +86,10 @@ tema_eda <- theme_minimal(base_size = 12) +
     axis.title       = element_text(size = 10, face = "bold", color = PALETTE$stone_blue),
     axis.text        = element_text(color = PALETTE$stone_blue),
     panel.grid.minor = element_blank(),
-    legend.position  = "none"
+    legend.position  = "none",
+    plot.background = element_rect(fill = "white", color = NA),
+    panel.background = element_rect(fill = "white", color = NA),
+    plot.margin = margin(16, 24, 20, 20)
   )
 theme_set(tema_eda)
 
@@ -191,33 +121,21 @@ aplicar_formatos <- function(df, formatos) {
   df
 }
 
-tabla_html <- function(df, formatos = NULL, alto_px = NULL) {
+tabla_html <- function(df, formatos = NULL, alto_px = NULL, titulo = NULL) {
   if (!is.null(formatos)) df <- aplicar_formatos(df, formatos)
-  k <- kable(df, format = "html", align = "l") %>%
-    kable_styling(bootstrap_options = c("condensed", "hover"), full_width = FALSE,
-                  position = "left", font_size = 12) %>%
-    row_spec(0, bold = TRUE, color = "white", background = PALETTE$downriver)
-  if (!is.null(alto_px)) k <- scroll_box(k, height = paste0(alto_px, "px"))
-  as.character(k)
+  k <- knitr::kable(df, format = "html", align = "l", row.names = FALSE,
+                   caption = titulo, table.attr = 'class="report-table"')
+  clase <- if (is.null(alto_px)) "report-table-wrap" else "report-table-wrap report-table-scroll"
+  estilo <- if (is.null(alto_px)) "" else sprintf(' style="max-height:%spx"', alto_px)
+  paste0('<div class="', clase, '"', estilo, '>', as.character(k), '</div>')
 }
 
 tabla_estilo <- function(df, formatos = NULL, titulo = NULL) {
-  # Tabla con el estilo visual del proyecto (para tablas cortas, sin scroll).
-  if (!is.null(titulo)) {
-    cat(sprintf("<div style='color:%s;font-family:Segoe UI, sans-serif;margin-bottom:6px;font-weight:700;font-size:16px;'>%s</div>\n\n",
-                PALETTE$downriver, titulo))
-  }
-  cat(tabla_html(df, formatos), "\n\n")
+  cat(tabla_html(df, formatos, titulo = titulo), "\n\n")
 }
 
 tabla_estilo_scroll <- function(df, formatos = NULL, titulo = NULL, alto_px = 420) {
-  # Igual que tabla_estilo, pero dentro de un contenedor con scroll vertical.
-  # Se usa para tablas largas (ej. las 93 variables numéricas).
-  if (!is.null(titulo)) {
-    cat(sprintf("<div style='color:%s;font-family:Segoe UI, sans-serif;margin-bottom:6px;font-weight:700;font-size:16px;'>%s</div>\n\n",
-                PALETTE$downriver, titulo))
-  }
-  cat(tabla_html(df, formatos, alto_px), "\n\n")
+  cat(tabla_html(df, formatos, alto_px, titulo), "\n\n")
 }
 
 limites_boxplot <- function(..., pad_frac = 0.15) {
@@ -267,71 +185,42 @@ grid_variables <- function(variables, tipo, target = NULL, df = NULL, ncols = 8)
 }
 ```
 
-###  Carga del dataset
-
+### 2.2 Carga del dataset
 ```{r cargar-datos}
 #df <- read.csv("data.csv", check.names = FALSE)
 df <- read.csv("data/data.csv", check.names = FALSE, stringsAsFactors = FALSE)
 ```
 
-###  Calidad de datos 
-
+### 2.3 Calidad de datos
 Verifiquemos que leímos bien los datos viendo el encabezado y la cola de los datos
 
-<details class="report-details">
-<summary>Primeras filas</summary>
-<div class="report-body">
-
-```{r vista-head}
-df %>% head() %>%
-  kable(format = "html") %>%
-  kable_styling(bootstrap_options = c("condensed"), font_size = 11) %>%
-  scroll_box(width = "100%")
+```{r vista-head, results='asis'}
+tabla_estilo(head(df), titulo = "Primeras filas del dataset")
 ```
 
-</div>
-</details>
-
-<details class="report-details">
-<summary>Últimas filas</summary>
-<div class="report-body">
-
-```{r vista-tail}
-df %>% tail() %>%
-  kable(format = "html") %>%
-  kable_styling(bootstrap_options = c("condensed"), font_size = 11) %>%
-  scroll_box(width = "100%")
+```{r vista-tail, results='asis'}
+tabla_estilo(tail(df), titulo = "Últimas filas del dataset")
 ```
-
-</div>
-</details>
 
 Veamos dimensiones, nombres de las columnas y estructura de los datos.
 
-<details class="report-details">
-<summary>Dimensiones, columnas y estructura</summary>
-<div class="report-body">
-
 ```{r dimensiones, results='asis'}
-tabla_estilo(data.frame(Filas = nrow(df), Columnas = ncol(df)), titulo = "Dimensiones del dataset")
-tabla_estilo_scroll(data.frame(Columna = names(df), Tipo = vapply(df, function(x) paste(class(x), collapse = ", "), character(1))), titulo = "Columnas y estructura")
+tabla_estilo(data.frame(Indicador = c("Filas", "Columnas"), Cantidad = c(nrow(df), ncol(df))),
+             formatos = list(Cantidad = fmt_int), titulo = "Dimensiones del dataset")
+tabla_estilo_scroll(data.frame(Columna = names(df),
+                              `Tipo de dato` = vapply(df, function(x) paste(class(x), collapse = ", "), character(1)),
+                              `Valores no nulos` = colSums(!is.na(df)), check.names = FALSE),
+                    formatos = list(`Valores no nulos` = fmt_int),
+                    titulo = "Columnas y estructura del dataset", alto_px = 380)
 ```
-
-</div>
-</details>
 
 Ver valores faltantes.
 
-<details class="report-details">
-<summary>Valores faltantes</summary>
-<div class="report-body">
-
 ```{r nulos-df, results='asis'}
-tabla_estilo_scroll(data.frame(Columna = names(df), Faltantes = colSums(is.na(df))), titulo = "Valores faltantes")
+tabla_estilo_scroll(data.frame(Columna = names(df), `Valores faltantes` = colSums(is.na(df)), check.names = FALSE),
+                    formatos = list(`Valores faltantes` = fmt_int),
+                    titulo = "Valores faltantes por columna", alto_px = 340)
 ```
-
-</div>
-</details>
 
 Limpiar nombres de variables (eliminar espacios).
 
@@ -343,28 +232,21 @@ names(df) <- trimws(names(df))
 
 * Resumen
 
-```{r resumen-target}
+```{r resumen-target, results='asis'}
 # Verificar la variable objetivo
 TARGET <- "Bankrupt?"
 if (!(TARGET %in% names(df))) {
   posibles_target <- names(df)[str_detect(str_to_lower(names(df)), "bankrupt")]
   if (length(posibles_target) > 0) {
     TARGET <- posibles_target[1]
-    cat(sprintf("Variable objetivo detectada automáticamente: '%s'\n", TARGET))
   }
 }
 
 # Tipo de problema, target y features
-cat(sprintf("Variable objetivo: '%s'\n", TARGET))
-cat(sprintf("Valores únicos del target: [%s]\n", paste(sort(unique(df[[TARGET]])), collapse = ", ")))
 
 # Variables categóricas: por diccionario de datos son flags binarios, aunque estén como int64
 cat_vars <- c("Liability-Assets Flag", "Net Income Flag")
 num_vars <- setdiff(names(df), c(cat_vars, TARGET))
-cat(sprintf("\nVariables predictoras numéricas: %d\n", length(num_vars)))
-cat(sprintf("Variables predictoras categóricas (flags 0/1): %d -> %s\n",
-            length(cat_vars), paste0("['", paste(cat_vars, collapse = "', '"), "']")))
-
 # Variables clave para el "deep dive": con 93 variables numéricas no es práctico
 # mostrar un gráfico + interpretación completa para cada una. Por eso, en las
 # secciones 4.2 y 5.1 se muestra primero un panorama compacto de las 93 variables
@@ -380,12 +262,17 @@ variables_key <- c(
   "Total Asset Turnover",                                     # Eficiencia operativa
   "Borrowing dependency"                                      # Dependencia de financiamiento
 )
+
+tabla_estilo(data.frame(
+  Elemento = c("Variable objetivo", "Valores del objetivo", "Predictoras numéricas", "Predictoras categóricas", "Indicadores categóricos"),
+  Descripción = c(TARGET, paste(sort(unique(df[[TARGET]])), collapse = ", "),
+                  as.character(length(num_vars)), as.character(length(cat_vars)), paste(cat_vars, collapse = " · "))
+), titulo = "Resumen de variables")
 ```
 
 La salida de esta celda indica claramente que se trata de un problema de clasificación, donde `Bankrupt?` es la variable objetivo, con 93 variables numéricas y 2 categóricas.
 
-##  División train / test
-
+## 3. División train / test
 Antes de explorar los datos a fondo, separamos un conjunto de prueba (`test`) que se
 reserva para la evaluación final del modelo. **A partir de aquí, todo el EDA se hace
 usando exclusivamente `train`.** El conjunto `test` no se grafica, no se describe y no
@@ -395,7 +282,7 @@ Como el target está muy desbalanceado (pocas empresas quebradas), usamos partic
 estratificada (`stratify=y`) para que la proporción de empresas quebradas sea la
 misma en `train` y en `test`.
 
-```{r train-test-split}
+```{r train-test-split, results='asis'}
 # Partición estratificada 80/20 (train_test_split de scikit-learn con
 # test_size = 0.2, random_state = 42 y stratify = y). 
 
@@ -413,29 +300,31 @@ y_train <- train_df[[TARGET]]
 X_test  <- test_df[, names(test_df) != TARGET]
 y_test  <- test_df[[TARGET]]
 
-cat(sprintf("Observaciones en train: %d (%.1f%%)\n", nrow(train_df), nrow(train_df) / nrow(df) * 100))
-cat(sprintf("Observaciones en test:  %d (%.1f%%)\n", nrow(test_df), nrow(test_df) / nrow(df) * 100))
 
-cat("\nProporción de la clase 'Quiebra' en cada conjunto (debe ser similar por la estratificación):\n")
-cat(sprintf("  Train: %.2f%%\n", mean(y_train) * 100))
-cat(sprintf("  Test:  %.2f%%\n", mean(y_test) * 100))
+tabla_estilo(data.frame(
+  Conjunto = c("Train", "Test"), Observaciones = c(nrow(train_df), nrow(test_df)),
+  `Proporción del dataset (%)` = c(nrow(train_df), nrow(test_df)) / nrow(df) * 100,
+  `Proporción de quiebra (%)` = c(mean(y_train), mean(y_test)) * 100,
+  check.names = FALSE
+), formatos = list(Observaciones = fmt_int, `Proporción del dataset (%)` = "%.1f",
+                   `Proporción de quiebra (%)` = "%.2f"), titulo = "Partición estratificada del dataset")
 ```
 
 > De aquí en adelante trabajamos solo con las 5.455 empresas de `train`. Las 1.364 de `test` quedan guardadas y no se vuelven a mirar hasta que haya un modelo entrenado. La estratificación aseguró que el porcentaje de empresas quebradas sea prácticamente igual en ambos conjuntos.
 
-### Revisión de `train`
-
+### 3.1. Revisión de `train`
 #### Valores nulos
 
-```{r nulos-train}
+```{r nulos-train, results='asis'}
 nulos <- colSums(is.na(train_df))
 nulos <- nulos[nulos > 0]
 
 if (length(nulos) == 0) {
-  cat("No se encontraron valores nulos en train.\n")
+  tabla_estilo(data.frame(Revisión = "Valores nulos en train", Resultado = "No se encontraron valores nulos."),
+               titulo = "Calidad de train")
 } else {
-  cat(sprintf("Se encontraron %d columnas con valores nulos:\n", length(nulos)))
-  print(nulos)
+  tabla_estilo_scroll(data.frame(Columna = names(nulos), `Valores nulos` = as.numeric(nulos), check.names = FALSE),
+                      formatos = list(`Valores nulos` = fmt_int), titulo = "Columnas con valores nulos en train", alto_px = 340)
 }
 ```
 
@@ -443,33 +332,31 @@ Ninguna empresa de `train` tiene información faltante en sus estados financiero
 
 #### Filas duplicadas
 
-```{r duplicados}
+```{r duplicados, results='asis'}
 duplicados <- sum(duplicated(train_df))
-cat(sprintf("Filas duplicadas en train: %d\n", duplicados))
+tabla_estilo(data.frame(Revisión = "Filas duplicadas en train", Cantidad = duplicados),
+             formatos = list(Cantidad = fmt_int), titulo = "Filas duplicadas")
 ```
 
 No hay filas repetidas en `train`, así que no es necesario eliminar duplicados.
 
 #### Variables categóricas y cardinalidad
 
-```{r categoricas-card}
+```{r categoricas-card, results='asis'}
 for (c in cat_vars) {
-  print(table(train_df[[c]]))
-  cat(sprintf("Cardinalidad: %d valores únicos \n\n", length(unique(train_df[[c]]))))
+  tabla_estilo(data.frame(Categoría = names(table(train_df[[c]])),
+                         Frecuencia = as.numeric(table(train_df[[c]])),
+                         Cardinalidad = length(unique(train_df[[c]]))),
+               formatos = list(Frecuencia = fmt_int, Cardinalidad = fmt_int),
+               titulo = paste0("Frecuencias y cardinalidad: ", c))
 }
 ```
 
 > `Net Income Flag` vale 1 para el 100% de las empresas en `train`, es decir, no importa si una empresa quebró o no siempre tiene el mismo valor (1). Por lo tanto, es una variable constante y sería una candidata clara para eliminar antes del modelado. `Liability-Assets Flag` sí varía, aunque muy poco. Vale la pena revisarla más adelante junto al target, en la sección de análisis bivariado.
 
-##  Análisis univariado
-
-###  Variable objetivo 
-
-<details class="report-details">
-<summary>Distribución de la variable objetivo</summary>
-<div class="report-body">
-
-```{r target-dist, fig.width=7, fig.height=5, out.width="70%"}
+## 4. Análisis univariado
+### 4.1 Variable objetivo
+```{r target-dist, fig.width=7, fig.height=5, out.width="100%"}
 # 1. Cálculos de distribución
 conteo     <- table(train_df[[TARGET]])
 porcentaje <- prop.table(conteo) * 100
@@ -496,18 +383,10 @@ ggplot(df_plot, aes(x = label, y = n, fill = clase)) +
 ratio_desbalance <- conteo[["0"]] / conteo[["1"]]
 ```
 
-</div>
-</details>
-
 La variable objetivo presenta un fuerte desbalance de clases, ya que hay 5.279 empresas que no quiebran, equivalentes al 96,77 % del conjunto de entrenamiento, mientras que las que sí quiebran son 176 y representan el 3,23 %. Este desbalance deberá tenerse en cuenta durante el entrenamiento y la evaluación del modelo.
 
-###  Variables numéricas
-
+### 4.2 Variables numéricas
 #### Estadísticas descriptivas
-
-<details class="report-details">
-<summary>Estadísticas de las variables numéricas</summary>
-<div class="report-body">
 
 ```{r estadisticas, results='asis'}
 unidad_indicador <- function(variable) {
@@ -583,9 +462,6 @@ tabla_estilo_scroll(df_stats_num, formatos = list(
 ), alto_px = 420)
 ```
 
-</div>
-</details>
-
 El análisis estadístico de las variables numéricas revela características clave sobre la estructura financiera y operativa de las empresas analizadas en el conjunto de entrenamiento (train_df, $N = 5{,}455$ empresas).
 
 En primer lugar, la tasa de rentabilidad sobre activos ROA(C) before interest and depreciation before interest presenta un valor promedio de $0.5044$ (50.44%) ($\text{DS} = 0.0604$, 6.04 puntos porcentuales), con un rango entre $0.0243$ (2.43%) y $1.0000$ (100%). El $50\%$ de las empresas registra un ROA intermedio cercano a la mediana de $0.5021$ (50.21%) (rango intercuartílico $\text{IQR} = 0.0585$, 5.85 puntos porcentuales, de $Q_1 = 0.4761$ (47.61%) a $Q_3 = 0.5346$ (53.46%)). No obstante, una curtosis elevada ($\text{Curtosis} = 6.28$) evidencia la presencia de colas pesadas y valores atípicos en empresas con rentabilidades extremadamente reducidas o inusualmente altas.
@@ -604,8 +480,8 @@ En conjunto, las 93 variables numéricas muestran distribuciones marcadamente as
 # Cada variable se resume en UNA figura con dos paneles (histograma+densidad
 # y boxplot, uno junto al otro). Los 93 bloques (figura + interpretación) se
 # acumulan y se muestran juntos dentro de un único contenedor con scroll interno.
-dir_imgs_univ <- file.path(tempdir(), "univariado_imgs")
-dir.create(dir_imgs_univ, showWarnings = FALSE)
+dir_imgs_univ <- file.path("docs", "figures", "univariado")
+dir.create(dir_imgs_univ, showWarnings = FALSE, recursive = TRUE)
 
 generar_bloque_univariado <- function(var) {
   serie     <- train_df[[var]]; serie <- serie[!is.na(serie)]
@@ -625,7 +501,7 @@ generar_bloque_univariado <- function(var) {
     geom_vline(data = refs, aes(xintercept = x, color = tipo, linetype = tipo), linewidth = 0.8) +
     scale_color_manual(values = setNames(c(PALETTE$poinciana, PALETTE$tangerine), refs$tipo)) +
     scale_linetype_manual(values = setNames(c("dashed", "dotted"), refs$tipo)) +
-    labs(title = "Distribución (histograma + densidad)", x = var, y = "Frecuencia") +
+    labs(title = "Distribución (histograma + densidad)", x = str_wrap(var, 38), y = "Frecuencia") +
     tema_eda +
     theme(plot.title = element_text(size = 10.5), axis.title = element_text(size = 9),
           legend.position = c(0.98, 0.98), legend.justification = c(1, 1),
@@ -633,16 +509,16 @@ generar_bloque_univariado <- function(var) {
 
   p_box <- ggplot(tibble(y = serie), aes(x = "", y = y)) +
     geom_boxplot(fill = PALETTE$downriver, color = PALETTE$downriver, width = 0.35,
-                 outlier.alpha = 0.5, outlier.size = 1.2) +
+                 outlier.color = PALETTE$poinciana, outlier.alpha = 0.8, outlier.size = 1.8) +
     coord_cartesian(ylim = range(serie, na.rm = TRUE), expand = TRUE) +
-    labs(title = "Boxplot", x = NULL, y = var) +
+    labs(title = "Boxplot", x = NULL, y = str_wrap(var, 38)) +
     tema_eda +
     theme(plot.title = element_text(size = 10.5), axis.title = element_text(size = 9))
 
-  archivo <- file.path(dir_imgs_univ, paste0(make.names(var), ".png"))
-  ggsave(archivo, p_dens + p_box + plot_layout(widths = c(3, 1)),
-         width = 9, height = 3.4, dpi = 75)
-  imagen_b64 <- base64enc::base64encode(archivo)
+  archivo <- file.path(dir_imgs_univ, sprintf("variable-%03d.svg", match(var, num_vars)))
+  ggsave(archivo, p_dens + p_box + plot_layout(widths = c(1, 1)),
+         width = 11, height = 4.5, device = grDevices::svg, bg = "white")
+  imagen_b64 <- file.path("figures", "univariado", basename(archivo))
 
   asimetria_desc <- if (abs(skew_v) < 0.5) {
     "una distribución relativamente simétrica"
@@ -658,7 +534,7 @@ generar_bloque_univariado <- function(var) {
     '<details class="report-details"><summary>', var, '</summary><div class="report-body">',
     tabla_html(df_stats_num[df_stats_num$Variable == var, ]),
     '<div style="color:', PALETTE$downriver, ';margin:0 0 10px 0;font-size:14px;font-weight:700;">', var, '</div>',
-    '<div style="text-align:center;margin-bottom:12px;"><img src="data:image/png;base64,', imagen_b64,
+    '<div style="text-align:center;margin-bottom:12px;"><img loading="lazy" decoding="async" src="', imagen_b64,
     '" style="max-width:100%;height:auto;border-radius:4px;"></div>',
     '<p style="margin:0;color:', PALETTE$stone_blue, ';font-size:13px;line-height:1.6;border-left:4px solid ',
     PALETTE$poinciana, ';background-color:', PALETTE$bg_card, ';padding:10px 14px;border-radius:4px;">',
@@ -688,22 +564,24 @@ cat(paste0(
 
 #### Varianza cercana a cero
 
-```{r varianza-baja}
+```{r varianza-baja, results='asis'}
 varianzas  <- sapply(train_df[num_vars], var, na.rm = TRUE)
 vars_bajas <- varianzas[varianzas < 1e-6]
 
-cat(sprintf("Variables con varianza baja: %d\n", length(vars_bajas)))
+tabla_estilo(data.frame(
+  Revisión = "Variables con varianza baja", Cantidad = length(vars_bajas), Criterio = "Varianza < 1e-6",
+  Resultado = if (length(vars_bajas) == 0) "Ninguna variable numérica tiene varianza cercana a cero en train."
+              else "Consultar las variables identificadas en la tabla siguiente."
+), formatos = list(Cantidad = fmt_int), titulo = "Varianza cercana a cero")
 if (length(vars_bajas) > 0) {
-  print(vars_bajas)
-} else {
-  cat("Ninguna variable numérica tiene varianza cercana a cero en train.\n")
+  tabla_estilo_scroll(data.frame(Variable = names(vars_bajas), Varianza = as.numeric(vars_bajas)),
+                      formatos = list(Varianza = "%.6g"), titulo = "Variables con varianza baja", alto_px = 340)
 }
 ```
 
 Con este resultado confirmamos que, entre las 93 variables numéricas, ninguna es prácticamente constante en `train`. Todas tienen variabilidad real y suficiente entre empresas.
 
-###  Variables categóricas
-
+### 4.3 Variables categóricas
 #### Tabla de frecuencias y gráficos
 
 ```{r categoricas-uni, results='asis'}
@@ -747,7 +625,6 @@ formatear_valor <- function(variable, valor, decimales = 4) {
 }
 
 for (var in cat_vars) {
-  cat(paste0('<details class="report-details"><summary>', var, '</summary><div class="report-body">'))
   # 1. Cálculo de Frecuencias Absolutas (N) y Relativas (%)
   conteo <- as.data.frame(table(Categoría = train_df[[var]]), stringsAsFactors = FALSE) %>%
     rename(N = Freq) %>%
@@ -770,10 +647,11 @@ for (var in cat_vars) {
     labs(title = paste0("Distribución de Frecuencias: ", var),
          x = "Categoría / Flag", y = "Número de Empresas (N)") +
     tema_eda + theme(axis.text.y = element_blank(), panel.grid = element_blank())
-  fig_file <- tempfile(fileext = ".png")
-  ggsave(fig_file, p, width = 8, height = 4.2, dpi = 100)
-  cat(paste0('<div style="text-align:center;"><img src="data:image/png;base64,',
-             base64enc::base64encode(fig_file), '" style="max-width:80%;height:auto;"></div>\n\n'))
+  dir.create(file.path("docs", "figures", "categoricas"), recursive = TRUE, showWarnings = FALSE)
+  fig_file <- file.path("docs", "figures", "categoricas", sprintf("univariado-%02d.svg", match(var, cat_vars)))
+  ggsave(fig_file, p, width = 8, height = 4.2, device = grDevices::svg, bg = "white")
+  cat(paste0('<div style="text-align:center;"><img loading="lazy" decoding="async" src="',
+             file.path("figures", "categoricas", basename(fig_file)), '" style="width:100%;max-width:100%;height:auto;"></div>\n\n'))
 
   # 3. Interpretación Dinámica
   num_cats <- length(unique(conteo$Categoría))
@@ -807,12 +685,10 @@ for (var in cat_vars) {
     )
   }
   tarjeta_interpretacion(paste0("Interpretación de ", var), detalles_interp)
-  cat("</div></details>\n")
 }
 ```
 
-###  Análisis de outliers y sesgos
-
+### 4.4 Análisis de outliers y sesgos
 Antes de pasar al análisis bivariado, es importante identificar qué variables tienen
 distribuciones muy sesgadas y/o outliers extremos, ya que esto afecta tanto la
 interpretación visual como la elección de modelos y transformaciones en la fase de
@@ -865,7 +741,7 @@ plot_box_skew <- function(var) {
   ggplot(train_df, aes(x = "", y = .data[[var]])) +
     geom_boxplot(fill = PALETTE$downriver, color = PALETTE$downriver, width = 0.35,
 outlier.color = PALETTE$poinciana,
-                 outlier.alpha = 0.55, outlier.size = 1.6) +
+                 outlier.alpha = 0.8, outlier.size = 1.8) +
     labs(title = sprintf("%s\n(skew = %+.1f)", str_wrap(var, 26), skew_vals[[var]]),
          x = NULL, y = NULL) +
     tema_eda +
@@ -938,10 +814,8 @@ También destacan Current Asset Turnover Rate, Total Asset Growth Rate e Interes
 
 En general, varias variables presentan una proporción considerable de valores atípicos. Sin embargo, esto no significa que deban eliminarse automáticamente, ya que pueden representar situaciones financieras reales de algunas empresas. Estos resultados deberán considerarse posteriormente al definir el preprocesamiento de los datos.
 
-##  Análisis bivariado
-
-###  variables numéricas vs objetivo
-
+## 5. Análisis bivariado
+### 5.1 Variables numéricas vs. objetivo
 #### Estadísticas descriptivas
 
 ```{r biv-tabla, results='asis'}
@@ -1055,8 +929,8 @@ cat("\n\n```{=html}\n", html_estilo_deep_dive,
 # Cada variable se convierte en un bloque <details> plegable: el gráfico se
 # guarda como imagen (base64) y se inserta junto con su interpretación dentro
 # de un desplegable. Todos se muestran juntos como una sola lista.
-dir_imgs_biv <- file.path(tempdir(), "bivariado_imgs")
-dir.create(dir_imgs_biv, showWarnings = FALSE)
+dir_imgs_biv <- file.path("docs", "figures", "bivariado")
+dir.create(dir_imgs_biv, showWarnings = FALSE, recursive = TRUE)
 
 detalles_numericas <- character(length(num_vars))
 for (k in seq_along(num_vars)) {
@@ -1068,20 +942,20 @@ for (k in seq_along(num_vars)) {
 
   # 1. Generación del Boxplot Comparativo Bivariado
   p <- ggplot(train_df, aes(x = factor(.data[[TARGET]]), y = .data[[var]], fill = factor(.data[[TARGET]]))) +
-    geom_boxplot(width = 0.38, color = "#FFFFFF", alpha = 0.9, outlier.alpha = 0.5,
-                 outlier.size = 1.2, outlier.shape = 16) +
+    geom_boxplot(width = 0.38, color = "#FFFFFF", alpha = 0.9, outlier.color = PALETTE$poinciana, outlier.alpha = 0.8,
+                 outlier.size = 1.8, outlier.shape = 16) +
     scale_fill_manual(values = TARGET_COLORS) +
     scale_x_discrete(labels = c("0 (Solvente)", "1 (Quiebra)")) +
     coord_cartesian(ylim = range(grupo_0, grupo_1, na.rm = TRUE), expand = TRUE) +
-    labs(title = paste0("Distribución de ", var, " según Estado de Bancarrota (", TARGET, ")"),
-         x = "Estado de Bancarrota (0 = Solvente, 1 = Quiebra)", y = var) +
+    labs(title = str_wrap(paste0("Distribución de ", var, " según Estado de Bancarrota (", TARGET, ")"), 72),
+         x = "Estado de Bancarrota (0 = Solvente, 1 = Quiebra)", y = str_wrap(var, 38)) +
     tema_eda +
     theme(plot.title = element_text(size = 11), axis.text.x = element_text(face = "bold", size = 9.5))
 
   # 2. Guardar el gráfico como imagen embebida
-  archivo <- file.path(dir_imgs_biv, paste0(make.names(var), ".png"))
-  ggsave(archivo, p, width = 7.5, height = 4.2, dpi = 75)
-  imagen_base64 <- base64enc::base64encode(archivo)
+  archivo <- file.path(dir_imgs_biv, sprintf("variable-%03d.svg", match(var, num_vars)))
+  ggsave(archivo, p, width = 9.5, height = 5, device = grDevices::svg, bg = "white")
+  imagen_base64 <- file.path("figures", "bivariado", basename(archivo))
 
   # 3. Métricas para la narrativa comparativa
   med_0 <- median(grupo_0); med_1 <- median(grupo_1)
@@ -1108,7 +982,7 @@ for (k in seq_along(num_vars)) {
   # 4. Bloque <details> plegable: título + imagen + interpretación
   detalles_numericas[k] <- paste0(
     '<details class="var-details"><summary>', var, '</summary><div style="padding:16px 18px;">',
-    '<div style="text-align:center;margin-bottom:14px;"><img src="data:image/png;base64,', imagen_base64,
+    '<div style="text-align:center;margin-bottom:14px;"><img loading="lazy" decoding="async" src="', imagen_base64,
     '" style="max-width:100%;height:auto;border-radius:4px;"></div>',
     '<p style="margin:0;color:', PALETTE$stone_blue, ';font-size:13.5px;line-height:1.6;">',
     'El gráfico compara la distribución de <span style="color:', PALETTE$downriver, ';">', var,
@@ -1218,10 +1092,12 @@ tabla_estilo_scroll(
 )
 ```
 
-```{r inferencia-num-resumen}
-cat(sprintf("Variables evaluadas: %d\n", nrow(resultados_inferencia_num)))
-cat(sprintf("Con evidencia después de Holm: %d\n", sum(resultados_inferencia_num$Decisión == "Se rechaza H₀")))
-cat(sprintf("Sin evidencia suficiente después de Holm: %d\n", sum(resultados_inferencia_num$Decisión == "No se rechaza H₀")))
+```{r inferencia-num-resumen, results='asis'}
+tabla_estilo(data.frame(
+  Resultado = c("Variables evaluadas", "Con evidencia después de Holm", "Sin evidencia suficiente después de Holm"),
+  Cantidad = c(nrow(resultados_inferencia_num), sum(resultados_inferencia_num$Decisión == "Se rechaza H₀"),
+               sum(resultados_inferencia_num$Decisión == "No se rechaza H₀"))
+), formatos = list(Cantidad = fmt_int), titulo = "Resumen de los contrastes numéricos")
 ```
 
 ```{r inferencia-num-tarjetas, results='asis'}
@@ -1276,8 +1152,7 @@ cat("<div style='max-height:480px;overflow-y:auto;border:1px solid #E1E4E9;borde
     paste(tarjetas_html, collapse = ""), "</div>\n\n", sep = "")
 ```
 
-###  Variables categóricas vs. objetivo
-
+### 5.2 Variables categóricas vs. objetivo
 #### Tabla
 
 ```{r cat-tabla, results='asis'}
@@ -1304,8 +1179,7 @@ for (var in cat_vars) {
   # Renombrar columnas para claridad visual
   names(tabla_combinada) <- c(paste0("Categoría: ", var), "No Quiebra (0)", "Sí Quiebra (1)", "Total Fila")
 
-  cat(sprintf("\n\n**TABLA DE CONTINGENCIA: %s vs %s**\n\n", var, TARGET))
-  tabla_estilo(tabla_combinada)
+  tabla_estilo(tabla_combinada, titulo = paste0("Tabla de contingencia: ", var, " vs ", TARGET))
 }
 ```
 
@@ -1328,8 +1202,8 @@ Esta variable carece de variabilidad (varianza cero), por lo que no aporta infor
 
 ```{r cat-graficas, results='asis'}
 # Solo 2 variables categóricas: se muestran lado a lado en una cuadrícula de dos columnas.
-dir_imgs_cat <- file.path(tempdir(), "cat_imgs")
-dir.create(dir_imgs_cat, showWarnings = FALSE)
+dir_imgs_cat <- file.path("docs", "figures", "categoricas")
+dir.create(dir_imgs_cat, showWarnings = FALSE, recursive = TRUE)
 bloques_cat <- character(length(cat_vars))
 
 for (k in seq_along(cat_vars)) {
@@ -1349,16 +1223,16 @@ for (k in seq_along(cat_vars)) {
          y = "Porcentaje dentro de la categoría (%)") +
     tema_eda + theme(legend.position = "right", plot.title = element_text(size = 11, color = "#1B4F72"))
 
-  archivo <- file.path(dir_imgs_cat, paste0("cat_", k, ".png"))
-  ggsave(archivo, p, width = 6, height = 4.2, dpi = 100)
+  archivo <- file.path(dir_imgs_cat, paste0("cat_", k, ".svg"))
+  ggsave(archivo, p, width = 6, height = 4.2, device = grDevices::svg, bg = "white")
   bloques_cat[k] <- paste0(
     '<div style="border:1px solid #E1E4E9;border-radius:8px;padding:14px;">',
     '<div style="margin:0 0 10px 0;color:', PALETTE$downriver, ';font-size:14px;">', var, '</div>',
-    '<img src="data:image/png;base64,', base64enc::base64encode(archivo), '" style="max-width:100%;height:auto;"></div>'
+    '<img loading="lazy" decoding="async" src="', file.path("figures", "categoricas", basename(archivo)), '" style="max-width:100%;height:auto;"></div>'
   )
 }
 
-cat('<div style="display:grid;grid-template-columns:repeat(2,1fr);gap:20px;margin-top:10px;">',
+cat('<div class="report-plot-grid">',
     paste(bloques_cat, collapse = ""), '</div>\n\n', sep = "")
 ```
 
@@ -1443,10 +1317,8 @@ Realizar 93 contrastes numéricos con $\alpha=0.05$ sin ajuste aumenta la probab
 
 La única prueba categórica realizable (`Liability-Assets Flag`) constituye una familia separada y no requiere ajuste adicional. Después de Holm, 81 de las 93 variables numéricas conservan evidencia de diferencia y 12 no presentan evidencia suficiente. La significancia abundante es compatible con el tamaño muestral y no implica que todas las variables tengan utilidad práctica o predictiva.
 
-##  Análisis multivariado y multicolinealidad
-
-###  Correlaciones con la variable objetivo
-
+## 6. Análisis multivariado y multicolinealidad
+### 6.1 Correlaciones con la variable objetivo
 > Spearman en vez de Pearson: con 93 variables no es viable comprobar rigurosamente el supuesto de normalidad de cada una (requeriría 93 pruebas adicionales, con su propio problema de comparaciones múltiples). Además, ya se documentaron sesgos y outliers fuertes en varias variables, algo que distorsiona a Pearson. Por eso se usa la correlación de Spearman (rho): no asume normalidad, es robusta ante outliers y captura relaciones monótonas (no solo lineales) entre cada ratio financiero y la probabilidad de quiebra.
 
 ```{r corr-objetivo, results='asis', fig.width=10, fig.height=8.5}
@@ -1501,8 +1373,7 @@ Es importante notar que ninguna correlación individual supera 0.32  en valor ab
 
 También vale la pena notar que varias de las variables con correlación negativa más fuerte (las distintas versiones de ROA) son las mismas que ya se identificaron como altamente correlacionadas entre sí en la sección de multicolinealidad — otra razón para tenerlas presentes al momento de seleccionar variables para el modelo.
 
-###  Matriz de correlación de las variables
-
+### 6.2 Matriz de correlación de las variables
 ```{r heatmap-corr, fig.width=15, fig.height=13}
 # 1. Seleccionar las 15 variables con mayor correlación absoluta con el objetivo
 top_15_features <- names(sort(abs(corr_objetivo), decreasing = TRUE))[1:15]
@@ -1581,8 +1452,7 @@ Bloques oscuros entre variables (no con el target): aquí está lo más llamativ
 
 Esto no afecta a Random Forest (que ya usamos para identificar estas variables), pero si más adelante se prueba un modelo lineal (como regresión logística), meter varias versiones casi idénticas del mismo ratio no aporta información nueva y puede inflar artificialmente la importancia de esa "familia" de variables o dificultar la interpretación de los coeficientes. Por ahora no se elimina ninguna — esa decisión se deja para la etapa de preprocesamiento, con más contexto sobre qué modelo se va a usar.
 
-##  Conclusiones del EDA
-
+## 7. Conclusiones del EDA
 1. Estructura del dataset: `train` tiene 5.455 empresas y 95 variables predictoras (93 numéricas + 2 flags binarios), más el target `Bankrupt?`.
 
 2. Calidad de los datos: no hay valores nulos ni filas duplicadas en `train`, lo cual facilita el modelado. `Net Income Flag` es constante (siempre vale 1) y no aporta información — candidata a eliminarse.

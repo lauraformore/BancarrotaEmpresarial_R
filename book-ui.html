@@ -1,0 +1,59 @@
+<script>
+(function () {
+  "use strict";
+  let observer;
+  function renderContents() {
+    document.querySelectorAll(".report-page-toc").forEach(function (node) { node.remove(); });
+    if (observer) observer.disconnect();
+    const main = document.querySelector(".page-inner section.normal");
+    if (!main) return;
+    const headings = Array.from(main.querySelectorAll(".section.level2 > h2, .section.level3 > h3"));
+    const toc = document.createElement("nav");
+    toc.className = "report-page-toc";
+    toc.setAttribute("aria-label", "Contenido de esta página");
+    const title = document.createElement("div");
+    title.className = "report-toc-title";
+    title.textContent = "Contenido";
+    toc.appendChild(title);
+    const list = document.createElement("ul");
+    const entries = [];
+    headings.forEach(function (heading) {
+      const id = heading.id || heading.parentElement.id;
+      if (!id) return;
+      const item = document.createElement("li");
+      item.className = heading.tagName === "H3" ? "report-toc-subsection" : "";
+      const link = document.createElement("a");
+      link.href = "#" + encodeURIComponent(id);
+      link.textContent = heading.textContent.replace(/\s+/g, " ").trim();
+      item.appendChild(link);
+      list.appendChild(item);
+      entries.push({ heading: heading, item: item });
+    });
+    if (!entries.length) return;
+    toc.appendChild(list);
+    document.body.appendChild(toc);
+    const page = location.pathname.split("/").pop() || "index.html";
+    document.querySelectorAll(".book-summary ul.summary > li.chapter").forEach(function (item) {
+      const anchor = item.querySelector("a");
+      item.classList.toggle("report-current-page", Boolean(anchor && anchor.getAttribute("href").split("#")[0] === page));
+    });
+    if ("IntersectionObserver" in window) {
+      observer = new IntersectionObserver(function (changes) {
+        changes.forEach(function (change) {
+          if (!change.isIntersecting) return;
+          entries.forEach(function (entry) { entry.item.classList.toggle("report-toc-active", entry.heading === change.target); });
+        });
+      }, { rootMargin: "-10% 0px -65% 0px" });
+      entries.forEach(function (entry) { observer.observe(entry.heading); });
+    }
+  }
+  function initialize() {
+    renderContents();
+    if (window.gitbook && typeof window.gitbook.require === "function") {
+      window.gitbook.require(["gitbook"], function (gitbook) { gitbook.events.bind("page.change", renderContents); });
+    }
+  }
+  if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", initialize);
+  else initialize();
+}());
+</script>
